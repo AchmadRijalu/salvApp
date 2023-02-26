@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:salv/UI/pages/holder_page.dart';
+import 'package:salv/UI/pages/sign_in_page.dart';
 
 import 'package:salv/common/common.dart';
 
@@ -21,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
     Timer(
         const Duration(seconds: 3),
         (() => Navigator.pushNamedAndRemoveUntil(
-            context, HolderPage.routeName, (route) => false)));
+            context, SigninPage.routeName, (route) => false)));
   }
 
   @override

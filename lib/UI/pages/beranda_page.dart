@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:salv/UI/widgets/limbah_beranda_widget.dart';
+import 'package:salv/UI/widgets/list_limbah_widget.dart';
 import 'package:salv/common/common.dart';
 
 class BerandaPage extends StatelessWidget {
@@ -19,40 +19,48 @@ class BerandaPage extends StatelessWidget {
           const SizedBox(
             height: 17,
           ),
-          Row(
-            children: [
-              Text(
-                "Wah, limbah makanan \nmana yang ingin Anda cari \ntahu, yuk lihat-lihat!",
-                style: blackTextStyle.copyWith(
-                    fontSize: 20, fontWeight: FontWeight.w700),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 17,
-          ),
-          Row(
-            children: [
-              Text(
-                "Coba ketuk salah satu kategori limbah \nmakanannya.",
-                style: greyTextStyle.copyWith(
-                    fontSize: 12, fontWeight: FontWeight.w400),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 6,
-          ),
           Expanded(
-              child: ListView(
-            shrinkWrap: true,
-            children: [
-              LimbahBerandaPage(),
-              LimbahBerandaPage(),
-              LimbahBerandaPage(),
-              LimbahBerandaPage()
-            ],
-          ))
+              child: Container(
+                  child: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Wah, limbah makanan \nmana yang ingin Anda cari \ntahu, yuk lihat-lihat!",
+                        style: blackTextStyle.copyWith(
+                            fontSize: 20, fontWeight: FontWeight.w700),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 17,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Coba ketuk salah satu kategori limbah \nmakanannya.",
+                        style: greyTextStyle.copyWith(
+                            fontSize: 12, fontWeight: FontWeight.w400),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    children: [
+                      LimbahBerandaPage(),
+                      LimbahBerandaPage(),
+                      LimbahBerandaPage(),
+                      LimbahBerandaPage()
+                    ],
+                  )
+                ]),
+          )))
         ]),
       ),
     ));

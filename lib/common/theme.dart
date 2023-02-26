@@ -9,6 +9,7 @@ Color redColor = const Color(0XFFF52828);
 Color lightBackgroundColor = const Color(0xffF6F8FB);
 
 TextStyle blackTextStyle = GoogleFonts.rubik(color: blackColor);
+TextStyle blueTextStyle = GoogleFonts.rubik(color: blueColor);
 TextStyle greenTextStyle = GoogleFonts.rubik(color: greenColor);
 TextStyle whiteTextStyle = GoogleFonts.rubik(color: whiteColor);
 TextStyle redTextStyle = GoogleFonts.rubik(color: redColor);
