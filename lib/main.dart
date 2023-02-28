@@ -10,6 +10,7 @@ import 'package:salv/UI/pages/home_page.dart';
 import 'package:salv/UI/pages/iklan_page.dart';
 import 'package:salv/UI/pages/jual_limbah_success_page.dart';
 import 'package:salv/UI/pages/penawaran_page.dart';
+import 'package:salv/UI/pages/pencairan_poin_page.dart';
 import 'package:salv/UI/pages/profil_page.dart';
 
 import 'package:salv/UI/pages/sign_up_page.dart';
@@ -17,6 +18,8 @@ import 'package:salv/UI/pages/sign_up_set_profil.dart';
 import 'package:salv/UI/pages/sign_up_success_page.dart';
 import 'package:salv/UI/pages/sign_up_wilayah_page.dart';
 import 'package:salv/UI/pages/splash_page.dart';
+import 'package:salv/UI/pages/ubah_data_alamat_page.dart';
+import 'package:salv/UI/pages/ubah_data_profil_page.dart';
 import 'package:salv/common/common.dart';
 
 import 'UI/pages/sign_in_page.dart';
@@ -63,7 +66,10 @@ class MyApp extends StatelessWidget {
         FormJualLimbahPage.routeName: (context) => FormJualLimbahPage(),
         JualLimbahSuccessPage.routeName: (context) => JualLimbahSuccessPage(),
         DetailPenawaranPage.routeName: (context) => DetailPenawaranPage(),
-        DetailEdukasiPage.routeName: (context) => DetailEdukasiPage()
+        DetailEdukasiPage.routeName: (context) => DetailEdukasiPage(),
+        PencairanPoinPage.routeName: (context) => PencairanPoinPage(),
+        UbahDataProfilPage.routeName: (context) => UbahDataProfilPage(),
+        UbahDataAlamatPage.routeName: (context) => UbahDataAlamatPage()
       },
     );
   }
