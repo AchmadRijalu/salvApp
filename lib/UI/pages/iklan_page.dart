@@ -14,11 +14,14 @@ class IklanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 37),
+        padding: const EdgeInsets.symmetric(horizontal: 37),
         child: Container(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const SizedBox(
+              height: 44,
+            ),
             Row(children: [Image.asset('assets/image/logo-png.png')]),
             const SizedBox(
               height: 17,
@@ -52,6 +55,12 @@ class IklanPage extends StatelessWidget {
                           },
                           title:
                               "Butuh Wortel Busuk dan ayam utuh cabe utuh yayg",
+                        ),
+                        ListIklan(
+                          title: "Butuh Semangka Busuk",
+                        ),
+                        ListIklan(
+                          title: "Butuh Semangka Busuk",
                         ),
                         ListIklan(
                           title: "Butuh Semangka Busuk",

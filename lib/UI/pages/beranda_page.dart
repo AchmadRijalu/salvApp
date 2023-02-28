@@ -12,9 +12,12 @@ class BerandaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 37, vertical: 44),
+      padding: const EdgeInsets.symmetric(horizontal: 37),
       child: Container(
         child: Column(children: [
+          const SizedBox(
+            height: 44,
+          ),
           Row(children: [Image.asset('assets/image/logo-png.png')]),
           const SizedBox(
             height: 17,

@@ -1,5 +1,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.salv">
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+<uses-permission android:name="android.permission.CAMERA" />
+
+<uses-feature android:name="android.hardware.camera" android:required="false" />
+
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+<uses-feature android:name="android.hardware.microphone"/>
+
+<uses-permission android:name="android.permission.AUDIO_CAPTURE" />
+webView.setWebChromeClient(new WebChromeClient(){
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void onPermissionRequest(final PermissionRequest request) {
+                request.grant(request.getResources());
+        }
+    });
    <application
         android:label="salv"
         android:name="${applicationName}"

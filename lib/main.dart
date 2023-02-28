@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:salv/UI/pages/beranda_page.dart';
+import 'package:salv/UI/pages/detail_edukasi_page.dart';
 import 'package:salv/UI/pages/detail_iklan_page.dart';
+import 'package:salv/UI/pages/detail_penawaran_page.dart';
 import 'package:salv/UI/pages/edukasi_page.dart';
 import 'package:salv/UI/pages/form_jual_limbah_page.dart';
 import 'package:salv/UI/pages/holder_page.dart';
@@ -59,7 +61,9 @@ class MyApp extends StatelessWidget {
         SignupSuccessPage.routeName: (context) => SignupSuccessPage(),
         DetailIklanPage.routeName: (context) => DetailIklanPage(),
         FormJualLimbahPage.routeName: (context) => FormJualLimbahPage(),
-        JualLimbahSuccessPage.routeName: (context) => JualLimbahSuccessPage()
+        JualLimbahSuccessPage.routeName: (context) => JualLimbahSuccessPage(),
+        DetailPenawaranPage.routeName: (context) => DetailPenawaranPage(),
+        DetailEdukasiPage.routeName: (context) => DetailEdukasiPage()
       },
     );
   }
