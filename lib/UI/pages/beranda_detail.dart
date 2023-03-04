@@ -12,7 +12,7 @@ class BerandaDetailPage extends StatelessWidget {
       appBar: AppBar(title: Text("Beranda Detail")),
       body: Padding(
         padding: EdgeInsets.zero,
-        child: Container(color: Colors.amber),
+        child: Container(),
       ),
     );
   }

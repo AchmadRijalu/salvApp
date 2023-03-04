@@ -5,6 +5,7 @@ import 'package:salv/UI/pages/holder_page.dart';
 import 'package:salv/UI/pages/sign_up_page.dart';
 import 'package:salv/UI/widgets/buttons.dart';
 import 'package:salv/UI/widgets/forms.dart';
+import 'package:salv/models/user_model.dart';
 
 import '../../common/common.dart';
 
@@ -92,8 +93,10 @@ class _SigninPageState extends State<SigninPage> {
               child: Column(children: [
                 CustomTextButton(
                   title: "Buat Akun Baru",
-                  onPressed: () =>
-                      Navigator.pushNamed(context, SignupPage.routeName),
+                  onPressed: () {
+                    userList.last.type == "seller";
+                    Navigator.pushNamed(context, SignupPage.routeName);
+                  },
                 )
               ]),
             ))

@@ -55,7 +55,7 @@ class EdukasiPage extends StatelessWidget {
                       tipeLimbah: "Buah-buahan",
                     ),
                     ListEdukasi(
-                      gambarLimbah: "assets/image/image_profilepng.png",
+                      gambarLimbah: "assets/image/image_sampah.png",
                       namaTutorial:
                           "Cara membuat kompos dari sampah rumah tangga tanpa bau",
                       durasiVideo: 15,

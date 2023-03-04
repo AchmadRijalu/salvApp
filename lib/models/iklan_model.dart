@@ -38,8 +38,9 @@ class Iklan {
         nama: nama ?? this.nama,
         kategori: kategori ?? this.kategori,
         sistem: sistem ?? this.sistem,
-        lokasi: keinginan ?? this.harga,
-        tanggalkadaluarsa: beratdibutuhkan ?? this.beratdibutuhkan,
+        lokasi: lokasi ?? this.lokasi,
+        keinginan: keinginan ?? this.keinginan,
+        tanggalkadaluarsa: tanggalkadaluarsa ?? this.tanggalkadaluarsa,
         harga: harga ?? this.harga,
         beratdibutuhkan: beratdibutuhkan ?? this.beratdibutuhkan,
         beratmin: beratmin ?? this.beratmin,
@@ -47,4 +48,4 @@ class Iklan {
       );
 }
 
-List<Iklan> listIklan = [Iklan()];
+List<Iklan?> listIklan = [Iklan(nama: "semangka"), Iklan(nama: "semangka2")];

@@ -39,6 +39,10 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
     super.dispose();
   }
 
+  var beratLimbah = "";
+  var beratMin = "";
+  var beratMax = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,6 +104,27 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
                       CustomFilledButton(
                         title: "Iklankan",
                         onPressed: () {
+                          beratLimbah = beratLimbahDibutuhkanController.text;
+                          beratMax = beratLimbahMaksimumController.text;
+                          beratMin = beratLimbahMinimumController.text;
+
+                          print(widget.iklan!.harga);
+                          print(widget.iklan!.nama);
+                          print(widget.iklan!.kategori);
+                          print(widget.iklan!.sistem);
+                          print(widget.iklan!.lokasi);
+                          print(widget.iklan!.tanggalkadaluarsa);
+                          print(widget.iklan!.keinginan);
+                          print(beratLimbah);
+                          print(beratMax);
+                          print(beratMin);
+
+                          widget.iklan = Iklan(
+                              beratdibutuhkan: beratLimbah,
+                              beratmaks: beratMax,
+                              beratmin: beratMin);
+                          print("Iklan : ${widget.iklan.toString()}");
+
                           Alert(
                             context: context,
                             type: AlertType.warning,
@@ -118,6 +143,7 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
                                       fontWeight: bold, fontSize: 16),
                                 ),
                                 onPressed: () {
+                                  print(widget.iklan!.beratmaks);
                                   Navigator.pop(
                                     context,
                                   );
@@ -132,19 +158,10 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
                                       fontWeight: bold, fontSize: 16),
                                 ),
                                 onPressed: () {
+                                  listIklan.add(widget.iklan!);
                                   Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
-                                      return HolderPage(
-                                          iklan: widget.iklan!.copyWith(
-                                              beratdibutuhkan:
-                                                  beratLimbahDibutuhkanController
-                                                      .text,
-                                              beratmaks:
-                                                  beratLimbahMaksimumController
-                                                      .text,
-                                              beratmin:
-                                                  beratLimbahMinimumController
-                                                      .text));
+                                      return HolderPage();
                                     },
                                   ));
                                 },

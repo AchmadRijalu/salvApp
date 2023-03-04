@@ -64,10 +64,7 @@ class BerandaPage extends StatelessWidget {
                               context, BerandaDetailPage.routeName);
                         },
                       ),
-                      LimbahBerandaPage(
-                        title: "Buah buahan",
-                        onTap: () {},
-                      ),
+
                       // LimbahBerandaPage(),
                       // LimbahBerandaPage()
                     ],

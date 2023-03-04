@@ -6,7 +6,8 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:salv/common/common.dart';
 
 class ListIklan extends StatelessWidget {
-  late String? title;
+  String? title;
+
   final VoidCallback? onTap;
   ListIklan({super.key, this.title, this.onTap});
 
@@ -164,6 +165,7 @@ class ListIklan extends StatelessWidget {
 class ListIklanPabrik extends StatelessWidget {
   late String? title;
   late String? tanggal;
+
   late final VoidCallback? onTap;
   ListIklanPabrik({super.key, this.title, this.onTap});
 

@@ -8,12 +8,27 @@ import 'package:salv/UI/pages/tambah_iklan_limbah2_page.dart';
 import 'package:salv/UI/widgets/buttons.dart';
 import 'package:salv/UI/widgets/list_iklan_widget.dart';
 import 'package:salv/models/iklan_model.dart';
+import 'package:salv/models/user_model.dart';
 
 import '../../common/common.dart';
+import '../../models/user_model.dart';
+import '../../models/user_model.dart';
 
-class IklanPage extends StatelessWidget {
+class IklanPage extends StatefulWidget {
   static const routeName = '/iklan';
   const IklanPage({super.key});
+
+  @override
+  State<IklanPage> createState() => _IklanPageState();
+}
+
+class _IklanPageState extends State<IklanPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(userList.last.type);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +52,10 @@ class IklanPage extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    buildTambahIklan(context),
+                    if (userList.last.type == "buyer") ...[
+                      buildTambahIklan(context),
+                    ],
+                    // Text(userList.length.toString()),
                     Row(
                       children: [
                         Text(
@@ -55,13 +73,21 @@ class IklanPage extends StatelessWidget {
                       itemCount: listIklan.length,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return ListIklan(
-                          title: listIklan[index].nama,
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, DetailIklanPage.routeName);
-                          },
-                        );
+                        return userList.last.type == "buyer"
+                            ? ListIklanPabrik(
+                                title: listIklan[index]!.nama,
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, DetailIklanPage.routeName);
+                                },
+                              )
+                            : ListIklan(
+                                title: listIklan[index]!.nama,
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, DetailIklanPage.routeName);
+                                },
+                              );
                       },
                       // ListIklanPabrik(
                       //   title: "Butuh Semangka busuk dan peyok",

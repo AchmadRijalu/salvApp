@@ -15,12 +15,12 @@ class User {
     required this.statusCode,
   });
 
-  final Data data;
+  final Userdata data;
   final String message;
   final int statusCode;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        data: Data.fromJson(json["data"]),
+        data: Userdata.fromJson(json["data"]),
         message: json["message"],
         statusCode: json["status_code"],
       );
@@ -32,8 +32,8 @@ class User {
       };
 }
 
-class Data {
-  Data({
+class Userdata {
+  Userdata({
     required this.address,
     required this.city,
     required this.id,
@@ -65,7 +65,7 @@ class Data {
   final String username;
   final String ward;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Userdata.fromJson(Map<String, dynamic> json) => Userdata(
         address: json["address"],
         city: json["city"],
         id: json["id"],
@@ -100,8 +100,8 @@ class Data {
       };
 }
 
-List<Data> userList = [
-  Data(
+List<Userdata> userList = [
+  Userdata(
       address: "Jl Ayani 68-70",
       city: "Surabaya",
       id: "1",
@@ -115,5 +115,20 @@ List<Data> userList = [
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3NzkxMTQ0",
       type: "buyer",
       username: "Achmad Rijalu ",
-      ward: "Gayungan")
+      ward: "Gayungan"),
+  // Userdata(
+  //     address: "Jl Ayani 68-70",
+  //     city: "Surabaya",
+  //     id: "2",
+  //     name: "Michael Eko",
+  //     password: "12345678",
+  //     phoneNumber: "081231149831",
+  //     postalCode: "60231",
+  //     province: "Jawa Timur",
+  //     subdistrict: "Ketintang",
+  //     token:
+  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3NzkxMTQ0",
+  //     type: "seller",
+  //     username: "Michael Eko",
+  //     ward: "Gayungan")
 ];
