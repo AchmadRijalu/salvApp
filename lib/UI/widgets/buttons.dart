@@ -8,11 +8,13 @@ class CustomFilledButton extends StatelessWidget {
   final String? title;
   final double? width;
   final double? height;
+  final Color? color;
 
   final VoidCallback? onPressed;
 
   const CustomFilledButton({
     super.key,
+    this.color,
     required this.title,
     this.width = double.infinity,
     this.height = 50,

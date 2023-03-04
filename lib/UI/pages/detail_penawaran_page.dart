@@ -3,7 +3,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:salv/UI/widgets/buttons.dart';
 import 'package:salv/common/common.dart';
+import 'package:salv/models/user_model.dart';
 
 class DetailPenawaranPage extends StatelessWidget {
   static const routeName = '/detailpenawaran';
@@ -131,11 +133,69 @@ class DetailPenawaranPage extends StatelessWidget {
                                 )
                               ],
                             ),
-                          ))
+                          )),
                         ]),
-                      ))
+                      )),
                     ]),
                   )),
+                  if (userList.last.type == "buyer") ...[
+                    Flexible(
+                        child: Container(
+                      child: Row(children: [
+                        Expanded(
+                            child: Container(
+                                child: GestureDetector(
+                          onTap: () {},
+                          child: SizedBox(
+                            width: 144,
+                            height: 50,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                              onPressed: () {},
+                              child: Text(
+                                "Tolak",
+                                style: whiteTextStyle.copyWith(
+                                    fontSize: 16, fontWeight: semiBold),
+                              ),
+                            ),
+                          ),
+                        ))),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        Flexible(
+                            child: Container(
+                          child: Container(
+                              child: GestureDetector(
+                            onTap: () {},
+                            child: SizedBox(
+                              width: 144,
+                              height: 50,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8))),
+                                onPressed: () {},
+                                child: Text(
+                                  "Terima",
+                                  style: whiteTextStyle.copyWith(
+                                      fontSize: 16, fontWeight: semiBold),
+                                ),
+                              ),
+                            ),
+                          )),
+                        ))
+                      ]),
+                    ))
+                  ],
+                  const SizedBox(
+                    height: 12,
+                  ),
                   Flexible(
                       flex: 4,
                       child: Container(
