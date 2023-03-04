@@ -4,27 +4,52 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:salv/UI/pages/sign_up_set_profil.dart';
 
+import 'package:salv/models/sign_up_form_model.dart';
+
 import '../../common/common.dart';
+import '../../shared/shared_methods.dart';
 import '../widgets/buttons.dart';
 import '../widgets/forms.dart';
 
 class SignupWilayah2Page extends StatefulWidget {
+  SignupFormModel data;
   static const routeName = '/signupwilayah2';
-  const SignupWilayah2Page({super.key});
+  SignupWilayah2Page({super.key, required this.data});
 
   @override
   State<SignupWilayah2Page> createState() => _SignupWilayah2PageState();
 }
 
 class _SignupWilayah2PageState extends State<SignupWilayah2Page> {
-  final TextEditingController kelurahanController =
-      TextEditingController(text: '');
   final TextEditingController kodeposController =
       TextEditingController(text: '');
   final TextEditingController alamatLengkapController =
       TextEditingController(text: '');
 
-  List<String> listOfValue = ['1', '2', '3', '4', '5'];
+  List<String> listOfValue = [
+    'Ketintang',
+    'Bubutan',
+    'Wiyung',
+    'Gayungan',
+    'Made'
+  ];
+  dynamic kelurahan;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(widget.data!.name);
+  }
+
+  bool validate() {
+    if (kodeposController.text.isEmpty ||
+        alamatLengkapController.text.isEmpty ||
+        kelurahan == null) {
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,9 +81,37 @@ class _SignupWilayah2PageState extends State<SignupWilayah2Page> {
               decoration: BoxDecoration(
                   color: whiteColor, borderRadius: BorderRadius.circular(8)),
               child: Column(children: [
-                CustomDropDownFormFilled(
-                  title: "Provinsi",
-                  listOfValue: listOfValue,
+                Row(
+                  children: [
+                    Text(
+                      "Kelurahan",
+                      style: blackTextStyle.copyWith(
+                          fontWeight: FontWeight.w600, fontSize: 14),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 17,
+                ),
+                DropdownButtonFormField(
+                  decoration: InputDecoration(
+                      focusColor: greenColor,
+                      contentPadding: const EdgeInsets.all(12),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8))),
+                  items: listOfValue.map((dynamic val) {
+                    return DropdownMenuItem(
+                      value: val,
+                      child: Text(
+                        val,
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      kelurahan = value;
+                    });
+                  },
                 ),
                 const SizedBox(
                   height: 17,
@@ -80,7 +133,19 @@ class _SignupWilayah2PageState extends State<SignupWilayah2Page> {
                 CustomFilledButton(
                   title: "Selanjutnya",
                   onPressed: () {
-                    Navigator.pushNamed(context, SignupSetProfilPage.routeName);
+                    if (validate()) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignupSetProfilPage(
+                                  data: widget.data.copyWith(
+                                      subdistrict: kelurahan,
+                                      postal_code: kodeposController.text,
+                                      address: alamatLengkapController.text))));
+                      //
+                    } else {
+                      showCustomSnacKbar(context, "Form tidak boleh kosong");
+                    }
                   },
                 ),
                 const SizedBox(

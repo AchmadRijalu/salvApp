@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:salv/UI/pages/beranda_detail.dart';
 import 'package:salv/UI/widgets/list_limbah_widget.dart';
 import 'package:salv/common/common.dart';
 
@@ -56,10 +57,19 @@ class BerandaPage extends StatelessWidget {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     children: [
-                      LimbahBerandaPage(),
-                      LimbahBerandaPage(),
-                      LimbahBerandaPage(),
-                      LimbahBerandaPage()
+                      LimbahBerandaPage(
+                        title: "Buah buahan",
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, BerandaDetailPage.routeName);
+                        },
+                      ),
+                      LimbahBerandaPage(
+                        title: "Buah buahan",
+                        onTap: () {},
+                      ),
+                      // LimbahBerandaPage(),
+                      // LimbahBerandaPage()
                     ],
                   )
                 ]),

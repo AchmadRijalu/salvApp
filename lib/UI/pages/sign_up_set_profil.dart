@@ -1,21 +1,28 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:salv/UI/pages/sign_up_success_page.dart';
 import 'package:salv/UI/widgets/buttons.dart';
+import 'package:salv/models/sign_up_form_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../common/common.dart';
+import '../../shared/shared_methods.dart';
 
 class SignupSetProfilPage extends StatefulWidget {
+  SignupFormModel data;
   static const routeName = '/signupsetprofil';
-  const SignupSetProfilPage({super.key});
+  SignupSetProfilPage({super.key, required this.data});
 
   @override
   State<SignupSetProfilPage> createState() => _SignupSetProfilPageState();
 }
 
 class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
+  XFile? selectedImage;
   @override
   void initState() {
     super.initState();
@@ -63,9 +70,9 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                         children: [
                           GestureDetector(
                             onTap: () async {
-                              // final image = await selectImage();
+                              final image = await selectImage();
                               setState(() {
-                                // selectedImage = image;
+                                selectedImage = image;
                               });
                             },
                             child: Container(
@@ -73,10 +80,19 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                               height: 120,
                               decoration: BoxDecoration(
                                   color: lightBackgroundColor,
+                                  image: selectedImage == null
+                                      ? null
+                                      : DecorationImage(
+                                          image: FileImage(
+                                              File(selectedImage!.path))),
                                   shape: BoxShape.circle),
                               child: Center(
-                                  child: SvgPicture.asset(
-                                      "assets/image/icon_upload.svg")),
+                                  child: selectedImage != null
+                                      ? null
+                                      : Center(
+                                          child: SvgPicture.asset(
+                                              "assets/image/icon_upload.svg"),
+                                        )),
                             ),
                           ),
                           const SizedBox(
@@ -84,7 +100,7 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                           ),
                           Text(
                             // widget.data.name!,
-                            "Mimi Jinhiro",
+                            widget.data.username!,
                             style: blackTextStyle.copyWith(
                                 fontSize: 18, fontWeight: medium),
                           ),

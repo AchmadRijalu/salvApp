@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:salv/UI/pages/form_jual_limbah_page.dart';
 import 'package:salv/UI/widgets/buttons.dart';
@@ -27,78 +28,84 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
               SliverFillRemaining(
                 hasScrollBody: false,
                 child: Column(children: [
-                  Flexible(
-                      child: Container(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "242 / 450",
-                              style: blueTextStyle.copyWith(
-                                  fontSize: 48, fontWeight: FontWeight.w700),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "Kg",
-                              style: blueTextStyle.copyWith(fontSize: 16),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Iklan dibuat pada 14/04/23",
-                              style: blueTextStyle.copyWith(
-                                  fontSize: 12, fontWeight: FontWeight.w400),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 29,
-                        ),
-                        Flexible(
-                            child: Container(
-                          margin: const EdgeInsets.only(left: 9),
-                          child: LinearPercentIndicator(
-                            lineHeight: 27,
-                            percent: 0.5,
-                            animation: true,
-                            progressColor: blueColor,
-                            backgroundColor: greyColor,
-                            barRadius: Radius.circular(8),
-                          ),
-                        )),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        Flexible(
-                            child: Container(
-                          padding: const EdgeInsets.only(right: 20, left: 21),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "0 Kg",
-                                style: blueTextStyle.copyWith(fontSize: 16),
-                              ),
-                              Text(
-                                "450Kg",
-                                style: blueTextStyle.copyWith(fontSize: 16),
-                              )
-                            ],
-                          ),
-                        ))
-                      ],
-                    ),
-                  )),
+                  //Only for Mahasiswa
+                  // Flexible(
+                  //     child: Container(
+                  //   child: Column(
+                  //     children: [
+                  //       Row(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           Text(
+                  //             "242 / 450",
+                  //             style: blueTextStyle.copyWith(
+                  //                 fontSize: 48, fontWeight: FontWeight.w700),
+                  //           ),
+                  //           const SizedBox(
+                  //             width: 5,
+                  //           ),
+                  //           Text(
+                  //             "Kg",
+                  //             style: blueTextStyle.copyWith(fontSize: 16),
+                  //           )
+                  //         ],
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 2,
+                  //       ),
+                  //       Row(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           Text(
+                  //             "Iklan dibuat pada 14/04/23",
+                  //             style: blueTextStyle.copyWith(
+                  //                 fontSize: 12, fontWeight: FontWeight.w400),
+                  //           )
+                  //         ],
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 29,
+                  //       ),
+                  //       Flexible(
+                  //           child: Container(
+                  //         margin: const EdgeInsets.only(left: 9),
+                  //         child: LinearPercentIndicator(
+                  //           lineHeight: 27,
+                  //           percent: 0.5,
+                  //           animation: true,
+                  //           progressColor: blueColor,
+                  //           backgroundColor: greyColor,
+                  //           barRadius: Radius.circular(8),
+                  //         ),
+                  //       )),
+                  //       const SizedBox(
+                  //         height: 6,
+                  //       ),
+                  //       Flexible(
+                  //           child: Container(
+                  //         padding: const EdgeInsets.only(right: 20, left: 21),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //           children: [
+                  //             Text(
+                  //               "0 Kg",
+                  //               style: blueTextStyle.copyWith(fontSize: 16),
+                  //             ),
+                  //             Text(
+                  //               "450Kg",
+                  //               style: blueTextStyle.copyWith(fontSize: 16),
+                  //             )
+                  //           ],
+                  //         ),
+                  //       ))
+                  //     ],
+                  //   ),
+                  // )),
+
+                  // if pabrik
+                  const SizedBox(
+                    height: 24,
+                  ),
                   Expanded(
                       flex: 3,
                       child: Container(
@@ -166,11 +173,11 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Kategori",
+                                        "Ketersediaan Sistem",
                                         style: whiteTextStyle,
                                       ),
                                       Text(
-                                        "Sayur-Sayuran",
+                                        "Diantar,diambil",
                                         style: whiteTextStyle.copyWith(
                                             fontWeight: FontWeight.w600),
                                       )
@@ -298,11 +305,11 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Kategori",
+                                        "Sistem",
                                         style: whiteTextStyle,
                                       ),
                                       Text(
-                                        "Sayur-Sayuran",
+                                        "Diantar",
                                         style: whiteTextStyle.copyWith(
                                             fontWeight: FontWeight.w600),
                                       )
@@ -360,9 +367,107 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                               )
                             ]),
                       )),
+
+                  const SizedBox(
+                    height: 23,
+                  ),
+                  Expanded(
+                      child: Container(
+                    child: Column(children: [
+                      Flexible(
+                          child: Container(
+                              child: Column(
+                        children: [
+                          SvgPicture.asset(
+                              "assets/image/image_details_iklan_pabrik.svg"),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Berlangsung"),
+                              Text("Selesai"),
+                              Text("Dibatalkan")
+                            ],
+                          )
+                        ],
+                      ))),
+                      Expanded(
+                          flex: 3,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                  child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                decoration: BoxDecoration(
+                                    color: greenColor,
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Column(children: [
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Tidak ada Batas Kadaluarsa",
+                                        style: whiteTextStyle.copyWith(
+                                            fontWeight: semiBold, fontSize: 12),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  Flexible(
+                                      child: Container(
+                                    margin: const EdgeInsets.only(left: 9),
+                                    child: LinearPercentIndicator(
+                                      trailing: Text(
+                                        "350kG",
+                                        style: whiteTextStyle.copyWith(
+                                            fontWeight: semiBold, fontSize: 15),
+                                      ),
+                                      lineHeight: 11,
+                                      percent: 0.5,
+                                      animation: true,
+                                      progressColor: blueColor,
+                                      backgroundColor: greyColor,
+                                      barRadius: Radius.circular(8),
+                                    ),
+                                  )),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red.shade900),
+                                      onPressed: () {},
+                                      child: Text(
+                                        "Batalkan Iklan",
+                                      )),
+                                  Expanded(
+                                      child: Container(
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "Dibuat: 11 Februari 2021",
+                                            style: whiteTextStyle.copyWith(
+                                                fontWeight: medium,
+                                                fontSize: 9),
+                                          )
+                                        ]),
+                                  ))
+                                ]),
+                              ))
+                            ],
+                          )),
+                    ]),
+                  )),
                   const SizedBox(
                     height: 48,
                   ),
+
                   CustomFilledButton(
                     title: "Buat Penawaran",
                     onPressed: () {

@@ -1,27 +1,42 @@
 import 'dart:convert';
 
-List<Provinces> provincesFromJson(String str) =>
-    List<Provinces>.from(json.decode(str).map((x) => Provinces.fromJson(x)));
+Provinsi provinceFromJson(String str) => Provinsi.fromJson(json.decode(str));
 
-String provincesToJson(List<Provinces> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String provinceToJson(Provinsi data) => json.encode(data.toJson());
 
-class Provinces {
-  Provinces({
-    required this.id,
-    required this.name,
+class Provinsi {
+  Provinsi({
+    required this.provinsi,
   });
 
-  final String id;
-  final String name;
+  final List<ListProvinsi> provinsi;
 
-  factory Provinces.fromJson(Map<String, dynamic> json) => Provinces(
+  factory Provinsi.fromJson(Map<String, dynamic> json) => Provinsi(
+        provinsi: List<ListProvinsi>.from(
+            json["provinsi"].map((x) => ListProvinsi.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "provinsi": List<dynamic>.from(provinsi.map((x) => x.toJson())),
+      };
+}
+
+class ListProvinsi {
+  ListProvinsi({
+    required this.id,
+    required this.nama,
+  });
+
+  final int id;
+  final String nama;
+
+  factory ListProvinsi.fromJson(Map<String, dynamic> json) => ListProvinsi(
         id: json["id"],
-        name: json["name"],
+        nama: json["nama"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "name": name,
+        "nama": nama,
       };
 }

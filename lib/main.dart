@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:salv/UI/pages/beranda_detail.dart';
 import 'package:salv/UI/pages/beranda_page.dart';
 import 'package:salv/UI/pages/detail_edukasi_page.dart';
+import 'package:salv/UI/pages/detail_iklan_pabrik_page.dart';
 import 'package:salv/UI/pages/detail_iklan_page.dart';
 import 'package:salv/UI/pages/detail_penawaran_page.dart';
 import 'package:salv/UI/pages/edukasi_page.dart';
@@ -18,12 +20,15 @@ import 'package:salv/UI/pages/sign_up_set_profil.dart';
 import 'package:salv/UI/pages/sign_up_success_page.dart';
 import 'package:salv/UI/pages/sign_up_wilayah_page.dart';
 import 'package:salv/UI/pages/splash_page.dart';
+import 'package:salv/UI/pages/tambah_iklan_limbah1_page.dart';
 import 'package:salv/UI/pages/ubah_data_alamat_page.dart';
 import 'package:salv/UI/pages/ubah_data_profil_page.dart';
 import 'package:salv/common/common.dart';
 
 import 'UI/pages/sign_in_page.dart';
 import 'UI/pages/sign_up_wilayah_2_page.dart';
+import 'UI/pages/tambah_iklan_limbah2_page.dart';
+import 'UI/pages/tambah_iklan_limbah3_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -58,9 +63,6 @@ class MyApp extends StatelessWidget {
         ProfilPage.routeName: (context) => ProfilPage(),
         SigninPage.routeName: (context) => SigninPage(),
         SignupPage.routeName: (context) => SignupPage(),
-        SignupWilayahPage.routeName: (context) => SignupWilayahPage(),
-        SignupWilayah2Page.routeName: (context) => SignupWilayah2Page(),
-        SignupSetProfilPage.routeName: (context) => SignupSetProfilPage(),
         SignupSuccessPage.routeName: (context) => SignupSuccessPage(),
         DetailIklanPage.routeName: (context) => DetailIklanPage(),
         FormJualLimbahPage.routeName: (context) => FormJualLimbahPage(),
@@ -69,7 +71,12 @@ class MyApp extends StatelessWidget {
         DetailEdukasiPage.routeName: (context) => DetailEdukasiPage(),
         PencairanPoinPage.routeName: (context) => PencairanPoinPage(),
         UbahDataProfilPage.routeName: (context) => UbahDataProfilPage(),
-        UbahDataAlamatPage.routeName: (context) => UbahDataAlamatPage()
+        UbahDataAlamatPage.routeName: (context) => UbahDataAlamatPage(),
+        BerandaDetailPage.routeName: (context) => BerandaDetailPage(),
+        TambahIklanLimbah1Page.routeName: (context) => TambahIklanLimbah1Page(
+              step: ModalRoute.of(context)!.settings.arguments as int,
+            ),
+        DetailIklanPabrikPage.routeName: (context) => DetailIklanPabrikPage()
       },
     );
   }

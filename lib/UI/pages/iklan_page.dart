@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:salv/UI/pages/detail_iklan_pabrik_page.dart';
 import 'package:salv/UI/pages/detail_iklan_page.dart';
+import 'package:salv/UI/pages/tambah_iklan_limbah1_page.dart';
+import 'package:salv/UI/pages/tambah_iklan_limbah2_page.dart';
+import 'package:salv/UI/widgets/buttons.dart';
 import 'package:salv/UI/widgets/list_iklan_widget.dart';
+import 'package:salv/models/iklan_model.dart';
 
 import '../../common/common.dart';
 
@@ -20,7 +25,7 @@ class IklanPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(
-              height: 44,
+              height: 33,
             ),
             Row(children: [Image.asset('assets/image/logo-png.png')]),
             const SizedBox(
@@ -32,6 +37,7 @@ class IklanPage extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    buildTambahIklan(context),
                     Row(
                       children: [
                         Text(
@@ -44,28 +50,33 @@ class IklanPage extends StatelessWidget {
                     const SizedBox(
                       height: 6,
                     ),
-                    ListView(
+                    ListView.builder(
                       shrinkWrap: true,
+                      itemCount: listIklan.length,
                       physics: NeverScrollableScrollPhysics(),
-                      children: [
-                        ListIklan(
+                      itemBuilder: (context, index) {
+                        return ListIklan(
+                          title: listIklan[index].nama,
                           onTap: () {
                             Navigator.pushNamed(
                                 context, DetailIklanPage.routeName);
                           },
-                          title:
-                              "Butuh Wortel Busuk dan ayam utuh cabe utuh yayg",
-                        ),
-                        ListIklan(
-                          title: "Butuh Semangka Busuk",
-                        ),
-                        ListIklan(
-                          title: "Butuh Semangka Busuk",
-                        ),
-                        ListIklan(
-                          title: "Butuh Semangka Busuk",
-                        )
-                      ],
+                        );
+                      },
+                      // ListIklanPabrik(
+                      //   title: "Butuh Semangka busuk dan peyok",
+                      //   onTap: () {
+                      //     Navigator.pushNamed(
+                      //         context, DetailIklanPage.routeName);
+                      //   },
+                      // )
+                      //    ListIklan(
+                      //   onTap: () {
+
+                      //   },
+                      //   title:
+                      //       "Butuh Wortel Busuk dan ayam utuh cabe utuh yayg",
+                      // ),
                     )
                   ]),
             )))
@@ -74,4 +85,54 @@ class IklanPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget buildTambahIklan(BuildContext context) {
+  return Container(
+    width: double.infinity,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Hello",
+          style: greyTextStyle.copyWith(fontSize: 16),
+        ),
+        const SizedBox(
+          height: 2,
+        ),
+        Text(
+          "Hello Mimi Jinhiro",
+          style: blackTextStyle.copyWith(fontWeight: medium, fontSize: 20),
+        ),
+        const SizedBox(
+          height: 18,
+        ),
+        Text(
+          "Butuh limbah? \nYuk, buat iklan.",
+          style: greenTextStyle.copyWith(fontSize: 24, fontWeight: bold),
+        ),
+        const SizedBox(
+          height: 22,
+        ),
+        CustomFilledButton(
+          title: "Tambah Sekarang",
+          height: 37,
+          onPressed: () {
+            Navigator.pushNamed(context, TambahIklanLimbah1Page.routeName,
+                arguments: 1);
+          },
+        ),
+        const SizedBox(
+          height: 14,
+        ),
+        Text(
+          "Butuh limbah makanan apapun untuk keperluan anda, langsung aja buat iklan",
+          style: greyTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+        ),
+        const SizedBox(
+          height: 16,
+        )
+      ],
+    ),
+  );
 }

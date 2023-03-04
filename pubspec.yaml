@@ -29,16 +29,21 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   another_flushbar: ^1.12.29
+  bloc: ^8.1.1
   cupertino_icons: ^1.0.2
   email_validator: ^2.1.17
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.2
   flutter_secure_storage: ^8.0.0
   flutter_svg: ^2.0.2
   google_fonts: ^4.0.3
-  percent_indicator: ^4.2.2
   http: ^0.13.5
+  image_picker: ^0.8.6+4
+  percent_indicator: ^4.2.2
+  rflutter_alert: ^2.0.4
+  step_progress_indicator: ^1.0.2
   youtube_player_flutter: ^8.1.2
 
 dev_dependencies:

@@ -46,9 +46,9 @@ class CustomFormField extends StatelessWidget {
 }
 
 class CustomDropDownFormFilled extends StatefulWidget {
-  List<String> listOfValue;
-  String? values;
-  final String? title;
+  List<dynamic> listOfValue;
+  dynamic? values;
+  final dynamic? title;
   CustomDropDownFormFilled(
       {super.key, required this.title, this.values, required this.listOfValue});
 
@@ -74,7 +74,7 @@ class _CustomDropDownFormFilledState extends State<CustomDropDownFormFilled> {
         DropdownButtonFormField(
           value: widget.values,
           isExpanded: true,
-          onChanged: (value) {
+          onChanged: (dynamic value) {
             setState(() {
               widget.values = value;
             });
@@ -84,12 +84,12 @@ class _CustomDropDownFormFilledState extends State<CustomDropDownFormFilled> {
               contentPadding: const EdgeInsets.all(12),
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(8))),
-          onSaved: (value) {
+          onSaved: (dynamic value) {
             setState(() {
               widget.values = value;
             });
           },
-          items: widget.listOfValue.map((String val) {
+          items: widget.listOfValue.map((dynamic val) {
             return DropdownMenuItem(
               value: val,
               child: Text(
