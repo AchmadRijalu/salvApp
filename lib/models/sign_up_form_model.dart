@@ -1,5 +1,6 @@
 class SignupFormModel {
   String? name;
+  String? KecamatanId;
   String? password;
   String? username;
   String? phone;
@@ -13,6 +14,7 @@ class SignupFormModel {
   String? image;
 
   SignupFormModel({
+    this.KecamatanId,
     this.name,
     this.password,
     this.username,
@@ -30,6 +32,7 @@ class SignupFormModel {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
+      'Kecamatand': KecamatanId,
       'password': password,
       'username': username,
       'phone': phone,
@@ -46,6 +49,7 @@ class SignupFormModel {
 
   SignupFormModel copyWith(
           {String? name,
+          String? KecamatanId,
           String? password,
           String? username,
           String? phone,
@@ -59,6 +63,7 @@ class SignupFormModel {
           String? image}) =>
       SignupFormModel(
           name: name ?? this.name,
+          KecamatanId :  KecamatanId ?? this.KecamatanId,
           password: password ?? this.password,
           username: username ?? this.username,
           phone: phone ?? this.phone,

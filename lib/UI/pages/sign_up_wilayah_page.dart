@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:salv/UI/pages/sign_up_wilayah_2_page.dart';
 import 'package:salv/models/provinces_model.dart';
 import 'package:salv/models/sign_up_form_model.dart';
-import 'package:salv/models/wards_model.dart';
+import 'package:salv/models/subdistricts_model.dart';
 import 'package:salv/services/region_service.dart';
 
 import '../../common/common.dart';
@@ -24,17 +24,25 @@ class SignupWilayahPage extends StatefulWidget {
 }
 
 class _SignupWilayahPageState extends State<SignupWilayahPage> {
-  dynamic provinceValues;
-  dynamic? cityValue;
-  dynamic wardValue;
+  dynamic provinceValuess;
+  dynamic provinceGetId;
+  dynamic selectedProvince;
+
+  dynamic cityValue;
+  dynamic cityGetId;
+  dynamic selectedCity;
+
+  dynamic subdistrictValue;
+  dynamic subdistrictGetId;
+  dynamic selectedSubdistrict;
 
   late Future<Provinsi> provinceList;
-  late Future<City> cityList;
+  late Future<Kota> cityList;
   late Future<Kecamatan> kecamatanList;
 
-  Future<City> getCities(dynamic provId) async {
+  Future<Kota> getCities(dynamic provId) async {
     dynamic listCity;
-    await RegionService().getCity(provId).then((value) {
+    await RegionService().getCity(int.parse(provId)).then((value) {
       setState(() {
         listCity = value;
       });
@@ -42,42 +50,20 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
     return listCity;
   }
 
-  Future<Kecamatan> getWards(dynamic cityId) async {
-    dynamic listWards;
-    await RegionService().getWard(cityId).then((value) {
+  Future<Kecamatan> getSubDistricts(dynamic cityId) async {
+    dynamic listSubdistricts;
+    await RegionService().getSubDistrict(int.parse(cityId)).then((value) {
       setState(() {
-        listWards = value;
+        listSubdistricts = value;
       });
     });
-    return listWards;
+    return listSubdistricts;
   }
 
-  List<String> listOfProvinsi = [
-    'Jawa Timur',
-    'Jawa Tengah',
-    'Jawa Barat',
-    'DKI Jakarta',
-    'Sumatra Selatan'
-  ];
-
-  List<String> listOfKota = [
-    'Surabaya',
-    'Sidoarjo',
-    'Jember',
-    'Jombang',
-    'Tuban'
-  ];
-
-  List<String> listOfKecamatan = [
-    'Rungkut',
-    'Gayungan',
-    'Lakarsantri',
-    'Sambikerep',
-    'Wiyung'
-  ];
-
   bool validate() {
-    if (provinceValues == null || cityValue == null || wardValue == null) {
+    if (selectedProvince == null ||
+        selectedCity == null ||
+        selectedSubdistrict == null) {
       return false;
     }
     return true;
@@ -86,9 +72,7 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
   @override
   void initState() {
     // TODO: implement initState
-    print(widget.data!.name);
     super.initState();
-    this.cityValue.toString();
     provinceList = RegionService().getProvinces();
   }
 
@@ -133,85 +117,76 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    // Container(
-                    //   child: FutureBuilder(
-                    //     future: provinceList,
-                    //     builder: ((context, AsyncSnapshot<Provinsi> snapshot) {
-                    //       var state = snapshot.connectionState;
-                    //       if (state != ConnectionState.done) {
-                    //         return DropdownButtonFormField(
-                    //           decoration: InputDecoration(
-                    //               focusColor: greenColor,
-                    //               contentPadding: const EdgeInsets.all(12),
-                    //               border: OutlineInputBorder(
-                    //                   borderRadius: BorderRadius.circular(8))),
-                    //           items: [],
-                    //           onChanged: (value) {},
-                    //         );
-                    //       } else {
-                    //         if (snapshot.hasData) {
-                    //           return DropdownButtonFormField(
-                    //             value: provinceValues,
-                    //             isExpanded: true,
-                    //             onChanged: (dynamic value) {
-                    //               setState(() {
-                    //                 provinceValues = value;
-                    //               });
-                    //             },
-                    //             decoration: InputDecoration(
-                    //                 focusColor: greenColor,
-                    //                 contentPadding: const EdgeInsets.all(12),
-                    //                 border: OutlineInputBorder(
-                    //                     borderRadius:
-                    //                         BorderRadius.circular(8))),
-                    //             onSaved: (dynamic value) {
-                    //               setState(() {
-                    //                 provinceValues = value;
-                    //               });
-                    //             },
-                    //             items:
-                    //                 snapshot.data!.provinsi.map((dynamic val) {
-                    //               return DropdownMenuItem(
-                    //                 value: val,
-                    //                 child: Text(
-                    //                   val.nama,
-                    //                 ),
-                    //               );
-                    //             }).toList(),
-                    //           );
-                    //         } else if (snapshot.hasError) {
-                    //           return Center(
-                    //               child: Material(
-                    //             child: Text(snapshot.error.toString()),
-                    //           ));
-                    //         } else {
-                    //           return const Material(
-                    //             child: Text(""),
-                    //           );
-                    //         }
-                    //       }
-                    //     }),
-                    //   ),
-                    // ),
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                          focusColor: greenColor,
-                          contentPadding: const EdgeInsets.all(12),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8))),
-                      items: listOfProvinsi.map((dynamic val) {
-                        return DropdownMenuItem(
-                          value: val,
-                          child: Text(
-                            val,
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          provinceValues = value;
-                        });
-                      },
+                    Container(
+                      child: FutureBuilder(
+                        future: provinceList,
+                        builder: ((context, AsyncSnapshot<Provinsi> snapshot) {
+                          var state = snapshot.connectionState;
+                          if (state != ConnectionState.done) {
+                            return DropdownButtonFormField(
+                              hint: Text("Tunggu Sebentar.."),
+                              decoration: InputDecoration(
+                                  focusColor: greenColor,
+                                  contentPadding: const EdgeInsets.all(12),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                              items: [],
+                              onChanged: (value) {},
+                            );
+                          } else {
+                            if (snapshot.hasData) {
+                              return DropdownButtonFormField(
+                                hint: selectedProvince == null
+                                    ? Text("Pilih Provinsi")
+                                    : Text(selectedProvince.toString()),
+                                value: selectedProvince,
+                                isExpanded: true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedProvince = value;
+                                    selectedProvince.toString();
+                                    provinceGetId = selectedProvince.id;
+
+                                    selectedCity = null;
+
+                                    cityValue = getCities(provinceGetId);
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                    focusColor: greenColor,
+                                    contentPadding: const EdgeInsets.all(12),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8))),
+                                items: snapshot.data!.provinsiValue.map((val) {
+                                  return DropdownMenuItem(
+                                    value: val,
+                                    child: Text(
+                                      val.name,
+                                    ),
+                                  );
+                                }).toList(),
+                              );
+                            } else if (snapshot.hasError) {
+                              return DropdownButtonFormField(
+                                hint: Text("No Internet"),
+                                decoration: InputDecoration(
+                                    focusColor: greenColor,
+                                    contentPadding: const EdgeInsets.all(12),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8))),
+                                items: [],
+                                onChanged: (value) {},
+                              );
+                            } else {
+                              return const Material(
+                                child: Text(""),
+                              );
+                            }
+                          }
+                        }),
+                      ),
                     ),
                     const SizedBox(
                       height: 17,
@@ -224,104 +199,89 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    // Container(
-                    //   child: provinceValues == null
-                    //       ? DropdownButtonFormField(
-                    //           decoration: InputDecoration(
-                    //               focusColor: greenColor,
-                    //               contentPadding: const EdgeInsets.all(12),
-                    //               border: OutlineInputBorder(
-                    //                   borderRadius: BorderRadius.circular(8))),
-                    //           items: [],
-                    //           onChanged: (value) {},
-                    //         )
-                    //       : FutureBuilder(
-                    //           future: getCities(provinceValues.id),
-                    //           builder:
-                    //               ((context, AsyncSnapshot<City> snapshot) {
-                    //             if (snapshot.hasData) {
-                    //               return DropdownButtonFormField(
-                    //                 value: cityValue,
-                    //                 isExpanded: true,
-                    //                 onChanged: (value) {
-                    //                   setState(() {
-                    //                     cityValue = value;
-                    //                     print(cityValue);
-                    //                   });
-                    //                 },
-                    //                 decoration: InputDecoration(
-                    //                     focusColor: greenColor,
-                    //                     contentPadding:
-                    //                         const EdgeInsets.all(12),
-                    //                     border: OutlineInputBorder(
-                    //                         borderRadius:
-                    //                             BorderRadius.circular(8))),
-                    //                 onSaved: (dynamic value) {
-                    //                   setState(() {
-                    //                     cityValue = value;
-                    //                     print(cityValue);
-                    //                   });
-                    //                 },
-                    //                 items:
-                    //                     snapshot.data!.kotaKabupaten.map((val) {
-                    //                   return DropdownMenuItem(
-                    //                     value: val.nama,
-                    //                     child: Text(
-                    //                       val.nama,
-                    //                     ),
-                    //                   );
-                    //                 }).toList(),
-                    //               );
-                    //             } else if (snapshot.hasError) {
-                    //               return Center(
-                    //                   child: Material(
-                    //                       child: DropdownButtonFormField(
-                    //                 decoration: InputDecoration(
-                    //                     focusColor: greenColor,
-                    //                     contentPadding:
-                    //                         const EdgeInsets.all(12),
-                    //                     border: OutlineInputBorder(
-                    //                         borderRadius:
-                    //                             BorderRadius.circular(8))),
-                    //                 items: [],
-                    //                 onChanged: (value) {},
-                    //               )));
-                    //             } else {
-                    //               return DropdownButtonFormField(
-                    //                 decoration: InputDecoration(
-                    //                     focusColor: greenColor,
-                    //                     contentPadding:
-                    //                         const EdgeInsets.all(12),
-                    //                     border: OutlineInputBorder(
-                    //                         borderRadius:
-                    //                             BorderRadius.circular(8))),
-                    //                 items: [],
-                    //                 onChanged: (value) {},
-                    //               );
-                    //             }
-                    //           }),
-                    //         ),
-                    // ),
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                          focusColor: greenColor,
-                          contentPadding: const EdgeInsets.all(12),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8))),
-                      items: listOfKota.map((dynamic val) {
-                        return DropdownMenuItem(
-                          value: val,
-                          child: Text(
-                            val,
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          cityValue = value;
-                        });
-                      },
-                    ),
+                    Container(
+                        child: selectedProvince != null
+                            ? FutureBuilder<Kota>(
+                                future: cityValue,
+                                builder: ((context, snapshot) {
+                                  if (snapshot.connectionState !=
+                                      ConnectionState.done) {
+                                    return DropdownButtonFormField(
+                                      hint: Text("Tunggu Sebentar.."),
+                                      decoration: InputDecoration(
+                                          focusColor: greenColor,
+                                          contentPadding:
+                                              const EdgeInsets.all(12),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8))),
+                                      items: [],
+                                      onChanged: (value) {},
+                                    );
+                                  } else if (snapshot.hasData) {
+                                    return DropdownButtonFormField(
+                                        decoration: InputDecoration(
+                                            focusColor: greenColor,
+                                            contentPadding:
+                                                const EdgeInsets.all(12),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8))),
+                                        hint: selectedCity == null
+                                            ? Text("Pilih Kota")
+                                            : Text("${selectedCity.name}"),
+                                        isExpanded: true,
+                                        icon: Icon(Icons.arrow_drop_down),
+                                        value: selectedCity,
+                                        iconSize: 30,
+                                        elevation: 16,
+                                        items: snapshot.data!.value
+                                            .map<DropdownMenuItem<KotaValue>>(
+                                                (KotaValue value) {
+                                          return DropdownMenuItem(
+                                              value: value,
+                                              child:
+                                                  Text(value.name!.toString()));
+                                        }).toList(),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            // cityData = getCities(provId);
+                                            selectedCity = value;
+                                            selectedCity.toString();
+                                            cityGetId = selectedCity.id;
+                                            subdistrictValue =
+                                                getSubDistricts(cityGetId);
+                                            selectedSubdistrict = null;
+                                          });
+                                        });
+                                  } else if (snapshot.hasError) {
+                                    return DropdownButtonFormField(
+                                      hint: Text("No Internet"),
+                                      decoration: InputDecoration(
+                                          focusColor: greenColor,
+                                          contentPadding:
+                                              const EdgeInsets.all(12),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8))),
+                                      items: [],
+                                      onChanged: (value) {},
+                                    );
+                                  }
+
+                                  return CircularProgressIndicator();
+                                }))
+                            : DropdownButtonFormField(
+                                hint: Text("Pilih Kota"),
+                                decoration: InputDecoration(
+                                    focusColor: greenColor,
+                                    contentPadding: const EdgeInsets.all(12),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8))),
+                                items: [],
+                                onChanged: (value) {},
+                              )),
                     const SizedBox(
                       height: 17,
                     ),
@@ -333,101 +293,85 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    // Container(
-                    //   child: cityValue == null
-                    //       ? DropdownButtonFormField(
-                    //           decoration: InputDecoration(
-                    //               focusColor: greenColor,
-                    //               contentPadding: const EdgeInsets.all(12),
-                    //               border: OutlineInputBorder(
-                    //                   borderRadius: BorderRadius.circular(8))),
-                    //           items: [],
-                    //           onChanged: (value) {},
-                    //         )
-                    //       : FutureBuilder(
-                    //           future: getWards(3216),
-                    //           builder: ((context,
-                    //               AsyncSnapshot<Kecamatan> snapshot) {
-                    //             if (snapshot.hasData) {
-                    //               return DropdownButtonFormField(
-                    //                 value: wardValue,
-                    //                 isExpanded: true,
-                    //                 onChanged: (value) {
-                    //                   setState(() {
-                    //                     wardValue = value;
-                    //                   });
-                    //                 },
-                    //                 decoration: InputDecoration(
-                    //                     focusColor: greenColor,
-                    //                     contentPadding:
-                    //                         const EdgeInsets.all(12),
-                    //                     border: OutlineInputBorder(
-                    //                         borderRadius:
-                    //                             BorderRadius.circular(8))),
-                    //                 onSaved: (dynamic value) {
-                    //                   setState(() {
-                    //                     wardValue = value;
-                    //                   });
-                    //                 },
-                    //                 items: snapshot.data!.kecamatan.map((val) {
-                    //                   return DropdownMenuItem(
-                    //                     value: val.nama.toString(),
-                    //                     child: Text(
-                    //                       val.nama.toString(),
-                    //                     ),
-                    //                   );
-                    //                 }).toList(),
-                    //               );
-                    //             } else if (snapshot.hasError) {
-                    //               return Center(
-                    //                   child: Material(
-                    //                       child: DropdownButtonFormField(
-                    //                 decoration: InputDecoration(
-                    //                     focusColor: greenColor,
-                    //                     contentPadding:
-                    //                         const EdgeInsets.all(12),
-                    //                     border: OutlineInputBorder(
-                    //                         borderRadius:
-                    //                             BorderRadius.circular(8))),
-                    //                 items: [],
-                    //                 onChanged: (value) {},
-                    //               )));
-                    //             } else {
-                    //               return DropdownButtonFormField(
-                    //                 decoration: InputDecoration(
-                    //                     focusColor: greenColor,
-                    //                     contentPadding:
-                    //                         const EdgeInsets.all(12),
-                    //                     border: OutlineInputBorder(
-                    //                         borderRadius:
-                    //                             BorderRadius.circular(8))),
-                    //                 items: [],
-                    //                 onChanged: (value) {},
-                    //               );
-                    //             }
-                    //           }),
-                    //         ),
-                    // ),
-                    DropdownButtonFormField(
-                      decoration: InputDecoration(
-                          focusColor: greenColor,
-                          contentPadding: const EdgeInsets.all(12),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8))),
-                      items: listOfKecamatan.map((dynamic val) {
-                        return DropdownMenuItem(
-                          value: val,
-                          child: Text(
-                            val,
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          wardValue = value;
-                        });
-                      },
-                    ),
+                    Container(
+                        child: selectedCity != null
+                            ? FutureBuilder<Kecamatan>(
+                                future: subdistrictValue,
+                                builder: ((context, snapshot) {
+                                  if (snapshot.connectionState !=
+                                      ConnectionState.done) {
+                                    return DropdownButtonFormField(
+                                      hint: Text("Tunggu Sebentar.."),
+                                      decoration: InputDecoration(
+                                          focusColor: greenColor,
+                                          contentPadding:
+                                              const EdgeInsets.all(12),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8))),
+                                      items: [],
+                                      onChanged: (value) {},
+                                    );
+                                  } else if (snapshot.hasData) {
+                                    return DropdownButtonFormField(
+                                        decoration: InputDecoration(
+                                            focusColor: greenColor,
+                                            contentPadding:
+                                                const EdgeInsets.all(12),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8))),
+                                        hint: selectedSubdistrict == null
+                                            ? Text("Pilih Kecamatan")
+                                            : Text("${selectedSubdistrict}"),
+                                        isExpanded: true,
+                                        icon: Icon(Icons.arrow_drop_down),
+                                        value: selectedSubdistrict,
+                                        iconSize: 30,
+                                        elevation: 16,
+                                        items: snapshot.data!.value.map<
+                                                DropdownMenuItem<
+                                                    KecamatanValue>>(
+                                            (KecamatanValue value) {
+                                          return DropdownMenuItem(
+                                              value: value,
+                                              child:
+                                                  Text(value.name.toString()));
+                                        }).toList(),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedSubdistrict = value;
+                                            selectedSubdistrict.toString();
+                                          });
+                                        });
+                                  } else if (snapshot.hasError) {
+                                    return DropdownButtonFormField(
+                                      hint: Text("No Internet"),
+                                      decoration: InputDecoration(
+                                          focusColor: greenColor,
+                                          contentPadding:
+                                              const EdgeInsets.all(12),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8))),
+                                      items: [],
+                                      onChanged: (value) {},
+                                    );
+                                  }
+
+                                  return CircularProgressIndicator();
+                                }))
+                            : DropdownButtonFormField(
+                                hint: Text("Pilih Kecamatan"),
+                                decoration: InputDecoration(
+                                    focusColor: greenColor,
+                                    contentPadding: const EdgeInsets.all(12),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8))),
+                                items: [],
+                                onChanged: (value) {},
+                              )),
                     const SizedBox(
                       height: 35,
                     ),
@@ -440,10 +384,13 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                               MaterialPageRoute(
                                 builder: (context) => SignupWilayah2Page(
                                     data: widget.data!.copyWith(
-                                  province: provinceValues,
-                                  city: cityValue,
-                                  ward: wardValue,
-                                )),
+                                        province:
+                                            selectedProvince.name.toString(),
+                                        city: selectedCity.name.toString(),
+                                        KecamatanId:
+                                            selectedSubdistrict.id.toString(),
+                                        subdistrict: selectedSubdistrict.name
+                                            .toString())),
                               ));
                           //
                         } else {

@@ -5,8 +5,10 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:salv/UI/pages/sign_up_set_profil.dart';
 
 import 'package:salv/models/sign_up_form_model.dart';
+import 'package:salv/models/ward_model.dart';
 
 import '../../common/common.dart';
+import '../../services/region_service.dart';
 import '../../shared/shared_methods.dart';
 import '../widgets/buttons.dart';
 import '../widgets/forms.dart';
@@ -26,25 +28,26 @@ class _SignupWilayah2PageState extends State<SignupWilayah2Page> {
   final TextEditingController alamatLengkapController =
       TextEditingController(text: '');
 
-  List<String> listOfValue = [
-    'Ketintang',
-    'Bubutan',
-    'Wiyung',
-    'Gayungan',
-    'Made'
-  ];
-  dynamic kelurahan;
+
+
+  dynamic wardValue;
+  dynamic wardGetId;
+  dynamic selectedWard;
+
+  late Future<Kelurahan> kelurahanList;
+  
 
   @override
   void initState() {
     // TODO: implement initState
-    print(widget.data!.name);
+    print(widget.data.subdistrict!);
+    kelurahanList = RegionService().getWard(widget.data.KecamatanId);
   }
 
   bool validate() {
     if (kodeposController.text.isEmpty ||
         alamatLengkapController.text.isEmpty ||
-        kelurahan == null) {
+        selectedWard == null) {
       return false;
     }
     return true;
@@ -93,26 +96,71 @@ class _SignupWilayah2PageState extends State<SignupWilayah2Page> {
                 const SizedBox(
                   height: 17,
                 ),
-                DropdownButtonFormField(
-                  decoration: InputDecoration(
-                      focusColor: greenColor,
-                      contentPadding: const EdgeInsets.all(12),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8))),
-                  items: listOfValue.map((dynamic val) {
-                    return DropdownMenuItem(
-                      value: val,
-                      child: Text(
-                        val,
+                Container(
+                      child: FutureBuilder(
+                        future: kelurahanList,
+                        builder: ((context, AsyncSnapshot<Kelurahan> snapshot) {
+                          var state = snapshot.connectionState;
+                          if (state != ConnectionState.done) {
+                            return DropdownButtonFormField(
+                              hint: Text("Tunggu Sebentar.."),
+                              decoration: InputDecoration(
+                                
+                                  focusColor: greenColor,
+                                  contentPadding: const EdgeInsets.all(12),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                              items: [],
+                              onChanged: (value) {},
+                            );
+                          } else {
+                            if (snapshot.hasData) {
+                              return DropdownButtonFormField(
+                                hint: selectedWard == null
+                                    ? Text("Pilih Kelurahan")
+                                    : Text(selectedWard.toString()),
+                                value: selectedWard,
+                                isExpanded: true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedWard = value;
+                                    
+                                    wardGetId = selectedWard.id;
+
+                                    
+
+                                    wardValue = selectedWard;
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                    focusColor: greenColor,
+                                    contentPadding: const EdgeInsets.all(12),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8))),
+                                items: snapshot.data!.kelurahanvalue.map((val) {
+                                  return DropdownMenuItem(
+                                    value: val,
+                                    child: Text(
+                                      val.name,
+                                    ),
+                                  );
+                                }).toList(),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                  child: Material(
+                                child: Text(snapshot.error.toString()),
+                              ));
+                            } else {
+                              return const Material(
+                                child: Text(""),
+                              );
+                            }
+                          }
+                        }),
                       ),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      kelurahan = value;
-                    });
-                  },
-                ),
+                    ),
                 const SizedBox(
                   height: 17,
                 ),
@@ -139,7 +187,7 @@ class _SignupWilayah2PageState extends State<SignupWilayah2Page> {
                           MaterialPageRoute(
                               builder: (context) => SignupSetProfilPage(
                                   data: widget.data.copyWith(
-                                      subdistrict: kelurahan,
+                                      ward: selectedWard.name.toString(),
                                       postal_code: kodeposController.text,
                                       address: alamatLengkapController.text))));
                       //

@@ -4,12 +4,12 @@
 
 import 'dart:convert';
 
-Kota kotaFromJson(String str) => Kota.fromJson(json.decode(str));
+Kecamatan kotaFromJson(String str) => Kecamatan.fromJson(json.decode(str));
 
-String kotaToJson(Kota data) => json.encode(data.toJson());
+String kotaToJson(Kecamatan data) => json.encode(data.toJson());
 
-class Kota {
-    Kota({
+class Kecamatan {
+    Kecamatan({
         required this.code,
         required this.messages,
         required this.value,
@@ -17,12 +17,12 @@ class Kota {
 
     String code;
     String messages;
-    List<KotaValue> value;
+    List<KecamatanValue> value;
 
-    factory Kota.fromJson(Map<String, dynamic> json) => Kota(
+    factory Kecamatan.fromJson(Map<String, dynamic> json) => Kecamatan(
         code: json["code"],
         messages: json["messages"],
-        value: List<KotaValue>.from(json["value"].map((x) => KotaValue.fromJson(x))),
+        value: List<KecamatanValue>.from(json["value"].map((x) => KecamatanValue.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -32,26 +32,26 @@ class Kota {
     };
 }
 
-class KotaValue {
-    KotaValue({
+class KecamatanValue {
+    KecamatanValue({
         required this.id,
-        required this.idProvinsi,
+        required this.idKabupaten,
         required this.name,
     });
 
     String id;
-    String idProvinsi;
+    String idKabupaten;
     String name;
 
-    factory KotaValue.fromJson(Map<String, dynamic> json) => KotaValue(
+    factory KecamatanValue.fromJson(Map<String, dynamic> json) => KecamatanValue(
         id: json["id"],
-        idProvinsi: json["id_provinsi"],
+        idKabupaten: json["id_kabupaten"],
         name: json["name"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "id_provinsi": idProvinsi,
+        "id_kabupaten": idKabupaten,
         "name": name,
     };
 }

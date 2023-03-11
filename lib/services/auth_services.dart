@@ -12,9 +12,9 @@ class AuthService {
   Future<User> register(SignupFormModel data) async {
     try {
       final response = await http.post(
-          Uri.parse("http://127.0.0.1:5000/register"),
+          Uri.parse("https://salv.cloud/register"),
           body: data!.toJson());
-      print(response.body);
+      
       if (response.statusCode == 200) {
         final user = User.fromJson(jsonDecode(response.body));
         user.data.password = data.password!;
