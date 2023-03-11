@@ -25,7 +25,7 @@ class AuthFailed extends AuthState {
 class AuthCheckEmailSuccess extends AuthState {}
 
 class AuthSuccess extends AuthState {
-  final User? user;
+  final Userdata? user;
 
   const AuthSuccess(this.user);
 

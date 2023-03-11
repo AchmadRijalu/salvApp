@@ -166,6 +166,7 @@ class _SignupWilayah2PageState extends State<SignupWilayah2Page> {
                 ),
                 CustomFormField(
                   title: "Kode Pos",
+                  keyBoardType: TextInputType.number,
                   controller: kodeposController,
                 ),
                 const SizedBox(

@@ -29,6 +29,9 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController katasandiController =
       TextEditingController(text: '');
 
+  final _keyState = GlobalKey<FormState>();
+  
+
   dynamic tipe;
 
   bool validate() {
@@ -72,6 +75,7 @@ class _SignupPageState extends State<SignupPage> {
                   color: whiteColor, borderRadius: BorderRadius.circular(8)),
               child: Column(children: [
                 CustomFormField(
+                  
                   title: "Nama Pengguna / Username",
                   controller: usernameController,
                 ),
@@ -107,8 +111,10 @@ class _SignupPageState extends State<SignupPage> {
                   height: 12,
                 ),
                 DropdownButtonFormField(
+                  
                   decoration: InputDecoration(
                       focusColor: greenColor,
+                      
                       contentPadding: const EdgeInsets.all(12),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8))),
@@ -137,9 +143,11 @@ class _SignupPageState extends State<SignupPage> {
                         builder: (context) {
                           return SignupWilayahPage(
                               data: SignupFormModel(
+                                
                                   username: usernameController.text,
                                   name: usernameController.text,
                                   password: katasandiController.text,
+                                  type: tipe.toString(),
                                   phone: nomorteleponController.text));
                         },
                       ));

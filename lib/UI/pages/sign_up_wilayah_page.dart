@@ -73,6 +73,7 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    
     provinceList = RegionService().getProvinces();
   }
 
@@ -146,9 +147,7 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                                     selectedProvince = value;
                                     selectedProvince.toString();
                                     provinceGetId = selectedProvince.id;
-
                                     selectedCity = null;
-
                                     cityValue = getCities(provinceGetId);
                                   });
                                 },
@@ -379,6 +378,7 @@ class _SignupWilayahPageState extends State<SignupWilayahPage> {
                       title: "Selanjutnya",
                       onPressed: () {
                         if (validate()) {
+                          
                           Navigator.push(
                               context,
                               MaterialPageRoute(

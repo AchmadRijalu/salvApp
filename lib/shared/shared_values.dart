@@ -1,4 +1,4 @@
-// String baseUrlRegion = "https://dev.farizdotid.com/api/daerahindonesia";
+String baseUrlSalv = "https://salv.cloud/";
 
 String baseUrlRegion = "https://api.binderbyte.com/wilayah/";
 String apikeyRegion =

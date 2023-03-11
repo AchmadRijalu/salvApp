@@ -12,11 +12,10 @@ import '../models/subdistricts_model.dart';
 class RegionService {
   Future<Provinsi> getProvinces() async {
     try {
-      final response = await http.get(Uri.parse("${baseUrlRegion}/provinsi?api_key=${apikeyRegion}"));
-      
-      if (response.statusCode == 200) {
+      final response = await http
+          .get(Uri.parse("${baseUrlRegion}/provinsi?api_key=${apikeyRegion}"));
 
-      
+      if (response.statusCode == 200) {
         return Provinsi.fromJson(jsonDecode(response.body));
       } else {
         throw Exception("Failed to load the data");
@@ -28,9 +27,9 @@ class RegionService {
 
   Future<Kota> getCity(dynamic ProvId) async {
     try {
-      final response = await http
-          .get(Uri.parse("${baseUrlRegion}/kabupaten?api_key=${apikeyRegion}&id_provinsi=${ProvId}"));
-          
+      final response = await http.get(Uri.parse(
+          "${baseUrlRegion}/kabupaten?api_key=${apikeyRegion}&id_provinsi=${ProvId}"));
+
       if (response.statusCode == 200) {
         return Kota.fromJson(jsonDecode(response.body));
       } else {
@@ -43,8 +42,8 @@ class RegionService {
 
   Future<Kecamatan> getSubDistrict(dynamic? cityId) async {
     try {
-      final response = await http
-          .get(Uri.parse("${baseUrlRegion}/kecamatan?api_key=${apikeyRegion}&id_kabupaten=${cityId}"));
+      final response = await http.get(Uri.parse(
+          "${baseUrlRegion}/kecamatan?api_key=${apikeyRegion}&id_kabupaten=${cityId}"));
       print(response);
       if (response.statusCode == 200) {
         return Kecamatan.fromJson(jsonDecode(response.body));
@@ -55,11 +54,12 @@ class RegionService {
       rethrow;
     }
   }
+
   Future<Kelurahan> getWard(dynamic? subDistrictId) async {
     try {
-      final response = await http
-          .get(Uri.parse("${baseUrlRegion}/kelurahan?api_key=${apikeyRegion}&id_kecamatan=${subDistrictId}"));
-      
+      final response = await http.get(Uri.parse(
+          "${baseUrlRegion}/kelurahan?api_key=${apikeyRegion}&id_kecamatan=${subDistrictId}"));
+
       if (response.statusCode == 200) {
         return Kelurahan.fromJson(jsonDecode(response.body));
       } else {

@@ -1,17 +1,17 @@
 class SignupFormModel {
-  String? name;
-  String? KecamatanId;
-  String? password;
-  String? username;
-  String? phone;
-  String? type;
-  String? province;
-  String? city;
-  String? ward;
-  String? subdistrict;
-  String? postal_code;
-  String? address;
-  String? image;
+  final String? name;
+  final String? KecamatanId;
+  final String? password;
+  final String? username;
+  final String? phone;
+  final String? type;
+  final String? province;
+  final String? city;
+  final String? ward;
+  final String? subdistrict;
+  final String? postal_code;
+  final String? address;
+  final String? image;
 
   SignupFormModel({
     this.KecamatanId,
@@ -31,8 +31,8 @@ class SignupFormModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
-      'Kecamatand': KecamatanId,
+      "name": name,
+      'Kecamatan': KecamatanId,
       'password': password,
       'username': username,
       'phone': phone,
@@ -63,7 +63,7 @@ class SignupFormModel {
           String? image}) =>
       SignupFormModel(
           name: name ?? this.name,
-          KecamatanId :  KecamatanId ?? this.KecamatanId,
+          KecamatanId: KecamatanId ?? this.KecamatanId,
           password: password ?? this.password,
           username: username ?? this.username,
           phone: phone ?? this.phone,

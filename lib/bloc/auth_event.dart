@@ -8,9 +8,9 @@ abstract class AuthEvent extends Equatable {
 }
 
 class AuthRegister extends AuthEvent {
-  final SignupFormModel? data;
+  late SignupFormModel? data;
 
-  const AuthRegister(this.data);
+   AuthRegister(this.data);
 
   @override
   // TODO: implement props
