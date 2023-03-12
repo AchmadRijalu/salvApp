@@ -10,36 +10,63 @@ import '../models/user_model.dart';
 
 // 10.0.2.2:8080
 class AuthService {
-  Future<Userdata> register(SignupFormModel data) async {
+  //Turn into dynamic parameter cause of checking the user availability
+  Future<dynamic> register(SignupFormModel data) async {
     // final modifiedJson = Map.from(data!.toJson())..remove('image');
     // print(modifiedJson);
-    // print("data : ${data.address}");
-    // print("data : ${data.postal_code}");
-    // print("data : ${data.image}");
-    // print("data : ${data.name}");
-    // print("data : ${data.username}");
-    // print("data : ${data.password}");
-    // print("data : ${data.type}");
-    // print("data : ${data.phone}");
-    // print("data : ${data.province}");
-    // print("data : ${data.city}");
-    // print("data : ${data.subdistrict}");
-    // print("data : ${data.ward}");
+
     try {
       final response = await http.post(Uri.parse("${baseUrlSalv}register"),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(data.toJson()));
-      print(response.body);
+      // print(response.body);
 
       if (response.statusCode == 200) {
-        // if (response.body['status_code'] == 401) {}
-        print("200");
-        final user = Userdata.fromJson(jsonDecode(response.body));
-        // user.data.password = data.password!;
-        // user.password = data.password!;
-        // await storeCredentialToLocal(user);
-        print(user);
-        return user;
+        var resHolder = jsonDecode(response.body)['message'];
+        if (resHolder == "Username already exists") {
+          print(resHolder);
+          throw "Username sudah terpakai";
+        } else {
+          print("200");
+          final user = Userdata.fromJson(jsonDecode(response.body));
+
+          // await storeCredentialToLocal(user);
+          return user;
+        }
+      } else {
+        throw jsonDecode(response.body)['message'];
+      }
+    } catch (e) {
+      print("500");
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<Userdata> login(SigninFormModel data) async {
+    // final modifiedJson = Map.from(data!.toJson())..remove('image');
+    // print(modifiedJson);
+
+    try {
+      final response = await http.post(Uri.parse("${baseUrlSalv}login"),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(data.toJson()));
+      // print(response.body);
+
+      if (response.statusCode == 200) {
+        var resHolder = jsonDecode(response.body)['message'];
+        print(resHolder);
+        if (resHolder == "Invalid username or password") {
+          print(resHolder);
+          throw "Username/Password Salah";
+        } else {
+          print("200");
+          print(response.body);
+          final user = Userdata.fromJson(jsonDecode(response.body));
+
+          // await storeCredentialToLocal(user);
+          return user;
+        }
       } else {
         throw jsonDecode(response.body)['message'];
       }
