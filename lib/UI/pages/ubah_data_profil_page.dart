@@ -7,10 +7,15 @@ import '../../common/common.dart';
 import '../widgets/buttons.dart';
 import '../widgets/forms.dart';
 
-class UbahDataProfilPage extends StatelessWidget {
+class UbahDataProfilPage extends StatefulWidget {
   static const routeName = '/ubahdataprofil';
   const UbahDataProfilPage({super.key});
 
+  @override
+  State<UbahDataProfilPage> createState() => _UbahDataProfilPageState();
+}
+
+class _UbahDataProfilPageState extends State<UbahDataProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
