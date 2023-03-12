@@ -14,23 +14,20 @@ class AuthService {
   Future<dynamic> register(SignupFormModel data) async {
     // final modifiedJson = Map.from(data!.toJson())..remove('image');
     // print(modifiedJson);
-
     try {
       final response = await http.post(Uri.parse("${baseUrlSalv}register"),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(data.toJson()));
-      // print(response.body);
 
       if (response.statusCode == 200) {
         var resHolder = jsonDecode(response.body)['message'];
         if (resHolder == "Username already exists") {
-          print(resHolder);
           throw "Username sudah terpakai";
         } else {
           print("200");
-          final user = Userdata.fromJson(jsonDecode(response.body));
+          final user = Userdata.fromJson(jsonDecode(response.body)['data']);
 
-          // await storeCredentialToLocal(user);
+          await storeCredentialToLocal(user);
           return user;
         }
       } else {
@@ -44,27 +41,20 @@ class AuthService {
   }
 
   Future<Userdata> login(SigninFormModel data) async {
-    // final modifiedJson = Map.from(data!.toJson())..remove('image');
-    // print(modifiedJson);
-
     try {
       final response = await http.post(Uri.parse("${baseUrlSalv}login"),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(data.toJson()));
-      // print(response.body);
 
       if (response.statusCode == 200) {
         var resHolder = jsonDecode(response.body)['message'];
-        print(resHolder);
+
         if (resHolder == "Invalid username or password") {
-          print(resHolder);
           throw "Username/Password Salah";
         } else {
-          print("200");
-          print(response.body);
-          final user = Userdata.fromJson(jsonDecode(response.body));
+          final user = Userdata.fromJson(jsonDecode(response.body)['data']);
+          await storeCredentialToLocal(user);
 
-          // await storeCredentialToLocal(user);
           return user;
         }
       } else {
@@ -84,6 +74,8 @@ class AuthService {
       await storage.write(key: 'token', value: user.token);
       await storage.write(key: 'username', value: user.username);
       await storage.write(key: 'password', value: user.password);
+      await storage.write(key: 'type', value: user.type);
+      print(storage.read(key: 'token'));
     } catch (e) {
       rethrow;
     }
@@ -94,12 +86,16 @@ class AuthService {
       const storage = FlutterSecureStorage();
 
       Map<String, dynamic> values = await storage.readAll();
-      if (values['username'] == null || values['password'] == null) {
-        throw 'Authenticated';
+      if (values['username'] == null ||
+          values['password'] == null ||
+          values['type'] == null) {
+        print("token : ${values['token']}");
+        throw 'Belum Ter-Auth';
       } else {
         final SigninFormModel? data = SigninFormModel(
           username: values['username'],
           password: values['password'],
+          type: values['type'],
         );
 
         return data;
@@ -107,5 +103,23 @@ class AuthService {
     } catch (e) {
       rethrow;
     }
+  }
+
+  //get Token Function
+  Future<String> getToken() async {
+    String? token = '';
+    const storage = FlutterSecureStorage();
+
+    String? value = await storage.read(key: 'token');
+
+    if (value != null) {
+      token = "Bearer " + value;
+    }
+    return token;
+  }
+
+  Future<void> clearLocalStorage() async {
+    const storage = FlutterSecureStorage();
+    await storage.deleteAll();
   }
 }

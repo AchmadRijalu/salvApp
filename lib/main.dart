@@ -29,6 +29,7 @@ import 'UI/pages/sign_up_wilayah_2_page.dart';
 import 'UI/pages/tambah_iklan_limbah2_page.dart';
 import 'UI/pages/tambah_iklan_limbah3_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -40,9 +41,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) =>AuthBloc())
-      ],
+      providers: [BlocProvider(create: (context) => AuthBloc()..add(AuthGetCurrentUser()))],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Salv',
@@ -54,7 +53,9 @@ class MyApp extends StatelessWidget {
                 backgroundColor: lightBackgroundColor,
                 centerTitle: true,
                 titleTextStyle: blackTextStyle.copyWith(
-                    color: blackColor, fontSize: 20, fontWeight: FontWeight.w700),
+                    color: blackColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
                 iconTheme: IconThemeData(color: blackColor))),
         routes: {
           SplashPage.routeName: (context) => SplashPage(),
