@@ -36,6 +36,7 @@ class Userdata {
   Userdata({
      this.address,
      this.city,
+     this.id,
     this.image,
      this.name,
      this.password,
@@ -51,6 +52,7 @@ class Userdata {
 
   final String? address;
   final String? city;
+  final String? id;
   final dynamic? image;
   final String? name;
   final String? password;
@@ -65,6 +67,7 @@ class Userdata {
 
   factory Userdata.fromJson(Map<String, dynamic> json) => Userdata(
         address: json["address"],
+        id: json["id"],
         city: json["city"],
         image: json["image"],
         name: json["name"],
@@ -83,6 +86,7 @@ class Userdata {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['address'] = address;
     data['city'] = city;
+    data['id'] = id;
     data['image'] = image;
     data['name'] = name;
     data['password'] = password;

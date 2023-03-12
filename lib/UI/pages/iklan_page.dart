@@ -27,7 +27,7 @@ class _IklanPageState extends State<IklanPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(userList.last.type);
+    
   }
 
   @override

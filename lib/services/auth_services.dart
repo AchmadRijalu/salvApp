@@ -53,6 +53,7 @@ class AuthService {
           throw "Username/Password Salah";
         } else {
           final user = Userdata.fromJson(jsonDecode(response.body)['data']);
+          print(user.id);
           await storeCredentialToLocal(user);
 
           return user;
@@ -65,6 +66,24 @@ class AuthService {
       print(e);
       rethrow;
     }
+  }
+
+  Future<void> logout() async {
+    try {
+      final response = await http.post(
+        Uri.parse("${baseUrlSalv}logout"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': await getToken(),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        await clearLocalStorage();
+      } else {
+        throw jsonDecode(response.body);
+      }
+    } catch (e) {}
   }
 
   //Saving credential Account into local
