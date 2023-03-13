@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:salv/UI/pages/holder_page.dart';
-import 'package:salv/models/iklan_model.dart';
+import 'package:salv/models/iklan_form_model.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../common/common.dart';
@@ -11,7 +11,7 @@ import '../widgets/buttons.dart';
 import '../widgets/forms.dart';
 
 class TambahIklanLimbah3Page extends StatefulWidget {
-  Iklan? iklan;
+  TambahIklanForm? iklan;
   int step3;
   TambahIklanLimbah3Page({super.key, required this.step3, this.iklan});
 
@@ -119,7 +119,7 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
                           print(beratMax);
                           print(beratMin);
 
-                          widget.iklan = Iklan(
+                          widget.iklan = TambahIklanForm(
                               beratdibutuhkan: beratLimbah,
                               beratmaks: beratMax,
                               beratmin: beratMin);

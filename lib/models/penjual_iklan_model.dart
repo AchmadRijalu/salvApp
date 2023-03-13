@@ -1,51 +1,52 @@
 // To parse this JSON data, do
 //
-//     final sellerAdvertisement = sellerAdvertisementFromJson(jsonString);
+//     final iklanSeller = iklanSellerFromJson(jsonString);
 
 import 'dart:convert';
 
-SellerAdvertisement sellerAdvertisementFromJson(String str) => SellerAdvertisement.fromJson(json.decode(str));
+IklanSeller iklanSellerFromJson(String str) => IklanSeller.fromJson(json.decode(str));
 
-String sellerAdvertisementToJson(SellerAdvertisement data) => json.encode(data.toJson());
+String iklanSellerToJson(IklanSeller data) => json.encode(data.toJson());
 
-class SellerAdvertisement {
-    SellerAdvertisement({
+class IklanSeller {
+    IklanSeller({
         required this.data,
+        required this.message,
         required this.statusCode,
     });
 
-    List<Datum> data;
+    List<IklanSellerData> data;
+    String message;
     int statusCode;
 
-    factory SellerAdvertisement.fromJson(Map<String, dynamic> json) => SellerAdvertisement(
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+    factory IklanSeller.fromJson(Map<String, dynamic> json) => IklanSeller(
+        data: List<IklanSellerData>.from(json["data"].map((x) => IklanSellerData.fromJson(x))),
+        message: json["message"],
         statusCode: json["status_code"],
     );
 
     Map<String, dynamic> toJson() => {
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "message": message,
         "status_code": statusCode,
     };
 }
 
-class Datum {
-    Datum({
+class IklanSellerData {
+    IklanSellerData({
         required this.id,
-        required this.ongoingWeight,
         required this.price,
         required this.requestedWeight,
         required this.title,
     });
 
     String id;
-    int ongoingWeight;
     int price;
     int requestedWeight;
     String title;
 
-    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    factory IklanSellerData.fromJson(Map<String, dynamic> json) => IklanSellerData(
         id: json["id"],
-        ongoingWeight: json["ongoing_weight"],
         price: json["price"],
         requestedWeight: json["requested_weight"],
         title: json["title"],
@@ -53,7 +54,6 @@ class Datum {
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "ongoing_weight": ongoingWeight,
         "price": price,
         "requested_weight": requestedWeight,
         "title": title,

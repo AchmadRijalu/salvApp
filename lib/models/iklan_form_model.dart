@@ -1,4 +1,4 @@
-class Iklan {
+class TambahIklanForm {
   final String? nama;
   final String? kategori;
   final String? sistem;
@@ -10,7 +10,7 @@ class Iklan {
   final String? beratmin;
   final String? beratmaks;
 
-  Iklan(
+  TambahIklanForm(
       {this.nama,
       this.kategori,
       this.sistem,
@@ -22,7 +22,7 @@ class Iklan {
       this.harga,
       this.tanggalkadaluarsa});
 
-  Iklan copyWith({
+  TambahIklanForm copyWith({
     String? nama,
     String? kategori,
     String? sistem,
@@ -34,7 +34,7 @@ class Iklan {
     String? beratmin,
     String? beratmaks,
   }) =>
-      Iklan(
+      TambahIklanForm(
         nama: nama ?? this.nama,
         kategori: kategori ?? this.kategori,
         sistem: sistem ?? this.sistem,
@@ -48,4 +48,4 @@ class Iklan {
       );
 }
 
-List<Iklan?> listIklan = [Iklan(nama: "semangka"), Iklan(nama: "semangka2")];
+List<TambahIklanForm?> listIklan = [TambahIklanForm(nama: "semangka"), TambahIklanForm(nama: "semangka2")];

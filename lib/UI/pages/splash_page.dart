@@ -5,9 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:salv/UI/pages/holder_page.dart';
 import 'package:salv/UI/pages/sign_in_page.dart';
-import 'package:salv/bloc/auth_bloc.dart';
+
 
 import 'package:salv/common/common.dart';
+
+import '../../blocs/auth/auth_bloc.dart';
 
 class SplashPage extends StatelessWidget {
   static const routeName = '/';

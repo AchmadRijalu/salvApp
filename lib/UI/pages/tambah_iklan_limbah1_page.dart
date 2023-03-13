@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salv/UI/pages/pencairan_poin_page.dart';
 import 'package:salv/UI/pages/tambah_iklan_limbah2_page.dart';
-import 'package:salv/models/iklan_model.dart';
+import 'package:salv/models/iklan_form_model.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../common/common.dart';
 import '../widgets/buttons.dart';
@@ -169,7 +169,7 @@ class _TambahIklanLimbah1PageState extends State<TambahIklanLimbah1Page> {
                           builder: (context) {
                             return TambahIklanLimbah2Page(
                               step2: 2,
-                              iklan: Iklan(
+                              iklan: TambahIklanForm(
                                   nama: namaController.text,
                                   kategori: kategoriLimbah,
                                   sistem: sistem,

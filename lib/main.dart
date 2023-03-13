@@ -22,13 +22,16 @@ import 'package:salv/UI/pages/splash_page.dart';
 import 'package:salv/UI/pages/tambah_iklan_limbah1_page.dart';
 import 'package:salv/UI/pages/ubah_data_alamat_page.dart';
 import 'package:salv/UI/pages/ubah_data_profil_page.dart';
-import 'package:salv/bloc/auth_bloc.dart';
+import 'package:salv/blocs/edukasi/edukasi_bloc.dart';
+
 import 'package:salv/common/common.dart';
 import 'UI/pages/sign_in_page.dart';
 import 'UI/pages/sign_up_wilayah_2_page.dart';
 import 'UI/pages/tambah_iklan_limbah2_page.dart';
 import 'UI/pages/tambah_iklan_limbah3_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'blocs/auth/auth_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,7 +44,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => AuthBloc()..add(AuthGetCurrentUser()))],
+      providers: [
+        BlocProvider(
+            create: (context) => AuthBloc()..add(AuthGetCurrentUser())),
+        BlocProvider(create: (context) =>  EdukasiBloc()..add(EdukasiGetAll()))
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Salv',

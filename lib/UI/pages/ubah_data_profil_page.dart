@@ -3,9 +3,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salv/UI/pages/holder_page.dart';
-import 'package:salv/bloc/auth_bloc.dart';
+
 import 'package:salv/shared/shared_methods.dart';
 
+import '../../blocs/auth/auth_bloc.dart';
 import '../../common/common.dart';
 import '../widgets/buttons.dart';
 import '../widgets/forms.dart';
@@ -30,10 +31,8 @@ class _UbahDataProfilPageState extends State<UbahDataProfilPage> {
     // TODO: implement initState
     super.initState();
     final authState = context.read<AuthBloc>().state;
-    
+
     if (authState is AuthSuccess) {
-      print(authState.user!.id);
-      print(authState.user!.token);
       usernameController.text = authState.user!.username!;
       phoneController.text = authState.user!.phoneNumber!;
       passwordController.text = authState.user!.password!;
@@ -78,17 +77,19 @@ class _UbahDataProfilPageState extends State<UbahDataProfilPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                           CustomFormField(
-                              title: "Nama Pengguna / Username", controller:  usernameController,),
+                          CustomFormField(
+                            title: "Nama Pengguna / Username",
+                            controller: usernameController,
+                          ),
 
                           SizedBox(
                             height: 16,
                           ),
 
-                           CustomFormField(
+                          CustomFormField(
                             title: "Nomor Telepon",
                             keyBoardType: TextInputType.number,
-                            controller:  phoneController,
+                            controller: phoneController,
                           ),
                           SizedBox(
                             height: 16,

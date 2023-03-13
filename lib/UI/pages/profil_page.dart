@@ -8,10 +8,11 @@ import 'package:salv/UI/pages/pencairan_poin_page.dart';
 import 'package:salv/UI/pages/sign_in_page.dart';
 import 'package:salv/UI/pages/ubah_data_alamat_page.dart';
 import 'package:salv/UI/pages/ubah_data_profil_page.dart';
-import 'package:salv/bloc/auth_bloc.dart';
+
 import 'package:salv/common/common.dart';
 import 'package:salv/shared/shared_methods.dart';
 
+import '../../blocs/auth/auth_bloc.dart';
 import '../widgets/profil_menu_widget.dart';
 
 class ProfilPage extends StatelessWidget {

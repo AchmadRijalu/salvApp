@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salv/UI/pages/tambah_iklan_limbah3_page.dart';
-import 'package:salv/models/iklan_model.dart';
+import 'package:salv/models/iklan_form_model.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../common/common.dart';
@@ -9,7 +9,7 @@ import '../widgets/buttons.dart';
 import '../widgets/forms.dart';
 
 class TambahIklanLimbah2Page extends StatefulWidget {
-  Iklan? iklan;
+  TambahIklanForm? iklan;
   int step2;
 
   TambahIklanLimbah2Page({super.key, required this.step2, this.iklan});

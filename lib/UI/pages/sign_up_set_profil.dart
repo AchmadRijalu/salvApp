@@ -9,10 +9,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:salv/UI/pages/holder_page.dart';
 import 'package:salv/UI/pages/sign_up_success_page.dart';
 import 'package:salv/UI/widgets/buttons.dart';
-import 'package:salv/bloc/auth_bloc.dart';
+
 import 'package:salv/models/sign_up_form_model.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../blocs/auth/auth_bloc.dart';
 import '../../common/common.dart';
 import '../../shared/shared_methods.dart';
 

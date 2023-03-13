@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salv/UI/pages/detail_iklan_pabrik_page.dart';
 import 'package:salv/UI/pages/detail_iklan_page.dart';
 import 'package:salv/UI/pages/tambah_iklan_limbah1_page.dart';
 import 'package:salv/UI/pages/tambah_iklan_limbah2_page.dart';
 import 'package:salv/UI/widgets/buttons.dart';
 import 'package:salv/UI/widgets/list_iklan_widget.dart';
-import 'package:salv/models/iklan_model.dart';
+import 'package:salv/blocs/iklan/iklan_bloc.dart';
+import 'package:salv/models/iklan_form_model.dart';
 import 'package:salv/models/user_model.dart';
 
+import '../../blocs/auth/auth_bloc.dart';
 import '../../common/common.dart';
 import '../../models/user_model.dart';
 import '../../models/user_model.dart';
@@ -23,11 +26,21 @@ class IklanPage extends StatefulWidget {
 }
 
 class _IklanPageState extends State<IklanPage> {
+  var usernameIklanA;
+  String? userType;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    
+    final authState = context.read<AuthBloc>().state;
+
+    if (authState is AuthSuccess) {
+      usernameIklanA = authState.user!.username!;
+      userType = authState.user!.type;
+      print(authState.user!.type);
+      print(authState.user!.id);
+      print(authState.user!.token);
+    }
   }
 
   @override
@@ -52,8 +65,8 @@ class _IklanPageState extends State<IklanPage> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    if (userList.last.type == "buyer") ...[
-                      buildTambahIklan(context),
+                    if (userType == "buyer") ...[
+                      buildTambahIklan(context, usernameIklanA),
                     ],
                     // Text(userList.length.toString()),
                     Row(
@@ -68,42 +81,54 @@ class _IklanPageState extends State<IklanPage> {
                     const SizedBox(
                       height: 6,
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: listIklan.length,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return userList.last.type == "buyer"
-                            ? ListIklanPabrik(
-                                title: listIklan[index]!.nama,
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, DetailIklanPage.routeName);
-                                },
-                              )
-                            : ListIklan(
-                                title: listIklan[index]!.nama,
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, DetailIklanPage.routeName);
+                    if (userType == "seller") ...[
+                      BlocProvider(
+                        create: (context) => IklanBloc()..add(IklanGetAll()),
+                        child: BlocBuilder<IklanBloc, IklanState>(
+                          builder: (context, state) {
+                            if (state is IklanLoading) {
+                              return Container(
+                                  margin: const EdgeInsets.only(top: 40),
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                        color: greenColor),
+                                  ));
+                            }
+                            if (state is IklanGetSuccess) {
+                             
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: state.iklanSeller!.data.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  var iklan = state.iklanSeller!.data[index];
+                                 return  ListIklan(
+                                    title: iklan.title,
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, DetailIklanPage.routeName);
+                                    },
+                                  );
                                 },
                               );
-                      },
-                      // ListIklanPabrik(
-                      //   title: "Butuh Semangka busuk dan peyok",
-                      //   onTap: () {
-                      //     Navigator.pushNamed(
-                      //         context, DetailIklanPage.routeName);
-                      //   },
-                      // )
-                      //    ListIklan(
-                      //   onTap: () {
+                            }
+                            if (state is IklanFailed) {
+                              return Center(
+                                child: Text(
+                                  "Terjadi Kesalahan :(",
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 16, fontWeight: semiBold),
+                                ),
+                              );
+                            }
+                            return Container();
+                          },
+                        ),
+                      )
+                    ] else ...[
+                      Text("buyer here, make a request")
 
-                      //   },
-                      //   title:
-                      //       "Butuh Wortel Busuk dan ayam utuh cabe utuh yayg",
-                      // ),
-                    )
+                    ],
                   ]),
             )))
           ],
@@ -113,7 +138,7 @@ class _IklanPageState extends State<IklanPage> {
   }
 }
 
-Widget buildTambahIklan(BuildContext context) {
+Widget buildTambahIklan(BuildContext context, String? usernameIklan) {
   return Container(
     width: double.infinity,
     child: Column(
@@ -127,7 +152,7 @@ Widget buildTambahIklan(BuildContext context) {
           height: 2,
         ),
         Text(
-          "Hello Mimi Jinhiro",
+          "Hello ${usernameIklan}",
           style: blackTextStyle.copyWith(fontWeight: medium, fontSize: 20),
         ),
         const SizedBox(

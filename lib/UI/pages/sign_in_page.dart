@@ -6,10 +6,11 @@ import 'package:salv/UI/pages/holder_page.dart';
 import 'package:salv/UI/pages/sign_up_page.dart';
 import 'package:salv/UI/widgets/buttons.dart';
 import 'package:salv/UI/widgets/forms.dart';
-import 'package:salv/bloc/auth_bloc.dart';
+
 import 'package:salv/models/sign_in_form_model.dart';
 import 'package:salv/models/user_model.dart';
 
+import '../../blocs/auth/auth_bloc.dart';
 import '../../common/common.dart';
 import '../../shared/shared_methods.dart';
 
