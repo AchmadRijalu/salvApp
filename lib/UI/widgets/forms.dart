@@ -10,6 +10,7 @@ class CustomFormField extends StatelessWidget {
   final bool isShowTitle;
   final TextInputType? keyBoardType;
   final AutovalidateMode? autovalidateMode;
+  final bool? isWeight;
 
   const CustomFormField(
       {super.key,
@@ -18,6 +19,7 @@ class CustomFormField extends StatelessWidget {
       this.controller,
       this.isShowTitle = true,
       this.autovalidateMode,
+      this.isWeight = false,
       this.keyBoardType});
 
   @override
@@ -39,6 +41,7 @@ class CustomFormField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText!,
           decoration: InputDecoration(
+            suffix: isWeight! ? Text("/Kilogram", style: blackTextStyle.copyWith(fontWeight: semiBold, ),): null,
               hintText: isShowTitle ? '' : title,
               contentPadding: const EdgeInsets.all(12),
               border:

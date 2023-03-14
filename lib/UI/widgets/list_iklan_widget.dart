@@ -164,10 +164,19 @@ class ListIklan extends StatelessWidget {
 
 class ListIklanPabrik extends StatelessWidget {
   late String? title;
+  late String? endDate;
   late String? tanggal;
+  late int? ongoing_weight;
+  late int? requested_weight;
 
   late final VoidCallback? onTap;
-  ListIklanPabrik({super.key, this.title, this.onTap});
+  ListIklanPabrik(
+      {super.key,
+      this.title,
+      this.onTap,
+      this.endDate,
+      this.ongoing_weight,
+      this.requested_weight});
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +234,7 @@ class ListIklanPabrik extends StatelessWidget {
                                           child: Row(
                                         children: [
                                           Text(
-                                            "Iklan selesai pada 14/04/23",
+                                            "Iklan selesai pada ${endDate}",
                                             style: whiteTextStyle.copyWith(
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 10),
@@ -242,16 +251,16 @@ class ListIklanPabrik extends StatelessWidget {
                                               style: whiteTextStyle.copyWith(
                                                   fontSize: 10),
                                             ),
-                                            Text("242",
+                                            Text("${ongoing_weight}",
                                                 style: whiteTextStyle.copyWith(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 10)),
-                                            Text(" Kg",
+                                            Text(" Kg / ",
                                                 style: whiteTextStyle.copyWith(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 10)),
                                             Text(
-                                              "/ 350 kg ",
+                                              "${requested_weight} Kg",
                                               style: whiteTextStyle.copyWith(
                                                   fontSize: 10),
                                             ),

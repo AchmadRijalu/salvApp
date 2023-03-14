@@ -22,14 +22,15 @@ class _TambahIklanLimbah2PageState extends State<TambahIklanLimbah2Page> {
   final TextEditingController keinginanTambahanController =
       TextEditingController(text: '');
   final TextEditingController hargaController = TextEditingController(text: '');
-
-  final TextEditingController tanggalKadaluarsaController =
+  final TextEditingController lokasiController =
       TextEditingController(text: '');
 
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.iklan!.nama);
+    print(widget.iklan!.foodWasteCategoryId);
+    print(widget.iklan!.name);
+    print(widget.iklan!.retrievalSystem);
   }
 
   @override
@@ -84,14 +85,16 @@ class _TambahIklanLimbah2PageState extends State<TambahIklanLimbah2Page> {
                       CustomFormField(
                         title: "Harga",
                         controller: hargaController,
+                        keyBoardType: TextInputType.number,
+                        isWeight: true,
                       ),
                       SizedBox(
                         height: 16,
                       ),
                       //NOTE: EMAIL INPUT
                       CustomFormField(
-                        title: "Tanggal Kadaluarsa (Opsional)",
-                        controller: tanggalKadaluarsaController,
+                        title: "Lokasi Pengambilan",
+                        controller: lokasiController,
                       ),
                       SizedBox(
                         height: 52,
@@ -104,10 +107,11 @@ class _TambahIklanLimbah2PageState extends State<TambahIklanLimbah2Page> {
                               return TambahIklanLimbah3Page(
                                 step3: 3,
                                 iklan: widget.iklan!.copyWith(
-                                    keinginan: keinginanTambahanController.text,
-                                    harga: hargaController.text,
-                                    tanggalkadaluarsa:
-                                        tanggalKadaluarsaController.text),
+                                  additionalInformation:
+                                      keinginanTambahanController.text,
+                                  price: int.tryParse(hargaController.text),
+                                  location: lokasiController.text
+                                ),
                               );
                             },
                           ));

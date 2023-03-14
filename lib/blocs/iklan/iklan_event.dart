@@ -8,3 +8,20 @@ abstract class IklanEvent extends Equatable {
 }
 
 class IklanGetAll extends IklanEvent {}
+
+class IklanGetAllBuyer extends IklanEvent {
+  late String? userdata;
+
+  IklanGetAllBuyer(this.userdata);
+  List<Object> get props => [userdata!];
+}
+
+class IklanAddAds extends IklanEvent {
+  late TambahIklanForm? data;
+
+  IklanAddAds(this.data);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [data!];
+}

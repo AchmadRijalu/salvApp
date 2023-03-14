@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
             create: (context) => AuthBloc()..add(AuthGetCurrentUser())),
-        BlocProvider(create: (context) =>  EdukasiBloc()..add(EdukasiGetAll()))
+        BlocProvider(create: (context) =>  EdukasiBloc()..add(EdukasiGetAll())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

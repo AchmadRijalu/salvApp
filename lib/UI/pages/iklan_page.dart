@@ -28,6 +28,7 @@ class IklanPage extends StatefulWidget {
 class _IklanPageState extends State<IklanPage> {
   var usernameIklanA;
   String? userType;
+  dynamic userId;
   @override
   void initState() {
     // TODO: implement initState
@@ -37,6 +38,7 @@ class _IklanPageState extends State<IklanPage> {
     if (authState is AuthSuccess) {
       usernameIklanA = authState.user!.username!;
       userType = authState.user!.type;
+      userId = authState.user!.id;
       print(authState.user!.type);
       print(authState.user!.id);
       print(authState.user!.token);
@@ -95,14 +97,13 @@ class _IklanPageState extends State<IklanPage> {
                                   ));
                             }
                             if (state is IklanGetSuccess) {
-                             
                               return ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: state.iklanSeller!.data.length,
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   var iklan = state.iklanSeller!.data[index];
-                                 return  ListIklan(
+                                  return ListIklan(
                                     title: iklan.title,
                                     onTap: () {
                                       Navigator.pushNamed(
@@ -125,9 +126,57 @@ class _IklanPageState extends State<IklanPage> {
                           },
                         ),
                       )
-                    ] else ...[
-                      Text("buyer here, make a request")
-
+                    ] else if (userType == "buyer") ...[
+                      BlocProvider(
+                        create: (context) =>
+                            IklanBloc()..add(IklanGetAllBuyer(userId)),
+                        child: BlocBuilder<IklanBloc, IklanState>(
+                          builder: (context, state) {
+                            if (state is IklanLoading) {
+                              return Container(
+                                  margin: const EdgeInsets.only(top: 40),
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                        color: greenColor),
+                                  ));
+                            }
+                            if (state is IklanBuyerGetSuccess) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: state.iklanBuyer!.data.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  var iklan = state.iklanBuyer!.data[index];
+                                  String iklanDate = iklan.endDate;
+                                  final iklanDateConv =
+                                      iklanDate.indexOf("2023", 0);
+                                  return ListIklanPabrik(
+                                    title: iklan.title,
+                                    ongoing_weight: iklan.ongoingWeight,
+                                    requested_weight: iklan.ongoingWeight,
+                                    endDate: iklan.endDate
+                                        .substring(0, iklanDateConv),
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, DetailIklanPage.routeName);
+                                    },
+                                  );
+                                },
+                              );
+                            }
+                            if (state is IklanFailed) {
+                              return Center(
+                                child: Text(
+                                  "Terjadi Kesalahan :(",
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 16, fontWeight: semiBold),
+                                ),
+                              );
+                            }
+                            return Container();
+                          },
+                        ),
+                      )
                     ],
                   ]),
             )))
