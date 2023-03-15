@@ -80,22 +80,53 @@ class _PenawaranPageState extends State<PenawaranPage> {
                         TransaksiBloc()..add(TransaksiGetAllBuyer(userId)),
                     child: BlocBuilder<TransaksiBloc, TransaksiState>(
                       builder: (context, state) {
-                        if (state is TransaksiLoading) {}
+                        if (state is TransaksiLoading) {
+                          return Container(
+                              margin: const EdgeInsets.only(top: 40),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                    color: greenColor),
+                              ));
+                        }
                         if (state is TransaksiBuyerGetSuccess) {
-                          return ListPenawaran(
-                            gambar: "assets/image/image_profilepng.png",
-                            namaLimbah: "Butuh Wortel Busuk",
-                            beratLimbah: 50,
-                            statusPenawaran: "Sedang Berlangsung",
-                            tanggal: "14/04/23",
-                            username: 'Buyer Jinhiro',
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, DetailPenawaranPage.routeName);
-                            },
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: state.transaksiBuyer!.data.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                var transaksi =
+                                    state.transaksiBuyer!.data[index];
+                                return ListPenawaran(
+                                  gambar: "assets/image/image_profilepng.png",
+                                  namaLimbah: transaksi.title,
+                                  beratLimbah: "+${transaksi.weight} kg",
+                                  statusPenawaran: transaksi.status == 0
+                                      ? "Respon"
+                                      : transaksi.status == 1
+                                          ? "Diterima"
+                                          : transaksi.status == 2
+                                              ? "Konfirmasi"
+                                              : transaksi.status == 3
+                                                  ? "Dibatalkan"
+                                                  : "Ditolak",
+                                  tanggal: transaksi.createdAt.substring(4, 16),
+                                  username: transaksi.mahasiswa,
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, DetailPenawaranPage.routeName);
+                                  },
+                                );
+                              });
+                        }
+                        if (state is TransaksiFailed) {
+                          return Center(
+                            child: Text(
+                              "Terjadi Kesalahan :(",
+                              style: blackTextStyle.copyWith(
+                                  fontSize: 16, fontWeight: semiBold),
+                            ),
                           );
                         }
-                        if (state is TransaksiFailed) {}
                         return Container();
                       },
                     ),
@@ -118,24 +149,34 @@ class _PenawaranPageState extends State<PenawaranPage> {
                               ));
                         }
                         if (state is TransaksiSellerGetSuccess) {
-                          return ListView(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            children: [
-                              ListPenawaran(
-                                gambar: "assets/image/image_profilepng.png",
-                                namaLimbah: "Butuh Wortel Busuk",
-                                beratLimbah: 50,
-                                statusPenawaran: "Sedang Berlangsung",
-                                tanggal: "14/04/23",
-                                username: 'Mimi Jinhiro',
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, DetailPenawaranPage.routeName);
-                                },
-                              ),
-                            ],
-                          );
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: state.transaksiSeller!.data.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (content, index) {
+                                var transaksi =
+                                    state.transaksiSeller!.data[index];
+                                return ListPenawaran(
+                                  gambar: "assets/image/image_profilepng.png",
+                                  namaLimbah: transaksi.title,
+                                  beratLimbah: "+ Rp.${transaksi.totalPrice}",
+                                  statusPenawaran: transaksi.status == 0
+                                      ? "Menunggu Pembeli"
+                                      : transaksi.status == 1
+                                          ? "Berhasil"
+                                          : transaksi.status == 2
+                                              ? "Sedang Berlangsung"
+                                              : transaksi.status == 3
+                                                  ? "Dibatalkan"
+                                                  : "Ditolak",
+                                  tanggal: transaksi.createdAt.substring(4, 16),
+                                  username: transaksi.pabrik,
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, DetailPenawaranPage.routeName);
+                                  },
+                                );
+                              });
                         }
                         if (state is TransaksiFailed) {
                           return Center(

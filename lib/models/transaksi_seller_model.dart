@@ -66,9 +66,29 @@ class TransaksiSellerData {
   Map<String, dynamic> toJson() => {
         "created_at": createdAt,
         "id": id,
-        "pabrik": pabrik,
+        "pabrik": pabrikValues.reverse[pabrik],
         "status": status,
         "title": title,
         "total_price": totalPrice,
       };
+}
+
+enum Pabrik { JON_MEDINA, JAMES_MARSH, ACHMAD_RIJALU }
+
+final pabrikValues = EnumValues({
+  "Achmad Rijalu": Pabrik.ACHMAD_RIJALU,
+  "James Marsh": Pabrik.JAMES_MARSH,
+  "Jon Medina": Pabrik.JON_MEDINA
+});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
+  }
 }
