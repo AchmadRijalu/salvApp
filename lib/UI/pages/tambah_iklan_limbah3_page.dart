@@ -39,9 +39,8 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
     final authState = context.read<AuthBloc>().state;
 
     if (authState is AuthSuccess) {
-     userId = authState.user!.id!;
-     print(userId);
-      
+      userId = authState.user!.id!;
+      print(userId);
     }
   }
 
@@ -50,6 +49,15 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
     // TODO: implement dispose
     super.dispose();
     print(widget.iklan!.name);
+  }
+
+  bool validate() {
+    if (beratLimbahDibutuhkanController.text.isEmpty ||
+        beratLimbahMinimumController.text.isEmpty ||
+        beratLimbahMaksimumController.text.isEmpty) {
+      return false;
+    }
+    return true;
   }
 
   var beratLimbah = "";
@@ -70,9 +78,11 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
               showCustomSnacKbar(context, state.e);
             }
             if (state is IklanAddSuccess) {
-             
-             Navigator.pushNamedAndRemoveUntil(context, HolderPage.routeName, (route) => false);
-            } 
+              Navigator.pushNamedAndRemoveUntil(
+                  context, HolderPage.routeName, (route) => false);
+              // print("added");
+              // print(state.)
+            }
           },
           builder: (context, state) {
             if (state is IklanLoading) {
@@ -145,67 +155,74 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
                             CustomFilledButton(
                               title: "Iklankan",
                               onPressed: () {
-                                beratLimbah =
-                                    beratLimbahDibutuhkanController.text;
-                                beratMax = beratLimbahMaksimumController.text;
-                                beratMin = beratLimbahMinimumController.text;
+                                if (validate()) {
+                                  beratLimbah =
+                                      beratLimbahDibutuhkanController.text;
+                                  beratMax = beratLimbahMaksimumController.text;
+                                  beratMin = beratLimbahMinimumController.text;
 
-                                widget.iklan = TambahIklanForm(
-                                  name: widget.iklan!.name,
-                                    foodWasteCategoryId:
-                                        widget.iklan!.foodWasteCategoryId,
-                                    userId: userId,
-                                    retrievalSystem:
-                                        widget.iklan!.retrievalSystem,
-                                    location: widget.iklan!.location,
-                                    additionalInformation:
-                                        widget.iklan!.additionalInformation,
-                                    price: widget.iklan!.price,
-                                    requestedWeight: int.tryParse(beratLimbah),
-                                    maximumWeight: int.tryParse(beratMax),
-                                    minimumWeight: int.tryParse(beratMin));
-                                print("Iklan : ${widget.iklan.toString()}");
+                                  widget.iklan = TambahIklanForm(
+                                      name: widget.iklan!.name,
+                                      foodWasteCategoryId:
+                                          widget.iklan!.foodWasteCategoryId,
+                                      userId: userId,
+                                      retrievalSystem:
+                                          widget.iklan!.retrievalSystem,
+                                      location: widget.iklan!.location,
+                                      additionalInformation:
+                                          widget.iklan!.additionalInformation,
+                                      price: widget.iklan!.price,
+                                      requestedWeight:
+                                          int.tryParse(beratLimbah),
+                                      maximumWeight: int.tryParse(beratMax),
+                                      minimumWeight: int.tryParse(beratMin));
+                                  print("Iklan : ${widget.iklan.toString()}");
 
-                                Alert(
-                                  context: context,
-                                  type: AlertType.warning,
-                                  style: AlertStyle(
-                                      titleStyle: blackTextStyle.copyWith(
-                                          fontWeight: bold, fontSize: 22)),
-                                  title: "Yakin untuk Memulai Iklan?",
-                                  desc:
-                                      "Iklan yang sudah diiklankan tidak dapat diubah",
-                                  buttons: [
-                                    DialogButton(
-                                      color: redColor,
-                                      child: Text(
-                                        "Kembali",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: bold, fontSize: 16),
+                                  Alert(
+                                    context: context,
+                                    type: AlertType.warning,
+                                    style: AlertStyle(
+                                        titleStyle: blackTextStyle.copyWith(
+                                            fontWeight: bold, fontSize: 22)),
+                                    title: "Yakin untuk Memulai Iklan?",
+                                    desc:
+                                        "Iklan yang sudah diiklankan tidak dapat diubah",
+                                    buttons: [
+                                      DialogButton(
+                                        color: redColor,
+                                        child: Text(
+                                          "Kembali",
+                                          style: whiteTextStyle.copyWith(
+                                              fontWeight: bold, fontSize: 16),
+                                        ),
+                                        onPressed: () {
+                                          print(widget.iklan!.maximumWeight);
+                                          Navigator.pop(
+                                            context,
+                                          );
+                                        },
+                                        width: 120,
                                       ),
-                                      onPressed: () {
-                                        print(widget.iklan!.maximumWeight);
-                                        Navigator.pop(
-                                          context,
-                                        );
-                                      },
-                                      width: 120,
-                                    ),
-                                    DialogButton(
-                                      color: Colors.green,
-                                      child: Text(
-                                        "Iklankan",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: bold, fontSize: 16),
-                                      ),
-                                      onPressed: () {
-                                      context.read<IklanBloc>().add(IklanAddAds(widget.iklan));
-                                      
-                                      },
-                                      width: 120,
-                                    )
-                                  ],
-                                ).show();
+                                      DialogButton(
+                                        color: Colors.green,
+                                        child: Text(
+                                          "Iklankan",
+                                          style: whiteTextStyle.copyWith(
+                                              fontWeight: bold, fontSize: 16),
+                                        ),
+                                        onPressed: () {
+                                          context
+                                              .read<IklanBloc>()
+                                              .add(IklanAddAds(widget.iklan));
+                                        },
+                                        width: 120,
+                                      )
+                                    ],
+                                  ).show();
+                                } else {
+                                  showCustomSnacKbar(
+                                      context, "Form tidak boleh kosong");
+                                }
                               },
                             )
                           ],

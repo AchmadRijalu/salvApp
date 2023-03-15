@@ -169,15 +169,20 @@ class ListIklanPabrik extends StatelessWidget {
   late int? ongoing_weight;
   late int? requested_weight;
 
-  late final VoidCallback? onTap;
-  ListIklanPabrik(
-      {super.key,
-      this.title,
-      this.onTap,
-      this.endDate,
-      this.ongoing_weight,
-      this.requested_weight});
+  dynamic? progressBarIndicator;
 
+  late final VoidCallback? onTap;
+  ListIklanPabrik({
+    super.key,
+    this.title,
+    this.onTap,
+    this.endDate,
+    this.ongoing_weight,
+    this.requested_weight,
+    this.progressBarIndicator
+  });
+
+  
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -297,7 +302,7 @@ class ListIklanPabrik extends StatelessWidget {
                     margin: const EdgeInsets.only(left: 9),
                     child: LinearPercentIndicator(
                       lineHeight: 27,
-                      percent: 0.5,
+                      percent: progressBarIndicator,
                       animation: true,
                       progressColor: blueColor,
                       backgroundColor: greyColor,
@@ -315,7 +320,7 @@ class ListIklanPabrik extends StatelessWidget {
                           style: whiteTextStyle.copyWith(fontSize: 16),
                         ),
                         Text(
-                          "450Kg",
+                          "${requested_weight} Kg",
                           style: whiteTextStyle.copyWith(fontSize: 16),
                         )
                       ],

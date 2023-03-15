@@ -6,6 +6,7 @@ import 'package:salv/models/user_model.dart';
 import 'package:salv/services/iklan_services.dart';
 
 import '../../models/iklan_add_model.dart';
+import '../../models/iklan_buyer_detail_model.dart';
 import '../../models/penjual_iklan_model.dart';
 
 part 'iklan_event.dart';
@@ -20,7 +21,7 @@ class IklanBloc extends Bloc<IklanEvent, IklanState> {
         try {
           emit(IklanLoading());
 
-          final iklan = await IklanService().getIklan();
+          final iklan = await IklanService().getIklanSeller();
 
           emit(IklanGetSuccess(iklan));
         } catch (e) {
@@ -43,10 +44,20 @@ class IklanBloc extends Bloc<IklanEvent, IklanState> {
       if (event is IklanGetAllBuyer) {
         try {
           emit(IklanLoading());
-          print("data");
           final iklan = await IklanService().getIklanBuyer(event.userdata!);
-          print("ISI Data : ${iklan.data}");
           emit(IklanBuyerGetSuccess(iklan));
+        } catch (e) {
+          emit(IklanFailed(e.toString()));
+        }
+      }
+
+      if (event is IklanGetDetailBuyer) {
+      try {
+          emit(IklanLoading());
+          final getIklan =
+              await IklanService().getIklanBuyerDetail(event.adsId);
+          emit(IklanBuyerGetDetailSuccess(getIklan));
+          print("success get id");
         } catch (e) {
           emit(IklanFailed(e.toString()));
         }

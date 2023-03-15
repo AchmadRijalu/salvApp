@@ -16,6 +16,7 @@ import '../../blocs/auth/auth_bloc.dart';
 import '../../common/common.dart';
 import '../../models/user_model.dart';
 import '../../models/user_model.dart';
+import '../../shared/shared_methods.dart';
 
 class IklanPage extends StatefulWidget {
   static const routeName = '/iklan';
@@ -49,140 +50,157 @@ class _IklanPageState extends State<IklanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 37),
-        child: Container(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(
-              height: 33,
-            ),
-            Row(children: [Image.asset('assets/image/logo-png.png')]),
-            const SizedBox(
-              height: 17,
-            ),
-            Expanded(
-                child: Container(
-                    child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 37),
+          child: Container(
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    if (userType == "buyer") ...[
-                      buildTambahIklan(context, usernameIklanA),
-                    ],
-                    // Text(userList.length.toString()),
-                    Row(
-                      children: [
-                        Text(
-                          "Lihat Iklan yang \nsedang berlangsung",
-                          style: blackTextStyle.copyWith(
-                              fontSize: 20, fontWeight: FontWeight.w700),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(
+                height: 33,
+              ),
+              Row(children: [Image.asset('assets/image/logo-png.png')]),
+              const SizedBox(
+                height: 17,
+              ),
+              Expanded(
+                  child: Container(
+                      child: SingleChildScrollView(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (userType == "buyer") ...[
+                        buildTambahIklan(context, usernameIklanA),
+                      ],
+                      // Text(userList.length.toString()),
+                      Row(
+                        children: [
+                          Text(
+                            "Lihat Iklan yang \nsedang berlangsung",
+                            style: blackTextStyle.copyWith(
+                                fontSize: 20, fontWeight: FontWeight.w700),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      if (userType == "seller") ...[
+                        BlocProvider(
+                          create: (context) => IklanBloc()..add(IklanGetAll()),
+                          child: BlocBuilder<IklanBloc, IklanState>(
+                            builder: (context, state) {
+                              if (state is IklanLoading) {
+                                return Container(
+                                    margin: const EdgeInsets.only(top: 40),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                          color: greenColor),
+                                    ));
+                              }
+                              if (state is IklanGetSuccess) {
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: state.iklanSeller!.data.length,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    var iklan = state.iklanSeller!.data[index];
+                                    return ListIklan(
+                                      title: iklan.title,
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, DetailIklanPage.routeName);
+                                      },
+                                    );
+                                  },
+                                );
+                              }
+                              if (state is IklanFailed) {
+                                return Center(
+                                  child: Text(
+                                    "Terjadi Kesalahan :(",
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 16, fontWeight: semiBold),
+                                  ),
+                                );
+                              }
+                              return Container();
+                            },
+                          ),
+                        )
+                      ] else if (userType == "buyer") ...[
+                        BlocProvider(
+                          create: (context) =>
+                              IklanBloc()..add(IklanGetAllBuyer(userId)),
+                          child: BlocConsumer<IklanBloc, IklanState>(
+                            listener: (context, state) {
+                              if (state is IklanBuyerGetDetailSuccess) {
+                                context.read<IklanBloc>().add(
+                                      IklanGetAllBuyer(userId),
+                                    );
+                                Navigator.pushNamed(
+                                    context, DetailIklanPage.routeName);
+                              }
+                            },
+                            builder: (context, state) {
+                              if (state is IklanLoading) {
+                                return Container(
+                                    margin: const EdgeInsets.only(top: 40),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                          color: greenColor),
+                                    ));
+                              }
+
+                              if (state is IklanBuyerGetSuccess) {
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: state.iklanBuyer!.data.length,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    var iklan = state.iklanBuyer!.data[index];
+
+                                    String iklanDate = iklan.endDate;
+                                    final iklanDateConv =
+                                        iklanDate.indexOf("2023", 0);
+                                    return ListIklanPabrik(
+                                      title: iklan.title,
+                                      progressBarIndicator:
+                                          iklan.ongoingWeight /
+                                              iklan.requestedWeight,
+                                      ongoing_weight: iklan.ongoingWeight,
+                                      requested_weight: iklan.requestedWeight,
+                                      endDate: iklan.endDate
+                                          .substring(0, iklanDateConv),
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, DetailIklanPage.routeName);
+                                        // context
+                                        //     .read<IklanBloc>()
+                                        //     .add(IklanGetDetailBuyer(iklan.id));
+                                      },
+                                    );
+                                  },
+                                );
+                              }
+
+                              if (state is IklanFailed) {
+                                return Center(
+                                  child: Text(
+                                    "Terjadi Kesalahan :(",
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 16, fontWeight: semiBold),
+                                  ),
+                                );
+                              }
+                              return Container();
+                            },
+                          ),
                         )
                       ],
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    if (userType == "seller") ...[
-                      BlocProvider(
-                        create: (context) => IklanBloc()..add(IklanGetAll()),
-                        child: BlocBuilder<IklanBloc, IklanState>(
-                          builder: (context, state) {
-                            if (state is IklanLoading) {
-                              return Container(
-                                  margin: const EdgeInsets.only(top: 40),
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                        color: greenColor),
-                                  ));
-                            }
-                            if (state is IklanGetSuccess) {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: state.iklanSeller!.data.length,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  var iklan = state.iklanSeller!.data[index];
-                                  return ListIklan(
-                                    title: iklan.title,
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, DetailIklanPage.routeName);
-                                    },
-                                  );
-                                },
-                              );
-                            }
-                            if (state is IklanFailed) {
-                              return Center(
-                                child: Text(
-                                  "Terjadi Kesalahan :(",
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 16, fontWeight: semiBold),
-                                ),
-                              );
-                            }
-                            return Container();
-                          },
-                        ),
-                      )
-                    ] else if (userType == "buyer") ...[
-                      BlocProvider(
-                        create: (context) =>
-                            IklanBloc()..add(IklanGetAllBuyer(userId)),
-                        child: BlocBuilder<IklanBloc, IklanState>(
-                          builder: (context, state) {
-                            if (state is IklanLoading) {
-                              return Container(
-                                  margin: const EdgeInsets.only(top: 40),
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                        color: greenColor),
-                                  ));
-                            }
-                            if (state is IklanBuyerGetSuccess) {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: state.iklanBuyer!.data.length,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  var iklan = state.iklanBuyer!.data[index];
-                                  String iklanDate = iklan.endDate;
-                                  final iklanDateConv =
-                                      iklanDate.indexOf("2023", 0);
-                                  return ListIklanPabrik(
-                                    title: iklan.title,
-                                    ongoing_weight: iklan.ongoingWeight,
-                                    requested_weight: iklan.ongoingWeight,
-                                    endDate: iklan.endDate
-                                        .substring(0, iklanDateConv),
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, DetailIklanPage.routeName);
-                                    },
-                                  );
-                                },
-                              );
-                            }
-                            if (state is IklanFailed) {
-                              return Center(
-                                child: Text(
-                                  "Terjadi Kesalahan :(",
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 16, fontWeight: semiBold),
-                                ),
-                              );
-                            }
-                            return Container();
-                          },
-                        ),
-                      )
-                    ],
-                  ]),
-            )))
-          ],
-        )),
-      ),
+                    ]),
+              )))
+            ],
+          ))),
     );
   }
 }

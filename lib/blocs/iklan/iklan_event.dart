@@ -9,11 +9,19 @@ abstract class IklanEvent extends Equatable {
 
 class IklanGetAll extends IklanEvent {}
 
+//BUYER SIDE
 class IklanGetAllBuyer extends IklanEvent {
   late String? userdata;
 
   IklanGetAllBuyer(this.userdata);
   List<Object> get props => [userdata!];
+}
+
+class IklanGetDetailBuyer extends IklanEvent {
+  late String? adsId;
+
+  IklanGetDetailBuyer(this.adsId);
+  List<Object> get props => [adsId!];
 }
 
 class IklanAddAds extends IklanEvent {

@@ -5,6 +5,7 @@ import 'package:salv/models/iklan_form_model.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../common/common.dart';
+import '../../shared/shared_methods.dart';
 import '../widgets/buttons.dart';
 import '../widgets/forms.dart';
 
@@ -37,6 +38,15 @@ class _TambahIklanLimbah2PageState extends State<TambahIklanLimbah2Page> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+  }
+
+  bool validate() {
+    if (keinginanTambahanController.text.isEmpty ||
+        hargaController.text.isEmpty ||
+        lokasiController.text.isEmpty) {
+      return false;
+    }
+    return true;
   }
 
   @override
@@ -102,19 +112,23 @@ class _TambahIklanLimbah2PageState extends State<TambahIklanLimbah2Page> {
                       CustomFilledButton(
                         title: "Selanjutnya",
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return TambahIklanLimbah3Page(
-                                step3: 3,
-                                iklan: widget.iklan!.copyWith(
-                                  additionalInformation:
-                                      keinginanTambahanController.text,
-                                  price: int.tryParse(hargaController.text),
-                                  location: lokasiController.text
-                                ),
-                              );
-                            },
-                          ));
+                          if (validate()) {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return TambahIklanLimbah3Page(
+                                  step3: 3,
+                                  iklan: widget.iklan!.copyWith(
+                                      additionalInformation:
+                                          keinginanTambahanController.text,
+                                      price: int.tryParse(hargaController.text),
+                                      location: lokasiController.text),
+                                );
+                              },
+                            ));
+                          } else {
+                            showCustomSnacKbar(
+                                context, "Form tidak boleh kosong");
+                          }
                         },
                       )
                     ],

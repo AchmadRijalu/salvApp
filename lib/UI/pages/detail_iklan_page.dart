@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:salv/UI/pages/form_jual_limbah_page.dart';
 import 'package:salv/UI/widgets/buttons.dart';
 import 'package:salv/common/common.dart';
 
+import '../../blocs/auth/auth_bloc.dart';
 import '../../models/user_model.dart';
 
 class DetailIklanPage extends StatefulWidget {
@@ -19,6 +21,21 @@ class DetailIklanPage extends StatefulWidget {
 
 class _DetailIklanPageState extends State<DetailIklanPage> {
   @override
+  dynamic userId;
+  dynamic userType;
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final authState = context.read<AuthBloc>().state;
+
+    if (authState is AuthSuccess) {
+      userType = authState.user!.type;
+      userId = authState.user!.id;
+      print(userType);
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Detail Iklan")),
@@ -31,7 +48,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                 hasScrollBody: false,
                 child: Column(children: [
                   //Only for Mahasiswa
-                  if (userList.last.type == "seller") ...[
+                  if (userType == "seller") ...[
                     Flexible(
                         child: Container(
                       child: Column(
@@ -110,7 +127,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                   ],
                   // if pabrik
                   Expanded(
-                      flex: userList.last.type == "buyer" ? 3 : 4,
+                      flex: userType == "buyer" ? 2 : 4,
                       child: Container(
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -260,7 +277,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Nama Iklan",
+                                        "Berat Minimum",
                                         style: whiteTextStyle,
                                       ),
                                       Text(
@@ -284,7 +301,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Kategori",
+                                        "Berat Maksimum",
                                         style: whiteTextStyle,
                                       ),
                                       Text(
@@ -308,59 +325,11 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Sistem",
+                                        "Pengeluaran",
                                         style: whiteTextStyle,
                                       ),
                                       Text(
                                         "Diantar",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Divider(
-                                    color: whiteColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Lokasi Tujuan",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "Universitas Ciputra",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Divider(
-                                    color: whiteColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Spesifikasi",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "Hanya Wortel Biasa",
                                         style: whiteTextStyle.copyWith(
                                             fontWeight: FontWeight.w600),
                                       )
@@ -387,7 +356,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                     height: 23,
                   ),
 
-                  if (userList.last.type == "buyer") ...[
+                  if (userType == "buyer") ...[
                     Expanded(
                         child: Container(
                       child: Column(children: [
