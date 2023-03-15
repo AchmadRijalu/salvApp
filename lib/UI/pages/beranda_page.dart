@@ -32,13 +32,13 @@ class BerandaPage extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "Wah, limbah makanan \nmana yang ingin Anda cari \ntahu, yuk lihat-lihat!",
+                        "Wah, limbah makanan \nmana yang paling sering Anda jual? \nYuk lihat-lihat!",
                         style: blackTextStyle.copyWith(
                             fontSize: 20, fontWeight: FontWeight.w700),
                       )
                     ],
                   ),
-                  const SizedBox(
+                const SizedBox(
                     height: 17,
                   ),
                   Row(
