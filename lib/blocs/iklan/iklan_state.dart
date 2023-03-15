@@ -9,6 +9,8 @@ abstract class IklanState extends Equatable {
 
 class IklanInitial extends IklanState {}
 
+
+//SELLER SIDE
 class IklanGetSuccess extends IklanState {
   final IklanSeller? iklanSeller;
 

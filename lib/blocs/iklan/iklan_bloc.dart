@@ -52,12 +52,12 @@ class IklanBloc extends Bloc<IklanEvent, IklanState> {
       }
 
       if (event is IklanGetDetailBuyer) {
-      try {
+        try {
           emit(IklanLoading());
           final getIklan =
               await IklanService().getIklanBuyerDetail(event.adsId);
+          print(getIklan.data.id);
           emit(IklanBuyerGetDetailSuccess(getIklan));
-          print("success get id");
         } catch (e) {
           emit(IklanFailed(e.toString()));
         }

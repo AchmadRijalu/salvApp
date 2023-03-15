@@ -41,7 +41,6 @@ class IklanService {
         },
       );
 
-      print(response.body);
       return IklanBuyer.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;
@@ -57,7 +56,8 @@ class IklanService {
           'Authorization': await AuthService().getToken(),
         },
       );
-      print(response.body);
+      print("PRINT : ${response.body}");
+
       return IklanBuyerDetail.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;

@@ -30,6 +30,8 @@ class _IklanPageState extends State<IklanPage> {
   var usernameIklanA;
   String? userType;
   dynamic userId;
+
+  dynamic getAdvertisementId;
   @override
   void initState() {
     // TODO: implement initState
@@ -40,8 +42,7 @@ class _IklanPageState extends State<IklanPage> {
       usernameIklanA = authState.user!.username!;
       userType = authState.user!.type;
       userId = authState.user!.id;
-      print(authState.user!.type);
-      print(authState.user!.id);
+
       print(authState.user!.token);
     }
   }
@@ -133,13 +134,15 @@ class _IklanPageState extends State<IklanPage> {
                               IklanBloc()..add(IklanGetAllBuyer(userId)),
                           child: BlocConsumer<IklanBloc, IklanState>(
                             listener: (context, state) {
-                              if (state is IklanBuyerGetDetailSuccess) {
-                                context.read<IklanBloc>().add(
-                                      IklanGetAllBuyer(userId),
-                                    );
-                                Navigator.pushNamed(
-                                    context, DetailIklanPage.routeName);
-                              }
+                              // if (state is IklanBuyerGetDetailSuccess) {
+                              //   context.read<IklanBloc>().add(
+                              //         IklanGetAllBuyer(userId),
+                              //       );
+                              //   print("ID : ${getAdvertisementId}");
+                              //   Navigator.pushNamed(
+                              //       context, DetailIklanPage.routeName,
+                              //       arguments: getAdvertisementId);
+                              // }
                             },
                             builder: (context, state) {
                               if (state is IklanLoading) {
@@ -159,6 +162,7 @@ class _IklanPageState extends State<IklanPage> {
                                   itemBuilder: (context, index) {
                                     var iklan = state.iklanBuyer!.data[index];
 
+                                    getAdvertisementId = iklan.id;
                                     String iklanDate = iklan.endDate;
                                     final iklanDateConv =
                                         iklanDate.indexOf("2023", 0);
@@ -172,8 +176,10 @@ class _IklanPageState extends State<IklanPage> {
                                       endDate: iklan.endDate
                                           .substring(0, iklanDateConv),
                                       onTap: () {
-                                        Navigator.pushNamed(
-                                            context, DetailIklanPage.routeName);
+                                        
+                                      Navigator.push(context, MaterialPageRoute(builder:(context) {
+                                        return DetailIklanPage(advertisementId: iklan.id,);
+                                      },));
                                         // context
                                         //     .read<IklanBloc>()
                                         //     .add(IklanGetDetailBuyer(iklan.id));
