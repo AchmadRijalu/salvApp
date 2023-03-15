@@ -23,4 +23,20 @@ class TransaksiService {
       rethrow;
     }
   }
+
+  Future<TransaksiSeller> getTransaksiBuyer(dynamic user) async {
+    try {
+      final response = await http.get(
+        Uri.parse("${baseUrlSalv}buyer-transaction/index/${user}"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': await AuthService().getToken(),
+        },
+      );
+      print(response.body);
+      return TransaksiSeller.fromJson(json.decode(response.body));
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

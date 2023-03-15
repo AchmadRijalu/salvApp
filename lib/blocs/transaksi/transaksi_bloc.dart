@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:salv/models/transaksi_buyer_model.dart';
 import 'package:salv/models/transaksi_seller_model.dart';
 import 'package:salv/models/user_model.dart';
 import 'package:salv/services/transaksi_services.dart';
@@ -24,7 +25,17 @@ class TransaksiBloc extends Bloc<TransaksiEvent, TransaksiState> {
         }
       }
 
-      if (event is TransaksiGetAllBuyer) {}
+      if (event is TransaksiGetAllBuyer) {
+        try {
+          emit(TransaksiLoading());
+          final transaksi =
+              await TransaksiService().getTransaksiBuyer(event.userdata!);
+          emit(TransaksiSellerGetSuccess(transaksi));
+        } catch (e) {
+          print(e.toString());
+          emit(TransaksiFailed(e.toString()));
+        }
+      }
       if (event is TransaksiGetDetailSeller) {}
       if (event is TransaksiGetDetailBuyer) {}
     });
