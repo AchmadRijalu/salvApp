@@ -7,7 +7,7 @@ import 'package:salv/models/transaksi_seller_model.dart';
 import 'package:salv/models/user_model.dart';
 import 'package:salv/services/transaksi_services.dart';
 
-import '../../models/transaksi_model.dart';
+// import 'package:salv/models/transaksi_model.dart';
 
 part 'transaksi_event.dart';
 part 'transaksi_state.dart';
