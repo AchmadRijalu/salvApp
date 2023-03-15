@@ -1,15 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:salv/UI/widgets/buttons.dart';
+import 'package:salv/blocs/auth/auth_bloc.dart';
 import 'package:salv/common/common.dart';
 import 'package:salv/models/user_model.dart';
 
-class DetailPenawaranPage extends StatelessWidget {
+class DetailPenawaranPage extends StatefulWidget {
   static const routeName = '/detailpenawaran';
   const DetailPenawaranPage({super.key});
+
+  @override
+  State<DetailPenawaranPage> createState() => _DetailPenawaranPageState();
+}
+
+class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
+  dynamic userId;
+  dynamic userType;
+  @override
+  void initState() {
+    super.initState();
+
+    final authState = context.read<AuthBloc>().state;
+
+    if (authState is AuthSuccess) {
+      userType = authState.user!.type;
+      userId = authState.user!.id;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
