@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:salv/models/transaksi_buyer_model.dart';
 
 import '../models/transaksi_seller_model.dart';
 import '../models/user_model.dart';
@@ -24,7 +25,7 @@ class TransaksiService {
     }
   }
 
-  Future<TransaksiSeller> getTransaksiBuyer(dynamic user) async {
+  Future<TransaksiBuyer> getTransaksiBuyer(dynamic user) async {
     try {
       final response = await http.get(
         Uri.parse("${baseUrlSalv}buyer-transaction/index/${user}"),
@@ -34,7 +35,7 @@ class TransaksiService {
         },
       );
       print(response.body);
-      return TransaksiSeller.fromJson(json.decode(response.body));
+      return TransaksiBuyer.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;
     }

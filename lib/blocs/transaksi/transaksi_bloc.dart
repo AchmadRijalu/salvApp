@@ -30,7 +30,7 @@ class TransaksiBloc extends Bloc<TransaksiEvent, TransaksiState> {
           emit(TransaksiLoading());
           final transaksi =
               await TransaksiService().getTransaksiBuyer(event.userdata!);
-          emit(TransaksiSellerGetSuccess(transaksi));
+          emit(TransaksiBuyerGetSuccess(transaksi));
         } catch (e) {
           print(e.toString());
           emit(TransaksiFailed(e.toString()));
