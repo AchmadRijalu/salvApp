@@ -37,75 +37,95 @@ class _PenawaranPageState extends State<PenawaranPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: userType == "buyer"
-              ? BlocProvider(
-                  create: (context) =>
-                      TransaksiBloc()..add(TransaksiGetAllBuyer(userId)),
-                  child: Container(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const SizedBox(
-                            height: 40,
-                          ),
-                          Row(children: [
-                            Image.asset('assets/image/logo-png.png')
-                          ]),
-                          const SizedBox(
-                            height: 14,
-                          ),
-                          Expanded(
-                              child: Container(
-                            child: SingleChildScrollView(
-                                child: Column(children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    "Riwayat Penawaran",
-                                    style: blackTextStyle.copyWith(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Yuk lihat penawaran Anda! Tolak Terima \nlebih gampang daripada ditolak melulu",
-                                    style: greyTextStyle.copyWith(fontSize: 12),
-                                  )
-                                ],
-                              ),
-                              Text("daa")
-                              // ListView(
-                              //   shrinkWrap: true,
-                              //   physics: NeverScrollableScrollPhysics(),
-                              //   children: [
-                              //     ListPenawaran(
-                              //       gambar: "assets/image/image_profilepng.png",
-                              //       namaLimbah: "Butuh Wortel Busuk",
-                              //       beratLimbah: 50,
-                              //       statusPenawaran: "Sedang Berlangsung",
-                              //       tanggal: "14/04/23",
-                              //       username: 'Mimi Jinhiro',
-                              //       onTap: () {
-                              //         Navigator.pushNamed(
-                              //             context, DetailPenawaranPage.routeName);
-                              //       },
-                              //     ),
-                              //   ],
-                              // )
-                            ])),
-                          )
-                          )
-                        ]),
-                  ),
-                )
-              : Container()),
+        padding: const EdgeInsets.symmetric(horizontal: 40),
+        child: Container(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            const SizedBox(
+              height: 40,
+            ),
+            Row(children: [Image.asset('assets/image/logo-png.png')]),
+            const SizedBox(
+              height: 14,
+            ),
+            Expanded(
+                child: Container(
+              child: SingleChildScrollView(
+                  child: Column(children: [
+                Row(
+                  children: [
+                    Text(
+                      "Riwayat Penawaran",
+                      style: blackTextStyle.copyWith(
+                          fontSize: 20, fontWeight: FontWeight.w700),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 14,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Yuk lihat penawaran Anda! Tolak Terima \nlebih gampang daripada ditolak melulu",
+                      style: greyTextStyle.copyWith(fontSize: 12),
+                    )
+                  ],
+                ),
+                //TODO: UI for buyers
+                if (userType == "buyer") ...[
+                  BlocProvider(
+                    create: (context) => TransaksiBloc(),
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        ListPenawaran(
+                          gambar: "assets/image/image_profilepng.png",
+                          namaLimbah: "Butuh Wortel Busuk",
+                          beratLimbah: 50,
+                          statusPenawaran: "Sedang Berlangsung",
+                          tanggal: "14/04/23",
+                          username: 'Mimi Jinhiro',
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, DetailPenawaranPage.routeName);
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                ]
+
+                //TODO: UI for sellers
+                else if (userType == "seller") ...[
+                  BlocProvider(
+                    create: (context) => TransaksiBloc(),
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        ListPenawaran(
+                          gambar: "assets/image/image_profilepng.png",
+                          namaLimbah: "Butuh Wortel Busuk",
+                          beratLimbah: 50,
+                          statusPenawaran: "Sedang Berlangsung",
+                          tanggal: "14/04/23",
+                          username: 'Mimi Jinhiro',
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, DetailPenawaranPage.routeName);
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                ]
+              ])),
+            ))
+          ]),
+        ),
+      ),
     );
   }
 }
