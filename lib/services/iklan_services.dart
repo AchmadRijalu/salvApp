@@ -5,6 +5,7 @@ import 'package:salv/blocs/iklan/iklan_bloc.dart';
 import 'package:salv/models/iklan_add_model.dart';
 import 'package:salv/models/iklan_form_model.dart';
 import 'package:salv/models/iklan_buyer_detail_model.dart';
+import 'package:salv/models/iklan_seller_detail_model.dart';
 import 'package:salv/models/pembeli_iklan_model.dart';
 import 'package:salv/models/penjual_iklan_model.dart';
 import 'package:salv/models/user_model.dart';
@@ -13,6 +14,7 @@ import '../shared/shared_values.dart';
 import 'auth_services.dart';
 
 class IklanService {
+  //SELLER SIDE
   Future<IklanSeller> getIklanSeller() async {
     try {
       final response = await http.get(
@@ -22,8 +24,24 @@ class IklanService {
           'Authorization': await AuthService().getToken(),
         },
       );
-      print(response.body);
+
       return IklanSeller.fromJson(json.decode(response.body));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<IklanSellerDetail> getIklanSellerDetail(dynamic id) async {
+    try {
+      final response = await http.get(
+        Uri.parse("${baseUrlSalv}seller-advertisement/${id}"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': await AuthService().getToken(),
+        },
+      );
+
+      return IklanSellerDetail.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;
     }
@@ -56,7 +74,6 @@ class IklanService {
           'Authorization': await AuthService().getToken(),
         },
       );
-      print("PRINT : ${response.body}");
 
       return IklanBuyerDetail.fromJson(json.decode(response.body));
     } catch (e) {

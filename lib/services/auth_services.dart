@@ -53,7 +53,9 @@ class AuthService {
           throw "Username/Password Salah";
         } else {
           final user = Userdata.fromJson(jsonDecode(response.body)['data']);
-          print(user.id);
+          print("USER : ${user.id}");
+          print("Type : ${user.type}");
+          print("TOKEN : ${user.token}");
           await storeCredentialToLocal(user);
 
           return user;
@@ -94,7 +96,6 @@ class AuthService {
       await storage.write(key: 'username', value: user.username);
       await storage.write(key: 'password', value: user.password);
       await storage.write(key: 'type', value: user.type);
-      print(storage.read(key: 'token'));
     } catch (e) {
       rethrow;
     }

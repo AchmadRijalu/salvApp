@@ -43,7 +43,7 @@ class _IklanPageState extends State<IklanPage> {
       userType = authState.user!.type;
       userId = authState.user!.id;
 
-      print(authState.user!.token);
+      // print(authState.user!.token);
     }
   }
 
@@ -105,11 +105,22 @@ class _IklanPageState extends State<IklanPage> {
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) {
                                     var iklan = state.iklanSeller!.data[index];
+                                    getAdvertisementId = iklan.id;
                                     return ListIklan(
                                       title: iklan.title,
                                       onTap: () {
-                                        Navigator.pushNamed(
-                                            context, DetailIklanPage.routeName);
+                                        print(getAdvertisementId);
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return DetailIklanPage(
+                                              advertisementId: iklan.id,
+                                              iklanProgress:
+                                                  (iklan.ongoingWeight /
+                                                      iklan.requestedWeight),
+                                            );
+                                          },
+                                        ));
                                       },
                                     );
                                   },
@@ -133,9 +144,7 @@ class _IklanPageState extends State<IklanPage> {
                           create: (context) =>
                               IklanBloc()..add(IklanGetAllBuyer(userId)),
                           child: BlocConsumer<IklanBloc, IklanState>(
-                            listener: (context, state) {
-                              
-                            },
+                            listener: (context, state) {},
                             builder: (context, state) {
                               if (state is IklanLoading) {
                                 return Container(

@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../models/transaksi_model.dart';
+
 part 'transaksi_event.dart';
 part 'transaksi_state.dart';
 

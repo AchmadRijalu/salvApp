@@ -17,6 +17,12 @@ class IklanGetSuccess extends IklanState {
   const IklanGetSuccess(this.iklanSeller);
   List<Object> get props => [iklanSeller!];
 }
+class IklanSellerGetDetailSuccess extends IklanState{
+  final IklanSellerDetail? iklanSellerDetail;
+
+  const IklanSellerGetDetailSuccess(this.iklanSellerDetail);
+  List<Object> get props => [iklanSellerDetail!];
+}
 
 
 //BUYER SIDE
