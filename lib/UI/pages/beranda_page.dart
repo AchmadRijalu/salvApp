@@ -32,7 +32,7 @@ class BerandaPage extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "Wah, limbah makanan \nmana yang paling sering Anda jual? \nYuk lihat-lihat!",
+                        "Wah, limbah makanan \nmana yang paling sering \nAnda jual?  Yuk lihat-lihat!",
                         style: blackTextStyle.copyWith(
                             fontSize: 20, fontWeight: FontWeight.w700),
                       )

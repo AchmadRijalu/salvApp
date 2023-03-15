@@ -15,7 +15,8 @@ import '../../shared/shared_methods.dart';
 
 class DetailIklanPage extends StatefulWidget {
   final String? advertisementId;
-  DetailIklanPage({super.key, this.advertisementId});
+  final dynamic? iklanProgress;
+  DetailIklanPage({super.key, this.advertisementId, this.iklanProgress});
   static const routeName = '/detailiklan';
 
   @override
@@ -42,7 +43,9 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Detail Iklan")),
-      body: BlocProvider(
+      body: 
+      userType == "buyer" ?
+      BlocProvider(
         create: (context) =>
             IklanBloc()..add(IklanGetDetailBuyer(widget.advertisementId)),
         child: BlocConsumer<IklanBloc, IklanState>(
@@ -51,9 +54,9 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
             if (state is IklanFailed) {
               showCustomSnacKbar(context, state.e);
             }
-            if (state is IklanBuyerGetDetailSuccess) {
-             print("iklan get success");
-            }
+            // if (state is IklanBuyerGetDetailSuccess) {
+             
+            // }
           },
           builder: (context, state) {
             if (state is IklanBuyerGetDetailSuccess) {
@@ -316,7 +319,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                 style: whiteTextStyle,
                                               ),
                                               Text(
-                                                "Butuh Wortel Busuk",
+                                                "${state.iklanBuyerDetail!.data.minimumWeight.toString()} kg",
                                                 style: whiteTextStyle.copyWith(
                                                     fontWeight:
                                                         FontWeight.w600),
@@ -341,7 +344,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                 style: whiteTextStyle,
                                               ),
                                               Text(
-                                                "Sayur-Sayuran",
+                                                 "${state.iklanBuyerDetail!.data.maximumWeight.toString()} kg",
                                                 style: whiteTextStyle.copyWith(
                                                     fontWeight:
                                                         FontWeight.w600),
@@ -366,7 +369,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                 style: whiteTextStyle,
                                               ),
                                               Text(
-                                                "Diantar",
+                                                 "${state.iklanBuyerDetail!.data.price.toString()},- / Kilogram",
                                                 style: whiteTextStyle.copyWith(
                                                     fontWeight:
                                                         FontWeight.w600),
@@ -451,14 +454,14 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                   left: 9),
                                               child: LinearPercentIndicator(
                                                 trailing: Text(
-                                                  "350kG",
+                                                  "${state.iklanBuyerDetail!.data.maximumWeight.toString()} Kg",
                                                   style:
                                                       whiteTextStyle.copyWith(
                                                           fontWeight: semiBold,
                                                           fontSize: 15),
                                                 ),
                                                 lineHeight: 11,
-                                                percent: 0.5,
+                                                percent: widget.iklanProgress,
                                                 animation: true,
                                                 progressColor: blueColor,
                                                 backgroundColor: greyColor,
@@ -509,7 +512,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
             return Container();
           },
         ),
-      ),
+      ) : Text("Ini seller")
     );
   }
 }

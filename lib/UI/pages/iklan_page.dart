@@ -134,15 +134,7 @@ class _IklanPageState extends State<IklanPage> {
                               IklanBloc()..add(IklanGetAllBuyer(userId)),
                           child: BlocConsumer<IklanBloc, IklanState>(
                             listener: (context, state) {
-                              // if (state is IklanBuyerGetDetailSuccess) {
-                              //   context.read<IklanBloc>().add(
-                              //         IklanGetAllBuyer(userId),
-                              //       );
-                              //   print("ID : ${getAdvertisementId}");
-                              //   Navigator.pushNamed(
-                              //       context, DetailIklanPage.routeName,
-                              //       arguments: getAdvertisementId);
-                              // }
+                              
                             },
                             builder: (context, state) {
                               if (state is IklanLoading) {
@@ -176,10 +168,17 @@ class _IklanPageState extends State<IklanPage> {
                                       endDate: iklan.endDate
                                           .substring(0, iklanDateConv),
                                       onTap: () {
-                                        
-                                      Navigator.push(context, MaterialPageRoute(builder:(context) {
-                                        return DetailIklanPage(advertisementId: iklan.id,);
-                                      },));
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return DetailIklanPage(
+                                              advertisementId: iklan.id,
+                                              iklanProgress:
+                                                  iklan.ongoingWeight /
+                                                      iklan.requestedWeight,
+                                            );
+                                          },
+                                        ));
                                         // context
                                         //     .read<IklanBloc>()
                                         //     .add(IklanGetDetailBuyer(iklan.id));
