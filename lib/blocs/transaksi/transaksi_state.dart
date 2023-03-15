@@ -11,10 +11,16 @@ class TransaksiInitial extends TransaksiState {}
 
 class TransaksiLoading extends TransaksiState {}
 
-class TransaksiGetSuccess extends TransaksiState {
-  final Transaksi? transaksi;
-  const TransaksiGetSuccess(this.transaksi);
-  List<Object> get props => [transaksi!];
+class TransaksiSellerGetSuccess extends TransaksiState {
+  final TransaksiSeller? transaksiSeller;
+  const TransaksiSellerGetSuccess(this.transaksiSeller);
+  List<Object> get props => [transaksiSeller!];
+}
+
+class TransaksiBuyerGetSuccess extends TransaksiState {
+  final TransaksiBuyer? transaksiBuyer;
+  const TransaksiBuyerGetSuccess(this.transaksiBuyer);
+  List<Object> get props => [transaksiBuyer!];
 }
 
 class TransaksiFailed extends TransaksiState {
