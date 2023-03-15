@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salv/UI/pages/detail_iklan_page.dart';
 import 'package:salv/UI/pages/detail_penawaran_page.dart';
 import 'package:salv/UI/widgets/list_penawaran_widget.dart';
+import 'package:salv/blocs/iklan/iklan_bloc.dart';
 import 'package:salv/blocs/transaksi/transaksi_bloc.dart';
 import 'package:salv/common/common.dart';
 
@@ -75,24 +76,28 @@ class _PenawaranPageState extends State<PenawaranPage> {
                 //TODO: UI for buyers
                 if (userType == "buyer") ...[
                   BlocProvider(
-                    create: (context) => TransaksiBloc(),
-                    child: ListView(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      children: [
-                        ListPenawaran(
-                          gambar: "assets/image/image_profilepng.png",
-                          namaLimbah: "Butuh Wortel Busuk",
-                          beratLimbah: 50,
-                          statusPenawaran: "Sedang Berlangsung",
-                          tanggal: "14/04/23",
-                          username: 'Mimi Jinhiro',
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, DetailPenawaranPage.routeName);
-                          },
-                        ),
-                      ],
+                    create: (context) =>
+                        TransaksiBloc()..add(TransaksiGetAllBuyer(userId)),
+                    child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                      builder: (context, state) {
+                        if (state is TransaksiLoading) {}
+                        if (state is TransaksiBuyerGetSuccess) {
+                          return ListPenawaran(
+                            gambar: "assets/image/image_profilepng.png",
+                            namaLimbah: "Butuh Wortel Busuk",
+                            beratLimbah: 50,
+                            statusPenawaran: "Sedang Berlangsung",
+                            tanggal: "14/04/23",
+                            username: 'Buyer Jinhiro',
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, DetailPenawaranPage.routeName);
+                            },
+                          );
+                        }
+                        if (state is TransaksiFailed) {}
+                        return Container();
+                      },
                     ),
                   )
                 ]
@@ -100,24 +105,49 @@ class _PenawaranPageState extends State<PenawaranPage> {
                 //TODO: UI for sellers
                 else if (userType == "seller") ...[
                   BlocProvider(
-                    create: (context) => TransaksiBloc(),
-                    child: ListView(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      children: [
-                        ListPenawaran(
-                          gambar: "assets/image/image_profilepng.png",
-                          namaLimbah: "Butuh Wortel Busuk",
-                          beratLimbah: 50,
-                          statusPenawaran: "Sedang Berlangsung",
-                          tanggal: "14/04/23",
-                          username: 'Mimi Jinhiro',
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, DetailPenawaranPage.routeName);
-                          },
-                        ),
-                      ],
+                    create: (context) =>
+                        TransaksiBloc()..add(TransaksiGetAllSeller(userId)),
+                    child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                      builder: (context, state) {
+                        if (state is TransaksiLoading) {
+                          return Container(
+                              margin: const EdgeInsets.only(top: 40),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                    color: greenColor),
+                              ));
+                        }
+                        if (state is TransaksiSellerGetSuccess) {
+                          return ListView(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            children: [
+                              ListPenawaran(
+                                gambar: "assets/image/image_profilepng.png",
+                                namaLimbah: "Butuh Wortel Busuk",
+                                beratLimbah: 50,
+                                statusPenawaran: "Sedang Berlangsung",
+                                tanggal: "14/04/23",
+                                username: 'Mimi Jinhiro',
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, DetailPenawaranPage.routeName);
+                                },
+                              ),
+                            ],
+                          );
+                        }
+                        if (state is TransaksiFailed) {
+                          return Center(
+                            child: Text(
+                              "Terjadi Kesalahan :(",
+                              style: blackTextStyle.copyWith(
+                                  fontSize: 16, fontWeight: semiBold),
+                            ),
+                          );
+                        }
+                        return Container();
+                      },
                     ),
                   )
                 ]
