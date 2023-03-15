@@ -20,13 +20,13 @@ class TransaksiGetAllBuyer extends TransaksiEvent {
 }
 
 class TransaksiGetDetailSeller extends TransaksiEvent {
-  late String? userdata;
-  TransaksiGetDetailSeller(this.userdata);
-  List<Object> get props => [userdata!];
+  late String? transaksidata;
+  TransaksiGetDetailSeller(this.transaksidata);
+  List<Object> get props => [transaksidata!];
 }
 
 class TransaksiGetDetailBuyer extends TransaksiEvent {
-  late String? userdata;
-  TransaksiGetDetailBuyer(this.userdata);
-  List<Object> get props => [userdata!];
+  late String? transaksidata;
+  TransaksiGetDetailBuyer(this.transaksidata);
+  List<Object> get props => [transaksidata!];
 }

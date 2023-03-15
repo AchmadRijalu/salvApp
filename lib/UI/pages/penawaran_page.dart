@@ -112,8 +112,12 @@ class _PenawaranPageState extends State<PenawaranPage> {
                                   tanggal: transaksi.createdAt.substring(4, 16),
                                   username: transaksi.mahasiswa,
                                   onTap: () {
-                                    Navigator.pushNamed(
-                                        context, DetailPenawaranPage.routeName);
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return DetailPenawaranPage(
+                                        transactionId: transaksi.id,
+                                      );
+                                    }));
                                   },
                                 );
                               });
@@ -172,8 +176,12 @@ class _PenawaranPageState extends State<PenawaranPage> {
                                   tanggal: transaksi.createdAt.substring(4, 16),
                                   username: transaksi.pabrik,
                                   onTap: () {
-                                    Navigator.pushNamed(
-                                        context, DetailPenawaranPage.routeName);
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return DetailPenawaranPage(
+                                        transactionId: transaksi.id,
+                                      );
+                                    }));
                                   },
                                 );
                               });
