@@ -7,8 +7,8 @@ import '../models/user_model.dart';
 import '../shared/shared_values.dart';
 import 'auth_services.dart';
 
-class TransaksiService{
-  Future<Transaksi> getAllTransaksi(User user) async{
+class TransaksiService {
+  Future<Transaksi> getSellerTransaksi(User user) async {
     try {
       final response = await http.get(
         Uri.parse("${baseUrlSalv}seller-transaction/index/${user}"),
