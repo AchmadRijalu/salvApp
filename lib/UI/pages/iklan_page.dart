@@ -107,13 +107,19 @@ class _IklanPageState extends State<IklanPage> {
                                     var iklan = state.iklanSeller!.data[index];
                                     getAdvertisementId = iklan.id;
                                     return ListIklan(
+
+                                      progressBarIndicator: iklan.ongoingWeight / iklan.requestedWeight,
                                       title: iklan.title,
+                                      price: iklan.price,
+                                      onGoingWeight: iklan.ongoingWeight,
+                                      requestedWeight: iklan.requestedWeight,
                                       onTap: () {
-                                        print(getAdvertisementId);
+                                        
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                           builder: (context) {
                                             return DetailIklanPage(
+                                              maxProgress: iklan.requestedWeight,
                                               advertisementId: iklan.id,
                                               iklanProgress:
                                                   (iklan.ongoingWeight /
@@ -176,6 +182,7 @@ class _IklanPageState extends State<IklanPage> {
                                       requested_weight: iklan.requestedWeight,
                                       endDate: iklan.endDate
                                           .substring(0, iklanDateConv),
+                                      
                                       onTap: () {
                                         Navigator.push(context,
                                             MaterialPageRoute(

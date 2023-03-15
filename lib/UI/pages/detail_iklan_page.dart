@@ -16,7 +16,8 @@ import '../../shared/shared_methods.dart';
 class DetailIklanPage extends StatefulWidget {
   final String? advertisementId;
   final dynamic? iklanProgress;
-  DetailIklanPage({super.key, this.advertisementId, this.iklanProgress});
+  final dynamic maxProgress;
+  DetailIklanPage({super.key, this.advertisementId, this.iklanProgress, this.maxProgress});
   static const routeName = '/detailiklan';
 
   @override
@@ -36,6 +37,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
     if (authState is AuthSuccess) {
       userType = authState.user!.type;
       userId = authState.user!.id;
+      print(" ADS ID:${widget.advertisementId}");
     }
   }
 
@@ -496,7 +498,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              "${state.iklanSellerDetail!.data.ongoingWeight.toString()} / ${state.iklanSellerDetail!.data.maximumWeight.toString()}",
+                                              "${state.iklanSellerDetail!.data.ongoingWeight.toString()} / ${widget.maxProgress}",
                                               style: blueTextStyle.copyWith(
                                                   fontSize: 48,
                                                   fontWeight: FontWeight.w700),
@@ -559,7 +561,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                     fontSize: 16),
                                               ),
                                               Text(
-                                                "450Kg",
+                                                "${widget.maxProgress}Kg",
                                                 style: blueTextStyle.copyWith(
                                                     fontSize: 16),
                                               )

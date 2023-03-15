@@ -6,10 +6,17 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:salv/common/common.dart';
 
 class ListIklan extends StatelessWidget {
+  dynamic onGoingWeight;
+  dynamic requestedWeight;
+  
+   dynamic? progressBarIndicator;
+  dynamic price;
   String? title;
+  String? category;
+  String? enddate;
 
   final VoidCallback? onTap;
-  ListIklan({super.key, this.title, this.onTap});
+  ListIklan({super.key, this.title, this.onTap, this.category, this.enddate, this.onGoingWeight, this.price, this.requestedWeight, this.progressBarIndicator});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +74,7 @@ class ListIklan extends StatelessWidget {
                                           child: Row(
                                         children: [
                                           Text(
-                                            "+Rp. 20.000/kg",
+                                            "+Rp. ${price}/kg",
                                             style: whiteTextStyle.copyWith(
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 10),
@@ -84,7 +91,7 @@ class ListIklan extends StatelessWidget {
                                               style: whiteTextStyle.copyWith(
                                                   fontSize: 10),
                                             ),
-                                            Text("242",
+                                            Text("${onGoingWeight}",
                                                 style: whiteTextStyle.copyWith(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 10)),
@@ -93,7 +100,7 @@ class ListIklan extends StatelessWidget {
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 10)),
                                             Text(
-                                              "/ 350 kg ",
+                                              "/ ${requestedWeight} kg ",
                                               style: whiteTextStyle.copyWith(
                                                   fontSize: 10),
                                             ),
@@ -130,7 +137,7 @@ class ListIklan extends StatelessWidget {
                     margin: const EdgeInsets.only(left: 9),
                     child: LinearPercentIndicator(
                       lineHeight: 27,
-                      percent: 0.5,
+                      percent: onGoingWeight/requestedWeight,
                       animation: true,
                       progressColor: blueColor,
                       backgroundColor: greyColor,
@@ -148,7 +155,7 @@ class ListIklan extends StatelessWidget {
                           style: whiteTextStyle.copyWith(fontSize: 16),
                         ),
                         Text(
-                          "450Kg",
+                          "${requestedWeight}",
                           style: whiteTextStyle.copyWith(fontSize: 16),
                         )
                       ],
