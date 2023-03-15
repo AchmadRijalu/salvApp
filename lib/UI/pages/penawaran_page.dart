@@ -1,14 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salv/UI/pages/detail_iklan_page.dart';
 import 'package:salv/UI/pages/detail_penawaran_page.dart';
 import 'package:salv/UI/widgets/list_penawaran_widget.dart';
+import 'package:salv/blocs/iklan/iklan_bloc.dart';
+import 'package:salv/blocs/transaksi/transaksi_bloc.dart';
 import 'package:salv/common/common.dart';
 
-class PenawaranPage extends StatelessWidget {
+import '../../blocs/auth/auth_bloc.dart';
+
+class PenawaranPage extends StatefulWidget {
   static const routeName = '/penawaran';
   const PenawaranPage({super.key});
+
+  @override
+  State<PenawaranPage> createState() => _PenawaranPageState();
+}
+
+class _PenawaranPageState extends State<PenawaranPage> {
+  dynamic userId;
+  dynamic userType;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final authState = context.read<AuthBloc>().state;
+
+    if (authState is AuthSuccess) {
+      userType = authState.user!.type;
+      userId = authState.user!.id;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,24 +73,133 @@ class PenawaranPage extends StatelessWidget {
                     )
                   ],
                 ),
-                ListView(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: [
-                    ListPenawaran(
-                      gambar: "assets/image/image_profilepng.png",
-                      namaLimbah: "Butuh Wortel Busuk",
-                      beratLimbah: 50,
-                      statusPenawaran: "Sedang Berlangsung",
-                      tanggal: "14/04/23",
-                      username: 'Mimi Jinhiro',
-                      onTap: () {
-                        Navigator.pushNamed(
-                            context, DetailPenawaranPage.routeName);
+                //TODO: UI for buyers
+                if (userType == "buyer") ...[
+                  BlocProvider(
+                    create: (context) =>
+                        TransaksiBloc()..add(TransaksiGetAllBuyer(userId)),
+                    child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                      builder: (context, state) {
+                        if (state is TransaksiLoading) {
+                          return Container(
+                              margin: const EdgeInsets.only(top: 40),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                    color: greenColor),
+                              ));
+                        }
+                        if (state is TransaksiBuyerGetSuccess) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: state.transaksiBuyer!.data.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                var transaksi =
+                                    state.transaksiBuyer!.data[index];
+                                return ListPenawaran(
+                                  gambar: "assets/image/image_profilepng.png",
+                                  namaLimbah: transaksi.title,
+                                  beratLimbah: "+${transaksi.weight} kg",
+                                  statusPenawaran: transaksi.status == 0
+                                      ? "Respon"
+                                      : transaksi.status == 1
+                                          ? "Diterima"
+                                          : transaksi.status == 2
+                                              ? "Konfirmasi"
+                                              : transaksi.status == 3
+                                                  ? "Dibatalkan"
+                                                  : "Ditolak",
+                                  tanggal: transaksi.createdAt.substring(4, 16),
+                                  username: transaksi.mahasiswa,
+                                  onTap: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return DetailPenawaranPage(
+                                        transactionId: transaksi.id,
+                                      );
+                                    }));
+                                  },
+                                );
+                              });
+                        }
+                        if (state is TransaksiFailed) {
+                          return Center(
+                            child: Text(
+                              "Terjadi Kesalahan :(",
+                              style: blackTextStyle.copyWith(
+                                  fontSize: 16, fontWeight: semiBold),
+                            ),
+                          );
+                        }
+                        return Container();
                       },
                     ),
-                  ],
-                )
+                  )
+                ]
+
+                //TODO: UI for sellers
+                else if (userType == "seller") ...[
+                  BlocProvider(
+                    create: (context) =>
+                        TransaksiBloc()..add(TransaksiGetAllSeller(userId)),
+                    child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                      builder: (context, state) {
+                        if (state is TransaksiLoading) {
+                          return Container(
+                              margin: const EdgeInsets.only(top: 40),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                    color: greenColor),
+                              ));
+                        }
+                        if (state is TransaksiSellerGetSuccess) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: state.transaksiSeller!.data.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (content, index) {
+                                var transaksi =
+                                    state.transaksiSeller!.data[index];
+                                return ListPenawaran(
+                                  gambar: "assets/image/image_profilepng.png",
+                                  namaLimbah: transaksi.title,
+                                  beratLimbah: "+ Rp.${transaksi.totalPrice}",
+                                  statusPenawaran: transaksi.status == 0
+                                      ? "Menunggu Pembeli"
+                                      : transaksi.status == 1
+                                          ? "Berhasil"
+                                          : transaksi.status == 2
+                                              ? "Sedang Berlangsung"
+                                              : transaksi.status == 3
+                                                  ? "Dibatalkan"
+                                                  : "Ditolak",
+                                  tanggal: transaksi.createdAt.substring(4, 16),
+                                  username: transaksi.pabrik,
+                                  onTap: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return DetailPenawaranPage(
+                                        transactionId: transaksi.id,
+                                      );
+                                    }));
+                                  },
+                                );
+                              });
+                        }
+                        if (state is TransaksiFailed) {
+                          return Center(
+                            child: Text(
+                              "Terjadi Kesalahan :(",
+                              style: blackTextStyle.copyWith(
+                                  fontSize: 16, fontWeight: semiBold),
+                            ),
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
+                  )
+                ]
               ])),
             ))
           ]),

@@ -1,30 +1,30 @@
 // To parse this JSON data, do
 //
-//     final transactionSeller = transactionSellerFromJson(jsonString);
+//     final transaksiSeller = transaksiSellerFromJson(jsonString);
 
 import 'dart:convert';
 
-TransactionSeller transactionSellerFromJson(String str) =>
-    TransactionSeller.fromJson(json.decode(str));
+TransaksiSeller transaksiSellerFromJson(String str) =>
+    TransaksiSeller.fromJson(json.decode(str));
 
-String transactionSellerToJson(TransactionSeller data) =>
+String transaksiSellerToJson(TransaksiSeller data) =>
     json.encode(data.toJson());
 
-class TransactionSeller {
-  TransactionSeller({
+class TransaksiSeller {
+  TransaksiSeller({
     required this.data,
     required this.message,
     required this.statusCode,
   });
 
-  List<TransactionSellerData> data;
+  List<TransaksiSellerData> data;
   String message;
   int statusCode;
 
-  factory TransactionSeller.fromJson(Map<String, dynamic> json) =>
-      TransactionSeller(
-        data: List<TransactionSellerData>.from(
-            json["data"].map((x) => TransactionSellerData.fromJson(x))),
+  factory TransaksiSeller.fromJson(Map<String, dynamic> json) =>
+      TransaksiSeller(
+        data: List<TransaksiSellerData>.from(
+            json["data"].map((x) => TransaksiSellerData.fromJson(x))),
         message: json["message"],
         statusCode: json["status_code"],
       );
@@ -36,8 +36,8 @@ class TransactionSeller {
       };
 }
 
-class TransactionSellerData {
-  TransactionSellerData({
+class TransaksiSellerData {
+  TransaksiSellerData({
     required this.createdAt,
     required this.id,
     required this.pabrik,
@@ -53,8 +53,8 @@ class TransactionSellerData {
   String title;
   int totalPrice;
 
-  factory TransactionSellerData.fromJson(Map<String, dynamic> json) =>
-      TransactionSellerData(
+  factory TransaksiSellerData.fromJson(Map<String, dynamic> json) =>
+      TransaksiSellerData(
         createdAt: json["created_at"],
         id: json["id"],
         pabrik: json["pabrik"],
@@ -66,9 +66,29 @@ class TransactionSellerData {
   Map<String, dynamic> toJson() => {
         "created_at": createdAt,
         "id": id,
-        "pabrik": pabrik,
+        "pabrik": pabrikValues.reverse[pabrik],
         "status": status,
         "title": title,
         "total_price": totalPrice,
       };
+}
+
+enum Pabrik { JON_MEDINA, JAMES_MARSH, ACHMAD_RIJALU }
+
+final pabrikValues = EnumValues({
+  "Achmad Rijalu": Pabrik.ACHMAD_RIJALU,
+  "James Marsh": Pabrik.JAMES_MARSH,
+  "Jon Medina": Pabrik.JON_MEDINA
+});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
+  }
 }

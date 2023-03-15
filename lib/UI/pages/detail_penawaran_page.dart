@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:salv/UI/widgets/buttons.dart';
+import 'package:salv/blocs/auth/auth_bloc.dart';
+import 'package:salv/blocs/transaksi/transaksi_bloc.dart';
 import 'package:salv/common/common.dart';
 import 'package:salv/models/user_model.dart';
 
-class DetailPenawaranPage extends StatelessWidget {
+class DetailPenawaranPage extends StatefulWidget {
+  final String? transactionId;
   static const routeName = '/detailpenawaran';
-  const DetailPenawaranPage({super.key});
+  const DetailPenawaranPage({super.key, this.transactionId});
+
+  @override
+  State<DetailPenawaranPage> createState() => _DetailPenawaranPageState();
+}
+
+class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
+  dynamic userId;
+  dynamic userType;
+  @override
+  void initState() {
+    super.initState();
+
+    final authState = context.read<AuthBloc>().state;
+
+    if (authState is AuthSuccess) {
+      userType = authState.user!.type;
+      userId = authState.user!.id;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,50 +67,187 @@ class DetailPenawaranPage extends StatelessWidget {
                                           Text("Sisa Limbah yang Dibutuhkan")
                                         ]),
                                   )),
-                                  Expanded(
-                                      flex: 2,
-                                      child: Container(
-                                        child: Row(children: [
-                                          Flexible(
-                                            child: Text(
-                                              "287",
-                                              style: blueTextStyle.copyWith(
-                                                  fontSize: 48,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ),
-                                          Expanded(
-                                              child: Container(
-                                            child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            bottom: 12),
-                                                    child: Row(
-                                                      children: [
-                                                        Text("dari"),
-                                                        const SizedBox(
-                                                          width: 2,
-                                                        ),
-                                                        Text(
-                                                          "350 Kg",
-                                                          style: blueTextStyle
-                                                              .copyWith(
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700),
-                                                        )
-                                                      ],
+                                  if (userType == "buyer") ...[
+                                    BlocProvider(
+                                      create: (context) => TransaksiBloc()
+                                        ..add(TransaksiGetDetailBuyer(
+                                            widget.transactionId)),
+                                      child: BlocBuilder<TransaksiBloc,
+                                          TransaksiState>(
+                                        builder: (context, state) {
+                                          if (state is DetailTransaksiLoading) {
+                                            return Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 40),
+                                                child: Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          color: greenColor),
+                                                ));
+                                          }
+                                          if (state
+                                              is DetailTransaksiBuyerGetSuccess) {
+                                            var detailTransaksi = state
+                                                .detailTransaksiBuyer!.data;
+                                            return Expanded(
+                                                flex: 2,
+                                                child: Container(
+                                                  child: Row(children: [
+                                                    Flexible(
+                                                      child: Text(
+                                                        detailTransaksi.weight
+                                                            .toString(),
+                                                        style: blueTextStyle
+                                                            .copyWith(
+                                                                fontSize: 48,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700),
+                                                      ),
                                                     ),
-                                                  )
-                                                ]),
-                                          ))
-                                        ]),
-                                      ))
+                                                    Expanded(
+                                                        child: Container(
+                                                      child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          12),
+                                                              child: Row(
+                                                                children: [
+                                                                  Text("dari"),
+                                                                  const SizedBox(
+                                                                    width: 2,
+                                                                  ),
+                                                                  Text(
+                                                                    detailTransaksi
+                                                                        .maximumWeight
+                                                                        .toString(),
+                                                                    style: blueTextStyle.copyWith(
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.w700),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ]),
+                                                    ))
+                                                  ]),
+                                                ));
+                                          }
+                                          if (state
+                                              is DetailTransaksiBuyerFailed) {
+                                            return Center(
+                                              child: Text(
+                                                "Terjadi Kesalahan :(",
+                                                style: blackTextStyle.copyWith(
+                                                    fontSize: 16,
+                                                    fontWeight: semiBold),
+                                              ),
+                                            );
+                                          }
+                                          return Container();
+                                        },
+                                      ),
+                                    )
+                                  ] else if (userType == "seller") ...[
+                                    BlocProvider(
+                                      create: (context) => TransaksiBloc()
+                                        ..add(TransaksiGetDetailSeller(
+                                            widget.transactionId)),
+                                      child: BlocBuilder<TransaksiBloc,
+                                          TransaksiState>(
+                                        builder: (context, state) {
+                                          if (state is DetailTransaksiLoading) {
+                                            return Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 40),
+                                                child: Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          color: greenColor),
+                                                ));
+                                          }
+                                          if (state
+                                              is DetailTransaksiSellerGetSuccess) {
+                                            var detailTransaksi = state
+                                                .detailTransaksiSeller!.data;
+                                            return Expanded(
+                                                flex: 2,
+                                                child: Container(
+                                                  child: Row(children: [
+                                                    Flexible(
+                                                      child: Text(
+                                                        detailTransaksi.weight
+                                                            .toString(),
+                                                        style: blueTextStyle
+                                                            .copyWith(
+                                                                fontSize: 48,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                        child: Container(
+                                                      child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          12),
+                                                              child: Row(
+                                                                children: [
+                                                                  Text("dari"),
+                                                                  const SizedBox(
+                                                                    width: 2,
+                                                                  ),
+                                                                  Text(
+                                                                    detailTransaksi
+                                                                        .maximumWeight
+                                                                        .toString(),
+                                                                    style: blueTextStyle.copyWith(
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.w700),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ]),
+                                                    ))
+                                                  ]),
+                                                ));
+                                          }
+                                          if (state
+                                              is DetailTransaksiSellerFailed) {
+                                            return Center(
+                                              child: Text(
+                                                "Terjadi Kesalahan :(",
+                                                style: blackTextStyle.copyWith(
+                                                    fontSize: 16,
+                                                    fontWeight: semiBold),
+                                              ),
+                                            );
+                                          }
+                                          return Container();
+                                        },
+                                      ),
+                                    )
+                                  ]
                                 ]),
                               )),
                           Expanded(

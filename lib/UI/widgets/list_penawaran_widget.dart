@@ -8,7 +8,7 @@ class ListPenawaran extends StatelessWidget {
   final String? namaLimbah;
   final String? username;
   final String? tanggal;
-  final int? beratLimbah;
+  final String? beratLimbah;
   final String? gambar;
   final VoidCallback? onTap;
   final String? statusPenawaran;
