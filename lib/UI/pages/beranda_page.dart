@@ -99,6 +99,7 @@ class _BerandaPageState extends State<BerandaPage> {
                                       state.berandaSeller!.data[index];
                                   return LimbahBerandaPage(
                                     title: berandaSeller.category,
+                                    price: berandaSeller.finishedWeight,
                                     onTap: () {
                                       Navigator.pushNamed(
                                           context, BerandaDetailPage.routeName);
@@ -122,22 +123,47 @@ class _BerandaPageState extends State<BerandaPage> {
                   ] else if (userType == "buyer") ...[
                     BlocProvider(
                       create: (context) =>
-                          BerandaBloc()..add(BerandaGetAllSeller(userId)),
-                      child: ListView(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        children: [
-                          LimbahBerandaPage(
-                            title: "Buah buahan",
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, BerandaDetailPage.routeName);
-                            },
-                          ),
-
-                          // LimbahBerandaPage(),
-                          // LimbahBerandaPage()
-                        ],
+                          BerandaBloc()..add(BerandaGetAllBuyer(userId)),
+                      child: BlocBuilder<BerandaBloc, BerandaState>(
+                        builder: (context, state) {
+                          if (state is BerandaLoading) {
+                            return Container(
+                                margin: const EdgeInsets.only(top: 40),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                      color: greenColor),
+                                ));
+                          }
+                          if (state is BerandaBuyerGetSuccess) {
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: state.berandaBuyer!.data.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                var berandaBuyer =
+                                    state.berandaBuyer!.data[index];
+                                return LimbahBerandaPage(
+                                  title: "${berandaBuyer.category}",
+                                  price: berandaBuyer.finishedWeight,
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, BerandaDetailPage.routeName);
+                                  },
+                                );
+                              },
+                            );
+                          }
+                          if (state is BerandaFailed) {
+                            return Center(
+                              child: Text(
+                                "Terjadi Kesalahan :(",
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 16, fontWeight: semiBold),
+                              ),
+                            );
+                          }
+                          return Container();
+                        },
                       ),
                     )
                   ]

@@ -17,7 +17,11 @@ class BerandaSellerGetSuccess extends BerandaState {
   List<Object> get props => [berandaSeller!];
 }
 
-class BerandaBuyerGetSuccess extends BerandaState {}
+class BerandaBuyerGetSuccess extends BerandaState {
+  final BerandaBuyer? berandaBuyer;
+  const BerandaBuyerGetSuccess(this.berandaBuyer);
+  List<Object> get props => [berandaBuyer!];
+}
 
 class BerandaFailed extends BerandaState {
   final String e;
