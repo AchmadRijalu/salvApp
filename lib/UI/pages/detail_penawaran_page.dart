@@ -260,399 +260,1066 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                           )),
                         ]),
                       )),
-                      Flexible(
-                          child: Container(
-                        child: Column(children: [
-                          Flexible(
-                              child: Container(
-                            child: LinearPercentIndicator(
-                              lineHeight: 27,
-                              percent: 0.5,
-                              animation: true,
-                              progressColor: blueColor,
-                              backgroundColor: greyColor,
-                              barRadius: Radius.circular(8),
-                            ),
-                          )),
-                          const SizedBox(
-                            height: 6,
+                      if (userType == "buyer") ...[
+                        BlocProvider(
+                          create: (context) => TransaksiBloc()
+                            ..add(
+                                TransaksiGetDetailBuyer(widget.transactionId)),
+                          child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                            builder: (context, state) {
+                              if (state is DetailTransaksiLoading) {
+                                return Container(
+                                    margin: const EdgeInsets.only(top: 40),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                          color: greenColor),
+                                    ));
+                              }
+                              if (state is DetailTransaksiBuyerGetSuccess) {
+                                var detailTransaksi =
+                                    state.detailTransaksiBuyer!.data;
+                                return Flexible(
+                                    child: Container(
+                                  child: Column(children: [
+                                    Flexible(
+                                        child: Container(
+                                      child: LinearPercentIndicator(
+                                        lineHeight: 27,
+                                        percent: 0.5,
+                                        animation: true,
+                                        progressColor: blueColor,
+                                        backgroundColor: greyColor,
+                                        barRadius: Radius.circular(8),
+                                      ),
+                                    )),
+                                    const SizedBox(
+                                      height: 6,
+                                    ),
+                                    Flexible(
+                                        child: Container(
+                                      padding: const EdgeInsets.only(
+                                          right: 20, left: 21),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "0 kg",
+                                            style: blueTextStyle.copyWith(
+                                                fontSize: 16),
+                                          ),
+                                          Text(
+                                            "${detailTransaksi.maximumWeight} kg",
+                                            style: blueTextStyle.copyWith(
+                                                fontSize: 16),
+                                          )
+                                        ],
+                                      ),
+                                    )),
+                                  ]),
+                                ));
+                              }
+                              if (state is DetailTransaksiBuyerFailed) {
+                                return Center(
+                                  child: Text(
+                                    "Terjadi Kesalahan :(",
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 16, fontWeight: semiBold),
+                                  ),
+                                );
+                              }
+                              return Container();
+                            },
                           ),
-                          Flexible(
-                              child: Container(
-                            padding: const EdgeInsets.only(right: 20, left: 21),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "0 Kg",
-                                  style: blueTextStyle.copyWith(fontSize: 16),
-                                ),
-                                Text(
-                                  "450Kg",
-                                  style: blueTextStyle.copyWith(fontSize: 16),
-                                )
-                              ],
-                            ),
-                          )),
-                        ]),
-                      )),
+                        )
+                      ] else if (userType == "seller") ...[
+                        BlocProvider(
+                          create: (context) => TransaksiBloc()
+                            ..add(
+                                TransaksiGetDetailSeller(widget.transactionId)),
+                          child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                            builder: (context, state) {
+                              if (state is DetailTransaksiLoading) {
+                                return Container(
+                                    margin: const EdgeInsets.only(top: 40),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                          color: greenColor),
+                                    ));
+                              }
+                              if (state is DetailTransaksiSellerGetSuccess) {
+                                return Flexible(
+                                    child: Container(
+                                  child: Column(children: [
+                                    Flexible(
+                                        child: Container(
+                                      child: LinearPercentIndicator(
+                                        lineHeight: 27,
+                                        percent: 0.5,
+                                        animation: true,
+                                        progressColor: blueColor,
+                                        backgroundColor: greyColor,
+                                        barRadius: Radius.circular(8),
+                                      ),
+                                    )),
+                                    const SizedBox(
+                                      height: 6,
+                                    ),
+                                    Flexible(
+                                        child: Container(
+                                      padding: const EdgeInsets.only(
+                                          right: 20, left: 21),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "0 Kg",
+                                            style: blueTextStyle.copyWith(
+                                                fontSize: 16),
+                                          ),
+                                          Text(
+                                            "450Kg",
+                                            style: blueTextStyle.copyWith(
+                                                fontSize: 16),
+                                          )
+                                        ],
+                                      ),
+                                    )),
+                                  ]),
+                                ));
+                              }
+                              if (state is DetailTransaksiSellerFailed) {
+                                return Center(
+                                  child: Text(
+                                    "Terjadi Kesalahan :(",
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 16, fontWeight: semiBold),
+                                  ),
+                                );
+                              }
+                              return Container();
+                            },
+                          ),
+                        )
+                      ]
                     ]),
                   )),
-                  if (userList.last.type == "buyer") ...[
-                    Flexible(
-                        child: Container(
-                      child: Row(children: [
-                        Expanded(
-                            child: Container(
-                                child: GestureDetector(
-                          onTap: () {},
-                          child: SizedBox(
-                            width: 144,
-                            height: 50,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8))),
-                              onPressed: () {},
+                  if (userType == "buyer") ...[
+                    BlocProvider(
+                      create: (context) => TransaksiBloc()
+                        ..add(TransaksiGetDetailBuyer(widget.transactionId)),
+                      child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                        builder: (context, state) {
+                          if (state is DetailTransaksiLoading) {
+                            return Container(
+                                margin: const EdgeInsets.only(top: 40),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                      color: greenColor),
+                                ));
+                          }
+                          if (state is DetailTransaksiBuyerGetSuccess) {
+                            var detailTransaksi =
+                                state.detailTransaksiBuyer!.data;
+                            return Flexible(
+                                child: Container(
+                              child: Row(children: [
+                                Expanded(
+                                    child: Container(
+                                        child: GestureDetector(
+                                  onTap: () {},
+                                  child: SizedBox(
+                                    width: 144,
+                                    height: 50,
+                                    child: TextButton(
+                                      style: TextButton.styleFrom(
+                                          backgroundColor: Colors.red,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8))),
+                                      onPressed: () {},
+                                      child: Text(
+                                        "Tolak",
+                                        style: whiteTextStyle.copyWith(
+                                            fontSize: 16, fontWeight: semiBold),
+                                      ),
+                                    ),
+                                  ),
+                                ))),
+                                SizedBox(
+                                  width: 12,
+                                ),
+                                Flexible(
+                                    child: Container(
+                                  child: Container(
+                                      child: GestureDetector(
+                                    onTap: () {},
+                                    child: SizedBox(
+                                      width: 144,
+                                      height: 50,
+                                      child: TextButton(
+                                        style: TextButton.styleFrom(
+                                            backgroundColor: Colors.green,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8))),
+                                        onPressed: () {},
+                                        child: Text(
+                                          "Terima",
+                                          style: whiteTextStyle.copyWith(
+                                              fontSize: 16,
+                                              fontWeight: semiBold),
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+                                ))
+                              ]),
+                            ));
+                          }
+                          if (state is DetailTransaksiBuyerFailed) {
+                            return Center(
                               child: Text(
-                                "Tolak",
-                                style: whiteTextStyle.copyWith(
+                                "Terjadi Kesalahan :(",
+                                style: blackTextStyle.copyWith(
                                     fontSize: 16, fontWeight: semiBold),
                               ),
-                            ),
-                          ),
-                        ))),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Flexible(
-                            child: Container(
-                          child: Container(
-                              child: GestureDetector(
-                            onTap: () {},
-                            child: SizedBox(
-                              width: 144,
-                              height: 50,
-                              child: TextButton(
-                                style: TextButton.styleFrom(
-                                    backgroundColor: Colors.green,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8))),
-                                onPressed: () {},
-                                child: Text(
-                                  "Terima",
-                                  style: whiteTextStyle.copyWith(
-                                      fontSize: 16, fontWeight: semiBold),
+                            );
+                          }
+                          return Container();
+                        },
+                      ),
+                    )
+                  ] else if (userType == "seller") ...[
+                    BlocProvider(
+                      create: (context) => TransaksiBloc()
+                        ..add(TransaksiGetDetailSeller(widget.transactionId)),
+                      child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                        builder: (context, state) {
+                          if (state is DetailTransaksiLoading) {
+                            return Container(
+                                margin: const EdgeInsets.only(top: 40),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                      color: greenColor),
+                                ));
+                          }
+                          if (state is DetailTransaksiSellerGetSuccess) {
+                            var detailTransaksi =
+                                state.detailTransaksiSeller!.data;
+                            return Flexible(
+                                child: Container(
+                              child: Row(children: [
+                                Expanded(
+                                    child: Container(
+                                        child: GestureDetector(
+                                  onTap: () {},
+                                  child: SizedBox(
+                                    width: 144,
+                                    height: 50,
+                                    child: TextButton(
+                                      style: TextButton.styleFrom(
+                                          backgroundColor: Colors.red,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8))),
+                                      onPressed: () {},
+                                      child: Text(
+                                        "Tolak",
+                                        style: whiteTextStyle.copyWith(
+                                            fontSize: 16, fontWeight: semiBold),
+                                      ),
+                                    ),
+                                  ),
+                                ))),
+                                SizedBox(
+                                  width: 12,
                                 ),
+                                Flexible(
+                                    child: Container(
+                                  child: Container(
+                                      child: GestureDetector(
+                                    onTap: () {},
+                                    child: SizedBox(
+                                      width: 144,
+                                      height: 50,
+                                      child: TextButton(
+                                        style: TextButton.styleFrom(
+                                            backgroundColor: Colors.green,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8))),
+                                        onPressed: () {},
+                                        child: Text(
+                                          "Terima",
+                                          style: whiteTextStyle.copyWith(
+                                              fontSize: 16,
+                                              fontWeight: semiBold),
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+                                ))
+                              ]),
+                            ));
+                          }
+                          if (state is DetailTransaksiSellerFailed) {
+                            return Center(
+                              child: Text(
+                                "Terjadi Kesalahan :(",
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 16, fontWeight: semiBold),
                               ),
-                            ),
-                          )),
-                        ))
-                      ]),
-                    ))
+                            );
+                          }
+                          return Container();
+                        },
+                      ),
+                    )
                   ],
                   const SizedBox(
                     height: 12,
                   ),
-                  Flexible(
-                      flex: 4,
-                      child: Container(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 17, vertical: 16),
-                                decoration: BoxDecoration(
-                                    color: greenColor,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Column(children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Nama Iklan",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "Butuh Wortel Busuk",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Divider(
-                                    color: whiteColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Kategori",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "Sayur-Sayuran",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Divider(
-                                    color: whiteColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Spesifikasi",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "Hanya Wortel Busuk",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                ]),
-                              ),
-                              const SizedBox(
-                                height: 25,
-                              ),
-                              Text(
-                                "Ketentuan",
+                  if (userType == "buyer") ...[
+                    BlocProvider(
+                      create: (context) => TransaksiBloc()
+                        ..add(TransaksiGetDetailBuyer(widget.transactionId)),
+                      child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                        builder: (context, state) {
+                          if (state is DetailTransaksiLoading) {
+                            return Container(
+                                margin: const EdgeInsets.only(top: 40),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                      color: greenColor),
+                                ));
+                          }
+                          if (state is DetailTransaksiBuyerGetSuccess) {
+                            var detailTransaksi =
+                                state.detailTransaksiBuyer!.data;
+                            return Flexible(
+                                flex: 4,
+                                child: Container(
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 17, vertical: 16),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                          child: Column(children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Nama Iklan",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  detailTransaksi.title
+                                                      .toString(),
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Kategori",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  detailTransaksi.category
+                                                      .toString(),
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Spesifikasi",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  detailTransaksi
+                                                      .additionalInformation
+                                                      .toString(),
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                          ]),
+                                        ),
+                                        const SizedBox(
+                                          height: 25,
+                                        ),
+                                        Text(
+                                          "Ketentuan",
+                                          style: blackTextStyle.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 20),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 17, vertical: 16),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                          child: Column(children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Tanggal Kadaluarsa",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "-",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Berat Minimum",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.minimumWeight} g",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Berat Maksimum",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.minimumWeight} kg",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Pendapatan",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "+ Rp${detailTransaksi.price},- / kg",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                          ]),
+                                        ),
+                                        const SizedBox(
+                                          height: 25,
+                                        ),
+                                        Text(
+                                          "Data Pengiriman",
+                                          style: blackTextStyle.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 20),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 17, vertical: 16),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                          child: Column(children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Berat yang Diberikan",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.weight} kg",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Lokasi",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.location}",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Sistem",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.retrievalSystem}",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Total Pendapatan",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "+Rp. ${detailTransaksi.totalPrice}",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                          ]),
+                                        ),
+                                      ]),
+                                ));
+                          }
+                          if (state is DetailTransaksiBuyerFailed) {
+                            return Center(
+                              child: Text(
+                                "Terjadi Kesalahan :(",
                                 style: blackTextStyle.copyWith(
-                                    fontWeight: FontWeight.w700, fontSize: 20),
+                                    fontSize: 16, fontWeight: semiBold),
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 17, vertical: 16),
-                                decoration: BoxDecoration(
-                                    color: greenColor,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Column(children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Tanggal Kadaluarsa",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "-",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Divider(
-                                    color: whiteColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Berat Minimum",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "1 Gram",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Divider(
-                                    color: whiteColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Berat Maksimum",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "35 Kg",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Divider(
-                                    color: whiteColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Pendapatan",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "+Rp.20.000/gram",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                ]),
-                              ),
-                              const SizedBox(
-                                height: 25,
-                              ),
-                              Text(
-                                "Data Pengiriman",
+                            );
+                          }
+                          return Container();
+                        },
+                      ),
+                    )
+                  ] else if (userType == "seller") ...[
+                    BlocProvider(
+                      create: (context) => TransaksiBloc()
+                        ..add(TransaksiGetDetailSeller(widget.transactionId)),
+                      child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                        builder: (context, state) {
+                          if (state is DetailTransaksiLoading) {
+                            return Container(
+                                margin: const EdgeInsets.only(top: 40),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                      color: greenColor),
+                                ));
+                          }
+                          if (state is DetailTransaksiSellerGetSuccess) {
+                            var detailTransaksi =
+                                state.detailTransaksiSeller!.data;
+                            return Flexible(
+                                flex: 4,
+                                child: Container(
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 17, vertical: 16),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                          child: Column(children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Nama Iklan",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.title}",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Kategori",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.category}",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Spesifikasi",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.additionalInformation}",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                          ]),
+                                        ),
+                                        const SizedBox(
+                                          height: 25,
+                                        ),
+                                        Text(
+                                          "Ketentuan",
+                                          style: blackTextStyle.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 20),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 17, vertical: 16),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                          child: Column(children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Tanggal Kadaluarsa",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "-",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Berat Minimum",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.minimumWeight} g",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Berat Maksimum",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.minimumWeight} kg",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Pendapatan",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "+ Rp${detailTransaksi.price},- / kg",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                          ]),
+                                        ),
+                                        const SizedBox(
+                                          height: 25,
+                                        ),
+                                        Text(
+                                          "Data Pengiriman",
+                                          style: blackTextStyle.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 20),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 17, vertical: 16),
+                                          decoration: BoxDecoration(
+                                              color: greenColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                          child: Column(children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Berat yang Diberikan",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.weight} kg",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Lokasi",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.location}",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Sistem",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "${detailTransaksi.retrievalSystem}",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Divider(
+                                              color: whiteColor,
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Total Pendapatan",
+                                                  style: whiteTextStyle,
+                                                ),
+                                                Text(
+                                                  "+Rp. ${detailTransaksi.totalPrice}",
+                                                  style:
+                                                      whiteTextStyle.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                )
+                                              ],
+                                            ),
+                                          ]),
+                                        ),
+                                      ]),
+                                ));
+                          }
+                          if (state is DetailTransaksiBuyerFailed) {
+                            return Center(
+                              child: Text(
+                                "Terjadi Kesalahan :(",
                                 style: blackTextStyle.copyWith(
-                                    fontWeight: FontWeight.w700, fontSize: 20),
+                                    fontSize: 16, fontWeight: semiBold),
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 17, vertical: 16),
-                                decoration: BoxDecoration(
-                                    color: greenColor,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Column(children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Berat yang Diberikan",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "50 kg",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Divider(
-                                    color: whiteColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Lokasi",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "Universitas Ciputra",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Divider(
-                                    color: whiteColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Sistem",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "Diantar",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Divider(
-                                    color: whiteColor,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Total Pendapatan",
-                                        style: whiteTextStyle,
-                                      ),
-                                      Text(
-                                        "+Rp. 1.000.000.000",
-                                        style: whiteTextStyle.copyWith(
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                ]),
-                              ),
-                            ]),
-                      ))
+                            );
+                          }
+                          return Container();
+                        },
+                      ),
+                    )
+                  ]
                 ]),
               )
             ],
