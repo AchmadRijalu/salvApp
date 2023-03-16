@@ -99,7 +99,7 @@ class _BerandaPageState extends State<BerandaPage> {
                                   var berandaSeller =
                                       state.berandaSeller!.data[index];
                                   print("Test" + berandaSeller.category);
-                                  LimbahBerandaPage(
+                                  return LimbahBerandaPage(
                                     title: berandaSeller.category,
                                     onTap: () {
                                       Navigator.pushNamed(
