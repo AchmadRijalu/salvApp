@@ -42,10 +42,7 @@ class _FormJualLimbahPageState extends State<FormJualLimbahPage> {
           const SizedBox(
             height: 22,
           ),
-          CustomDropDownFormFilled(title: "Kurir", listOfValue: listOfValue),
-          const SizedBox(
-            height: 17,
-          ),
+          
           CustomFormField(title: "Kurir"),
           const SizedBox(
             height: 22,

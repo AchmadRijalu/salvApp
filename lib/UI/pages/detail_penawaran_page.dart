@@ -379,7 +379,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                                 fontSize: 16),
                                           ),
                                           Text(
-                                            "450Kg",
+                                            "${state.detailTransaksiSeller!.data.maximumWeight.toString()} Kg",
                                             style: blueTextStyle.copyWith(
                                                 fontSize: 16),
                                           )
