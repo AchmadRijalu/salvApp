@@ -40,7 +40,7 @@ class _SignupWilayah2PageState extends State<SignupWilayah2Page> {
   @override
   void initState() {
     // TODO: implement initState
-    print(widget.data.subdistrict!);
+
     kelurahanList = RegionService().getWard(widget.data.KecamatanId);
   }
 

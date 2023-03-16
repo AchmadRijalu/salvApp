@@ -95,16 +95,16 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
                                           Flexible(
                                               child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.end,
                                             children: [
-                                              Text(
-                                                edukasiIndex.implementation,
-                                                style: greenTextStyle.copyWith(
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w600,
-                                                    overflow:
-                                                        TextOverflow.fade),
-                                              ),
+                                              // Text(
+                                              //   edukasiIndex.implementation,
+                                              //   style: greenTextStyle.copyWith(
+                                              //       fontSize: 10,
+                                              //       fontWeight: FontWeight.w600,
+                                              //       overflow:
+                                              //           TextOverflow.fade),
+                                              // ),
                                               Text(
                                                 "${edukasiIndex.duration.toString()} menit",
                                                 style: greyTextStyle.copyWith(
@@ -315,7 +315,7 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
                             onPageChanged: ((index, reason) {
                               setState(() {
                                 currentIndex = index;
-                                print(currentIndex);
+                                
                               });
                             }))));
               }

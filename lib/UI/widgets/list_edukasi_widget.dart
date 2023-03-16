@@ -33,6 +33,10 @@ class ListEdukasi extends StatelessWidget {
                 image: DecorationImage(
                     image: AssetImage(gambarLimbah!), fit: BoxFit.fill)),
           )),
+
+// DecorationImage(
+          //           image: gambarLimbah == "" ? AssetImage(gambarLimbah!) : NetworkImage(gambarLimbah!) as ImageProvider, fit: BoxFit.fill)
+
           Expanded(
             flex: 2,
             child: Container(

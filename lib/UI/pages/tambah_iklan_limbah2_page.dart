@@ -29,9 +29,7 @@ class _TambahIklanLimbah2PageState extends State<TambahIklanLimbah2Page> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.iklan!.foodWasteCategoryId);
-    print(widget.iklan!.name);
-    print(widget.iklan!.retrievalSystem);
+  
   }
 
   @override

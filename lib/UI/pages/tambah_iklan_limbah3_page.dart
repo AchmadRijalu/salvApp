@@ -40,7 +40,7 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
 
     if (authState is AuthSuccess) {
       userId = authState.user!.id!;
-      print(userId);
+      
     }
   }
 
@@ -48,7 +48,7 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    print(widget.iklan!.name);
+    
   }
 
   bool validate() {
@@ -80,8 +80,7 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
             if (state is IklanAddSuccess) {
               Navigator.pushNamedAndRemoveUntil(
                   context, HolderPage.routeName, (route) => false);
-              // print("added");
-              // print(state.)
+           
             }
           },
           builder: (context, state) {
@@ -176,7 +175,7 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
                                           int.tryParse(beratLimbah),
                                       maximumWeight: int.tryParse(beratMax),
                                       minimumWeight: int.tryParse(beratMin));
-                                  print("Iklan : ${widget.iklan.toString()}");
+                                 
 
                                   Alert(
                                     context: context,
@@ -196,7 +195,7 @@ class _TambahIklanLimbah3PageState extends State<TambahIklanLimbah3Page> {
                                               fontWeight: bold, fontSize: 16),
                                         ),
                                         onPressed: () {
-                                          print(widget.iklan!.maximumWeight);
+                                    
                                           Navigator.pop(
                                             context,
                                           );

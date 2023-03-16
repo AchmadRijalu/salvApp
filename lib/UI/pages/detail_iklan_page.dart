@@ -10,6 +10,7 @@ import 'package:salv/blocs/iklan/iklan_bloc.dart';
 import 'package:salv/common/common.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
+import '../../models/jual_limbah_form_model.dart';
 import '../../models/user_model.dart';
 import '../../shared/shared_methods.dart';
 
@@ -28,9 +29,11 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
   @override
   dynamic userId;
   dynamic userType;
+  JualLimbahForm? jualLimbahForm;
 
   void initState() {
     // TODO: implement initState
+ 
     super.initState();
     final authState = context.read<AuthBloc>().state;
 
@@ -40,6 +43,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
       print(" ADS ID:${widget.advertisementId}");
     }
   }
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -850,10 +854,9 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                               CustomFilledButton(
                                                 title: "Buat Penawaran",
                                                 onPressed: () {
-                                                  Navigator.pushNamed(
-                                                      context,
-                                                      FormJualLimbahPage
-                                                          .routeName);
+                                                  Navigator.push(context, MaterialPageRoute(builder:(context) {
+                                                    return FormJualLimbahPage(adsId: widget.advertisementId, userId: userId,);
+                                                  },));
                                                 },
                                               )
                                             ]),

@@ -27,7 +27,7 @@ class EdukasiBloc extends Bloc<EdukasiEvent, EdukasiState> {
         try {
           emit(EdukasiLoading());
           final edukasiGetDetail = await EdukasiService().getEdukasiDetail(event.edukasiid);
-          print(edukasiGetDetail);
+          
           emit(EdukasiGetDetailSuccess(edukasiGetDetail));
         } catch (e) {
           emit(EdukasiFailed(e.toString()));
