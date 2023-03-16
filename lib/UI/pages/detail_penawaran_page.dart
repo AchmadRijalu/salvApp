@@ -166,16 +166,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                       child: BlocBuilder<TransaksiBloc,
                                           TransaksiState>(
                                         builder: (context, state) {
-                                          if (state is DetailTransaksiLoading) {
-                                            return Container(
-                                                margin: const EdgeInsets.only(
-                                                    top: 40),
-                                                child: Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                          color: greenColor),
-                                                ));
-                                          }
+                                          
                                           if (state
                                               is DetailTransaksiSellerGetSuccess) {
                                             var detailTransaksi = state
@@ -268,14 +259,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                 TransaksiGetDetailBuyer(widget.transactionId)),
                           child: BlocBuilder<TransaksiBloc, TransaksiState>(
                             builder: (context, state) {
-                              if (state is DetailTransaksiLoading) {
-                                return Container(
-                                    margin: const EdgeInsets.only(top: 40),
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                          color: greenColor),
-                                    ));
-                              }
+                              
                               if (state is DetailTransaksiBuyerGetSuccess) {
                                 var detailTransaksi =
                                     state.detailTransaksiBuyer!.data;
@@ -340,14 +324,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                 TransaksiGetDetailSeller(widget.transactionId)),
                           child: BlocBuilder<TransaksiBloc, TransaksiState>(
                             builder: (context, state) {
-                              if (state is DetailTransaksiLoading) {
-                                return Container(
-                                    margin: const EdgeInsets.only(top: 40),
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                          color: greenColor),
-                                    ));
-                              }
+                              
                               if (state is DetailTransaksiSellerGetSuccess) {
                                 return Flexible(
                                     child: Container(
@@ -410,16 +387,14 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                     BlocProvider(
                       create: (context) => TransaksiBloc()
                         ..add(TransaksiGetDetailBuyer(widget.transactionId)),
-                      child: BlocBuilder<TransaksiBloc, TransaksiState>(
-                        builder: (context, state) {
-                          if (state is DetailTransaksiLoading) {
-                            return Container(
-                                margin: const EdgeInsets.only(top: 40),
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                      color: greenColor),
-                                ));
+                      child: BlocConsumer<TransaksiBloc, TransaksiState>(
+                        listener: (context, state) {
+                          if(state is AksiTransaksiBuyerGetSuccess){
+                            Navigator.pop(context);
                           }
+                        },
+                        builder: (context, state) {
+                         
                           if (state is DetailTransaksiBuyerGetSuccess) {
                             var detailTransaksi =
                                 state.detailTransaksiBuyer!.data;
@@ -517,14 +492,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                         ..add(TransaksiGetDetailBuyer(widget.transactionId)),
                       child: BlocBuilder<TransaksiBloc, TransaksiState>(
                         builder: (context, state) {
-                          if (state is DetailTransaksiLoading) {
-                            return Container(
-                                margin: const EdgeInsets.only(top: 40),
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                      color: greenColor),
-                                ));
-                          }
+                         
                           if (state is DetailTransaksiBuyerGetSuccess) {
                             var detailTransaksi =
                                 state.detailTransaksiBuyer!.data;
@@ -888,14 +856,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                         ..add(TransaksiGetDetailSeller(widget.transactionId)),
                       child: BlocBuilder<TransaksiBloc, TransaksiState>(
                         builder: (context, state) {
-                          if (state is DetailTransaksiLoading) {
-                            return Container(
-                                margin: const EdgeInsets.only(top: 40),
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                      color: greenColor),
-                                ));
-                          }
+                         
                           if (state is DetailTransaksiSellerGetSuccess) {
                             var detailTransaksi =
                                 state.detailTransaksiSeller!.data;

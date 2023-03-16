@@ -111,7 +111,11 @@ class TransaksiService {
       );
       print("PRINT: ${response.body}");
       return AksiTransaksiSeller.fromJson(json.decode(response.body));
-
+    }
+    catch(e){
+      rethrow;
+    }
+      }
   Future<dynamic> createTransaksi(JualLimbahForm jualLimbahForm) async {
     try {
       final response = await http.post(
