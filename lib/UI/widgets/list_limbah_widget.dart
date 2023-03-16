@@ -5,8 +5,10 @@ import 'package:salv/common/common.dart';
 
 class LimbahBerandaPage extends StatelessWidget {
   final String? title;
+  final int? price;
   final VoidCallback? onTap;
-  LimbahBerandaPage({super.key, this.onTap, required this.title});
+  LimbahBerandaPage(
+      {super.key, this.onTap, required this.title, required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +113,7 @@ class LimbahBerandaPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      "5212",
+                                      price!.toString(),
                                       style:
                                           whiteTextStyle.copyWith(fontSize: 32),
                                     ),

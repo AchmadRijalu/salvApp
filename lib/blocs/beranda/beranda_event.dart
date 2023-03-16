@@ -12,3 +12,9 @@ class BerandaGetAllSeller extends BerandaEvent {
   BerandaGetAllSeller(this.berandaSeller);
   List<Object> get props => [berandaSeller!];
 }
+
+class BerandaGetAllBuyer extends BerandaEvent {
+  late String? berandaBuyer;
+  BerandaGetAllBuyer(this.berandaBuyer);
+  List<Object> get props => [berandaBuyer!];
+}
