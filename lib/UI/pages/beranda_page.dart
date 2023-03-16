@@ -29,7 +29,6 @@ class _BerandaPageState extends State<BerandaPage> {
       userType = authState.user!.type;
       userId = authState.user!.id;
     }
-    print(userType);
   }
 
   @override
@@ -98,7 +97,6 @@ class _BerandaPageState extends State<BerandaPage> {
                                 itemBuilder: (BuildContext context, int index) {
                                   var berandaSeller =
                                       state.berandaSeller!.data[index];
-                                  print("Test" + berandaSeller.category);
                                   return LimbahBerandaPage(
                                     title: berandaSeller.category,
                                     onTap: () {
