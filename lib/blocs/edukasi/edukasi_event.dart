@@ -11,3 +11,11 @@ abstract class EdukasiEvent extends Equatable {
 class EdukasiGetAll extends EdukasiEvent{
   
 }
+
+class EdukasiGetDetail extends EdukasiEvent{
+  String? edukasiid;
+  
+
+  EdukasiGetDetail(this.edukasiid);
+  List<Object> get props => [edukasiid!];
+}

@@ -19,6 +19,16 @@ class EdukasiSuccess extends EdukasiState {
   List<Object> get props => [edukasi!];
 }
 
+class EdukasiGetDetailSuccess extends EdukasiState {
+  final EdukasiDetail? edukasiDetail;
+
+  const EdukasiGetDetailSuccess(this.edukasiDetail);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [edukasiDetail!];
+}
+
 class EdukasiLoading extends EdukasiState {}
 
 class EdukasiFailed extends EdukasiState {
