@@ -4,10 +4,12 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:salv/UI/pages/holder_page.dart';
 import 'package:salv/UI/widgets/buttons.dart';
 import 'package:salv/blocs/auth/auth_bloc.dart';
 import 'package:salv/blocs/transaksi/transaksi_bloc.dart';
 import 'package:salv/common/common.dart';
+import 'package:salv/models/aksi_transaksi_seller_model.dart';
 import 'package:salv/models/user_model.dart';
 
 class DetailPenawaranPage extends StatefulWidget {
@@ -218,10 +220,8 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                                                 ],
                                                               ),
                                                             ),
-                                                            
                                                           ]),
                                                     )),
-                                                    
                                                   ]),
                                                 ));
                                           }
@@ -1207,6 +1207,58 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                     fontSize: 16, fontWeight: semiBold),
                               ),
                             );
+                          }
+                          return Container();
+                        },
+                      ),
+                    )
+                  ],
+                  if (userType == "seller") ...[
+                    const SizedBox(height: 30),
+                    BlocProvider(
+                      create: (context) => TransaksiBloc()
+                        ..add(AksiTransaksiGetSeller(widget.transactionId)),
+                      child: BlocConsumer<TransaksiBloc, TransaksiState>(
+                        listener: (context, state) {
+                          // TODO: implement listener
+                          if (state is AksiTransaksiGetSeller) {
+                            Navigator.pushNamedAndRemoveUntil(context,
+                                HolderPage.routeName, (route) => false);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is AksiTransaksiLoading) {
+                            print("Loading");
+                          }
+                          if (state is AksiTransaksiSellerGetSuccess) {
+                            print("Hello");
+                            return GestureDetector(
+                              onTap: () {},
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 50,
+                                child: TextButton(
+                                  style: TextButton.styleFrom(
+                                      backgroundColor: blueColor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8))),
+                                  onPressed: () {
+                                    context.read<TransaksiBloc>().add(
+                                        AksiTransaksiGetSeller(
+                                            widget.transactionId));
+                                  },
+                                  child: Text(
+                                    "Batalkan Penawaran",
+                                    style: whiteTextStyle.copyWith(
+                                        fontSize: 16, fontWeight: semiBold),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          if (state is AksiTransaksiSellerFailed) {
+                            print("Failed");
                           }
                           return Container();
                         },

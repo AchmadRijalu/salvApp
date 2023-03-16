@@ -79,14 +79,14 @@ class TransaksiBloc extends Bloc<TransaksiEvent, TransaksiState> {
           emit(TransaksiFailed(e.toString()));
         }
       }
-      if (event is AksiTransaksiPutSeller) {
+      if (event is AksiTransaksiGetSeller) {
         try {
           emit(AksiTransaksiLoading());
           final aksiTransaksi = await TransaksiService()
-              .putAksiTransaksiSeller(event.transactionId);
-          emit(AksiTransaksiSellerPutSuccess(aksiTransaksi));
+              .getAksiTransaksiSeller(event.transactionId);
+          emit(AksiTransaksiSellerGetSuccess(aksiTransaksi));
         } catch (e) {
-        print(e.toString());
+          print(e.toString());
           emit(TransaksiFailed(e.toString()));
         }
       }
