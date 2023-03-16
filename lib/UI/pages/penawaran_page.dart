@@ -117,7 +117,11 @@ class _PenawaranPageState extends State<PenawaranPage> {
                                       return DetailPenawaranPage(
                                         transactionId: transaksi.id,
                                       );
-                                    }));
+                                    })).then((value){
+                                      setState(() {
+                                        
+                                      });
+                                    });
                                   },
                                 );
                               });
@@ -181,7 +185,11 @@ class _PenawaranPageState extends State<PenawaranPage> {
                                       return DetailPenawaranPage(
                                         transactionId: transaksi.id,
                                       );
-                                    }));
+                                    })).then((value){
+                                      setState(() {
+                                        
+                                      });
+                                    });
                                   },
                                 );
                               });

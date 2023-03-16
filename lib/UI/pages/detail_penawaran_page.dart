@@ -166,7 +166,6 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                       child: BlocBuilder<TransaksiBloc,
                                           TransaksiState>(
                                         builder: (context, state) {
-                                          
                                           if (state
                                               is DetailTransaksiSellerGetSuccess) {
                                             var detailTransaksi = state
@@ -218,9 +217,11 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                                                   )
                                                                 ],
                                                               ),
-                                                            )
+                                                            ),
+                                                            
                                                           ]),
-                                                    ))
+                                                    )),
+                                                    
                                                   ]),
                                                 ));
                                           }
@@ -259,7 +260,6 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                 TransaksiGetDetailBuyer(widget.transactionId)),
                           child: BlocBuilder<TransaksiBloc, TransaksiState>(
                             builder: (context, state) {
-                              
                               if (state is DetailTransaksiBuyerGetSuccess) {
                                 var detailTransaksi =
                                     state.detailTransaksiBuyer!.data;
@@ -324,7 +324,6 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                 TransaksiGetDetailSeller(widget.transactionId)),
                           child: BlocBuilder<TransaksiBloc, TransaksiState>(
                             builder: (context, state) {
-                              
                               if (state is DetailTransaksiSellerGetSuccess) {
                                 return Flexible(
                                     child: Container(
@@ -389,12 +388,11 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                         ..add(TransaksiGetDetailBuyer(widget.transactionId)),
                       child: BlocConsumer<TransaksiBloc, TransaksiState>(
                         listener: (context, state) {
-                          if(state is AksiTransaksiBuyerGetSuccess){
+                          if (state is AksiTransaksiBuyerGetSuccess) {
                             Navigator.pop(context);
                           }
                         },
                         builder: (context, state) {
-                         
                           if (state is DetailTransaksiBuyerGetSuccess) {
                             var detailTransaksi =
                                 state.detailTransaksiBuyer!.data;
@@ -490,9 +488,13 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                     BlocProvider(
                       create: (context) => TransaksiBloc()
                         ..add(TransaksiGetDetailBuyer(widget.transactionId)),
-                      child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                      child: BlocConsumer<TransaksiBloc, TransaksiState>(
+                        listener: (context, state) {
+                          if (state is AksiTransaksiBuyerGetSuccess) {
+                            Navigator.pop(context);
+                          }
+                        },
                         builder: (context, state) {
-                         
                           if (state is DetailTransaksiBuyerGetSuccess) {
                             var detailTransaksi =
                                 state.detailTransaksiBuyer!.data;
@@ -854,9 +856,9 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                     BlocProvider(
                       create: (context) => TransaksiBloc()
                         ..add(TransaksiGetDetailSeller(widget.transactionId)),
-                      child: BlocBuilder<TransaksiBloc, TransaksiState>(
+                      child: BlocConsumer<TransaksiBloc, TransaksiState>(
+                        listener: (context, state) {},
                         builder: (context, state) {
-                         
                           if (state is DetailTransaksiSellerGetSuccess) {
                             var detailTransaksi =
                                 state.detailTransaksiSeller!.data;
