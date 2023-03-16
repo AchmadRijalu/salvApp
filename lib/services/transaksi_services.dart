@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:salv/models/aksi_transaksi_buyer_model.dart';
 import 'package:salv/models/detail_transaksi_buyer_model.dart';
 import 'package:salv/models/detail_transaksi_seller_model.dart';
 import 'package:salv/models/transaksi_buyer_model.dart';
@@ -72,6 +73,23 @@ class TransaksiService {
       print("PRINT : ${response.body}");
 
       return DetailTransaksiBuyer.fromJson(json.decode(response.body));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<AksiTransaksiBuyer> getAksiTransaksiBuyer(
+      dynamic transactionId, dynamic status) async {
+    try {
+      final response = await http.get(
+        Uri.parse("${baseUrlSalv}buyer-transaction/${transactionId}/${status}"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': await AuthService().getToken(),
+        },
+      );
+      print("PRINT : ${response.body}");
+      return AksiTransaksiBuyer.fromJson(json.decode(response.body));
     } catch (e) {
       rethrow;
     }

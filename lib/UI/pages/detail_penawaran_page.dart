@@ -20,6 +20,7 @@ class DetailPenawaranPage extends StatefulWidget {
 }
 
 class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
+  int status = 0;
   dynamic userId;
   dynamic userType;
   @override
@@ -479,92 +480,6 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                             ));
                           }
                           if (state is DetailTransaksiBuyerFailed) {
-                            return Center(
-                              child: Text(
-                                "Terjadi Kesalahan :(",
-                                style: blackTextStyle.copyWith(
-                                    fontSize: 16, fontWeight: semiBold),
-                              ),
-                            );
-                          }
-                          return Container();
-                        },
-                      ),
-                    )
-                  ] else if (userType == "seller") ...[
-                    BlocProvider(
-                      create: (context) => TransaksiBloc()
-                        ..add(TransaksiGetDetailSeller(widget.transactionId)),
-                      child: BlocBuilder<TransaksiBloc, TransaksiState>(
-                        builder: (context, state) {
-                          if (state is DetailTransaksiLoading) {
-                            return Container(
-                                margin: const EdgeInsets.only(top: 40),
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                      color: greenColor),
-                                ));
-                          }
-                          if (state is DetailTransaksiSellerGetSuccess) {
-                            var detailTransaksi =
-                                state.detailTransaksiSeller!.data;
-                            return Flexible(
-                                child: Container(
-                              child: Row(children: [
-                                Expanded(
-                                    child: Container(
-                                        child: GestureDetector(
-                                  onTap: () {},
-                                  child: SizedBox(
-                                    width: 144,
-                                    height: 50,
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                          backgroundColor: Colors.red,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8))),
-                                      onPressed: () {},
-                                      child: Text(
-                                        "Tolak",
-                                        style: whiteTextStyle.copyWith(
-                                            fontSize: 16, fontWeight: semiBold),
-                                      ),
-                                    ),
-                                  ),
-                                ))),
-                                SizedBox(
-                                  width: 12,
-                                ),
-                                Flexible(
-                                    child: Container(
-                                  child: Container(
-                                      child: GestureDetector(
-                                    onTap: () {},
-                                    child: SizedBox(
-                                      width: 144,
-                                      height: 50,
-                                      child: TextButton(
-                                        style: TextButton.styleFrom(
-                                            backgroundColor: Colors.green,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8))),
-                                        onPressed: () {},
-                                        child: Text(
-                                          "Terima",
-                                          style: whiteTextStyle.copyWith(
-                                              fontSize: 16,
-                                              fontWeight: semiBold),
-                                        ),
-                                      ),
-                                    ),
-                                  )),
-                                ))
-                              ]),
-                            ));
-                          }
-                          if (state is DetailTransaksiSellerFailed) {
                             return Center(
                               child: Text(
                                 "Terjadi Kesalahan :(",

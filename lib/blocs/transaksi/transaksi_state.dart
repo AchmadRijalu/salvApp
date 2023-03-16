@@ -17,6 +17,24 @@ class TransaksiSellerGetSuccess extends TransaksiState {
   List<Object> get props => [transaksiSeller!];
 }
 
+class AksiTransaksiInitial extends TransaksiState {}
+
+class AksiTransaksiLoading extends TransaksiState {}
+
+class AksiTransaksiBuyerGetSuccess extends TransaksiState {
+  final AksiTransaksiBuyer? aksiTransaksiBuyer;
+  const AksiTransaksiBuyerGetSuccess(this.aksiTransaksiBuyer);
+  List<Object> get props => [aksiTransaksiBuyer!];
+}
+
+class AksiTransaksiBuyerFailed extends TransaksiState {
+  final String e;
+  const AksiTransaksiBuyerFailed(this.e);
+  @override
+  //TODO: implement props
+  List<Object> get props => super.props;
+}
+
 class TransaksiBuyerGetSuccess extends TransaksiState {
   final TransaksiBuyer? transaksiBuyer;
   const TransaksiBuyerGetSuccess(this.transaksiBuyer);
