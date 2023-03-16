@@ -1,13 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salv/UI/pages/beranda_detail.dart';
 import 'package:salv/UI/widgets/list_limbah_widget.dart';
+import 'package:salv/blocs/auth/auth_bloc.dart';
+import 'package:salv/blocs/beranda/beranda_bloc.dart';
 import 'package:salv/common/common.dart';
 
-class BerandaPage extends StatelessWidget {
+class BerandaPage extends StatefulWidget {
   static const routeName = '/beranda';
   const BerandaPage({super.key});
+
+  @override
+  State<BerandaPage> createState() => _BerandaPageState();
+}
+
+class _BerandaPageState extends State<BerandaPage> {
+  dynamic userId;
+  dynamic userType;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final authState = context.read<AuthBloc>().state;
+
+    if (authState is AuthSuccess) {
+      userType = authState.user!.type;
+      userId = authState.user!.id;
+    }
+    print(userType);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +61,7 @@ class BerandaPage extends StatelessWidget {
                       )
                     ],
                   ),
-                const SizedBox(
+                  const SizedBox(
                     height: 17,
                   ),
                   Row(
@@ -53,22 +76,73 @@ class BerandaPage extends StatelessWidget {
                   const SizedBox(
                     height: 6,
                   ),
-                  ListView(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    children: [
-                      LimbahBerandaPage(
-                        title: "Buah buahan",
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, BerandaDetailPage.routeName);
+                  if (userType == "seller") ...[
+                    BlocProvider(
+                      create: (context) =>
+                          BerandaBloc()..add(BerandaGetAllSeller(userId)),
+                      child: BlocBuilder<BerandaBloc, BerandaState>(
+                        builder: (context, state) {
+                          if (state is BerandaLoading) {
+                            return Container(
+                                margin: const EdgeInsets.only(top: 40),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                      color: greenColor),
+                                ));
+                          }
+                          if (state is BerandaSellerGetSuccess) {
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: state.berandaSeller!.data.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (BuildContext context, int index) {
+                                  var berandaSeller =
+                                      state.berandaSeller!.data[index];
+                                  print("Test" + berandaSeller.category);
+                                  LimbahBerandaPage(
+                                    title: berandaSeller.category,
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, BerandaDetailPage.routeName);
+                                    },
+                                  );
+                                });
+                          }
+                          if (state is BerandaFailed) {
+                            return Center(
+                              child: Text(
+                                "Terjadi Kesalahan :(",
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 16, fontWeight: semiBold),
+                              ),
+                            );
+                          }
+                          return Container();
                         },
                       ),
+                    )
+                  ] else if (userType == "buyer") ...[
+                    BlocProvider(
+                      create: (context) =>
+                          BerandaBloc()..add(BerandaGetAllSeller(userId)),
+                      child: ListView(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        children: [
+                          LimbahBerandaPage(
+                            title: "Buah buahan",
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, BerandaDetailPage.routeName);
+                            },
+                          ),
 
-                      // LimbahBerandaPage(),
-                      // LimbahBerandaPage()
-                    ],
-                  )
+                          // LimbahBerandaPage(),
+                          // LimbahBerandaPage()
+                        ],
+                      ),
+                    )
+                  ]
                 ]),
           )))
         ]),
