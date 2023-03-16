@@ -81,7 +81,6 @@ class TransaksiService {
     }
   }
 
-
   Future<AksiTransaksiBuyer> getAksiTransaksiBuyer(
       dynamic transactionId, dynamic status) async {
     try {
@@ -99,11 +98,11 @@ class TransaksiService {
     }
   }
 
-  Future<AksiTransaksiSeller> putAksiTransaksiSeller(
+  Future<AksiTransaksiSeller> getAksiTransaksiSeller(
       dynamic transactionId) async {
     try {
-      final response = await http.put(
-        Uri.parse("${baseUrlSalv}seller-transaction/${transactionId}"),
+      final response = await http.get(
+        Uri.parse("${baseUrlSalv}seller-transaction/update/${transactionId}"),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': await AuthService().getToken(),
@@ -111,26 +110,22 @@ class TransaksiService {
       );
       print("PRINT: ${response.body}");
       return AksiTransaksiSeller.fromJson(json.decode(response.body));
-    }
-    catch(e){
+    } catch (e) {
       rethrow;
     }
-      }
+  }
+
   Future<dynamic> createTransaksi(JualLimbahForm jualLimbahForm) async {
     try {
-      final response = await http.post(
-        Uri.parse("${baseUrlSalv}seller-transaction"),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': await AuthService().getToken(),
-          
-        },
-        body: jsonEncode(jualLimbahForm.toJson())
-        
-      );
+      final response =
+          await http.post(Uri.parse("${baseUrlSalv}seller-transaction"),
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': await AuthService().getToken(),
+              },
+              body: jsonEncode(jualLimbahForm.toJson()));
 
       return JualLimbah.fromJson(json.decode(response.body));
-
     } catch (e) {
       rethrow;
     }

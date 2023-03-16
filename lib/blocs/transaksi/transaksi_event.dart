@@ -14,9 +14,9 @@ class AksiTransaksiGetBuyer extends TransaksiEvent {
   List<Object> get props => [transactionId!, status!];
 }
 
-class AksiTransaksiPutSeller extends TransaksiEvent {
+class AksiTransaksiGetSeller extends TransaksiEvent {
   late String? transactionId;
-  AksiTransaksiPutSeller(this.transactionId);
+  AksiTransaksiGetSeller(this.transactionId);
   List<Object> get props => [transactionId!];
 }
 
