@@ -439,7 +439,14 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(8))),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        //TODO: Tolak
+                                        status = 4;
+                                        print("TOLAK: Status ${status}");
+                                        context.read<TransaksiBloc>().add(
+                                            AksiTransaksiGetBuyer(
+                                                widget.transactionId, status));
+                                      },
                                       child: Text(
                                         "Tolak",
                                         style: whiteTextStyle.copyWith(
@@ -465,7 +472,15 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(8))),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          //TODO: Terima
+                                          status = 1;
+                                          print("TERIMA: Status ${status}");
+                                          context.read<TransaksiBloc>().add(
+                                              AksiTransaksiGetBuyer(
+                                                  widget.transactionId,
+                                                  status));
+                                        },
                                         child: Text(
                                           "Terima",
                                           style: whiteTextStyle.copyWith(
