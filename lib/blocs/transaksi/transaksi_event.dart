@@ -7,6 +7,19 @@ abstract class TransaksiEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class AksiTransaksiGetBuyer extends TransaksiEvent {
+  late String? transactionId;
+  late int? status;
+  AksiTransaksiGetBuyer(this.transactionId, this.status);
+  List<Object> get props => [transactionId!, status!];
+}
+
+class AksiTransaksiPutSeller extends TransaksiEvent {
+  late String? transactionId;
+  AksiTransaksiPutSeller(this.transactionId);
+  List<Object> get props => [transactionId!];
+}
+
 class TransaksiGetAllSeller extends TransaksiEvent {
   late String? userdata;
   TransaksiGetAllSeller(this.userdata);
