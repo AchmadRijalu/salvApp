@@ -70,6 +70,12 @@ class DetailTransaksiBuyerGetSuccess extends TransaksiState {
   List<Object> get props => [detailTransaksiBuyer!];
 }
 
+class createTransaksiSuccess extends TransaksiState {
+  final JualLimbah? jualLimbah;
+  const createTransaksiSuccess(this.jualLimbah);
+  List<Object> get props => [jualLimbah!];
+}
+
 class DetailTransaksiBuyerFailed extends TransaksiState {
   final String e;
   const DetailTransaksiBuyerFailed(this.e);

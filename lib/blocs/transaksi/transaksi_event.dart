@@ -43,3 +43,9 @@ class TransaksiGetDetailBuyer extends TransaksiEvent {
   TransaksiGetDetailBuyer(this.transaksidata);
   List<Object> get props => [transaksidata!];
 }
+
+class CreateTransaksiSeller extends TransaksiEvent {
+  late JualLimbahForm jualLimbahForm;
+  CreateTransaksiSeller(this.jualLimbahForm);
+  List<Object> get props => [jualLimbahForm!];
+}

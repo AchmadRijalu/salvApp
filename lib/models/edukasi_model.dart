@@ -35,23 +35,31 @@ class Edukasi {
 class EdukasiData {
     EdukasiData({
         required this.category,
+        required this.duration,
         required this.id,
+        required this.thumbnail,
         required this.title,
     });
 
     String category;
+    int duration;
     String id;
+    String thumbnail;
     String title;
 
     factory EdukasiData.fromJson(Map<String, dynamic> json) => EdukasiData(
         category: json["category"],
+        duration: json["duration"],
         id: json["id"],
+        thumbnail: json["thumbnail"],
         title: json["title"],
     );
 
     Map<String, dynamic> toJson() => {
         "category": category,
+        "duration": duration,
         "id": id,
+        "thumbnail": thumbnail,
         "title": title,
     };
 }

@@ -47,7 +47,7 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
 
   final YoutubePlayerController _videoController = YoutubePlayerController(
       initialVideoId: getVideoID(videoId)!,
-      flags: const YoutubePlayerFlags(autoPlay: true, mute: false));
+      flags: const YoutubePlayerFlags(autoPlay: false, mute: false));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,195 +68,256 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
               }
               if (state is EdukasiGetDetailSuccess) {
                 return Container(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        CarouselSlider.builder(
-                            itemCount: state.edukasiDetail!.data.children!.length,
-                            itemBuilder:(context, index, realIndex) {
-                              return Container(child: Column(children: [
-                                YoutubePlayer(
-                          controller: _videoController,
-                          liveUIColor: greenColor,
-                        ),
-                        Expanded(
-                            child: CustomScrollView(
-                          slivers: [
-                            SliverFillRemaining(
-                              hasScrollBody: false,
-                              child: Container(
-                                margin: const EdgeInsets.only(top: 8),
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 28),
-                                child: Column(
-                                  children: [
-                                    Flexible(
-                                        child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Buah-buahan",
-                                          style: greenTextStyle.copyWith(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        Text(
-                                          "7 menit",
-                                          style: greyTextStyle.copyWith(
-                                              fontSize: 8),
-                                        )
-                                      ],
-                                    )),
-                                    Flexible(
-                                        child: Container(
-                                      width: double.infinity,
-                                      child: Wrap(
+                    child: CarouselSlider.builder(
+                        carouselController: carouselController,
+                        itemCount: state.edukasiDetail!.data.children!.length,
+                        itemBuilder: (context, index, realIndex) {
+                          var edukasiIndex =
+                              state.edukasiDetail!.data.children![index];
+                          return Container(
+                              child: Column(
+                            children: [
+                              YoutubePlayer(
+                                controller: _videoController,
+                                liveUIColor: greenColor,
+                              ),
+                              Expanded(
+                                  child: CustomScrollView(
+                                slivers: [
+                                  SliverFillRemaining(
+                                    hasScrollBody: false,
+                                    child: Container(
+                                      margin: const EdgeInsets.only(top: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 28),
+                                      child: Column(
                                         children: [
-                                          Text(
-                                            "Cara membuat kompos dari sampah rumah tangga tanpa bau ",
-                                            style: blueTextStyle.copyWith(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w700),
-                                          )
-                                        ],
-                                      ),
-                                    )),
-                                    Flexible(
-                                        child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          "1/2 Step",
-                                          style: blackTextStyle.copyWith(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600),
-                                        )
-                                      ],
-                                    )),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    Flexible(
-                                        child: Container(
-                                      child: Wrap(
-                                        children: [
-                                          Text(
-                                            "ini adalah deskripsi dari videonya dong........... hehehehehhehehehhehehehehheehhehehhehehehehhehehe",
-                                            style: greyTextStyle.copyWith(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w300),
-                                          )
-                                        ],
-                                      ),
-                                    )),
-                                    const SizedBox(
-                                      height: 17,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Persiapan",
-                                          style: blueTextStyle.copyWith(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w700),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 7,
-                                    ),
-                                    Flexible(
-                                        child: Wrap(
-                                      children: [
-                                        Text(
-                                          "ini adalah persiapan dari potongan video ke 1 tutorialnya dong........... hehehehehhehehehhehehehehheehhehehhehehehehhehehe",
-                                          style: greyTextStyle.copyWith(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w300),
-                                        )
-                                      ],
-                                    )),
-                                    const SizedBox(
-                                      height: 12,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Tahapan",
-                                          style: blueTextStyle.copyWith(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w700),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 12,
-                                    ),
-                                    Wrap(
-                                      children: [
-                                        Text(
-                                          "ini adalah persiapan dari potongan video ke 1 tutorialnya dong........... hehehehehheksakaskaksak",
-                                          style: greyTextStyle.copyWith(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w300),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 26,
-                                    ),
-                                    Flexible(
-                                        child: Container(
-                                            child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          margin: const EdgeInsets.only(
-                                              right: 10, left: 5),
-                                          child: Row(
+                                          Flexible(
+                                              child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                                MainAxisAlignment.end,
                                             children: [
-                                              IconButton(
-                                                  onPressed: () {},
-                                                  icon: Icon(
-                                                    // Icons.arrow_forward_ios,
-                                                    Icons.arrow_back_ios,
-                                                    color: greenColor,
-                                                  ))
+                                              // Text(
+                                              //   edukasiIndex.implementation,
+                                              //   style: greenTextStyle.copyWith(
+                                              //       fontSize: 10,
+                                              //       fontWeight: FontWeight.w600,
+                                              //       overflow:
+                                              //           TextOverflow.fade),
+                                              // ),
+                                              Text(
+                                                "${edukasiIndex.duration.toString()} menit",
+                                                style: greyTextStyle.copyWith(
+                                                    fontSize: 8),
+                                              )
+                                            ],
+                                          )),
+                                          Flexible(
+                                              child: Container(
+                                            width: double.infinity,
+                                            child: Wrap(
+                                              children: [
+                                                Text(
+                                                  "${edukasiIndex.title}",
+                                                  style: blueTextStyle.copyWith(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                )
+                                              ],
+                                            ),
+                                          )),
+                                          Flexible(
+                                              child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                "${currentIndex + 1}/ ${state.edukasiDetail!.data.children!.length} Step",
+                                                style: blackTextStyle.copyWith(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              )
+                                            ],
+                                          )),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Flexible(
+                                              child: Container(
+                                            child: Wrap(
+                                              children: [
+                                                Text(
+                                                  "${edukasiIndex.content}",
+                                                  style: greyTextStyle.copyWith(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w300),
+                                                )
+                                              ],
+                                            ),
+                                          )),
+                                          const SizedBox(
+                                            height: 17,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Persiapan",
+                                                style: blueTextStyle.copyWith(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              )
                                             ],
                                           ),
-                                        ),
-                                        Text(
-                                          "Kembali",
-                                          style: blueTextStyle.copyWith(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600),
-                                        )
-                                      ],
-                                    )))
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ))
-                              ],));
-                            },
-                            options: CarouselOptions(
-                              height: 300,
-                                viewportFraction: 1,
-                                enableInfiniteScroll: false,
-                                onPageChanged: ((index, reason) {
-                                  setState(() {
-                                    currentIndex = index;
-                                    print(currentIndex);
-                                  });
-                                })))
-                      ]),
-                );
+                                          const SizedBox(
+                                            height: 7,
+                                          ),
+                                          Flexible(
+                                              child: Wrap(
+                                            children: [
+                                              Text(
+                                                "${edukasiIndex.preparation}",
+                                                style: greyTextStyle.copyWith(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              )
+                                            ],
+                                          )),
+                                          const SizedBox(
+                                            height: 12,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Tahapan",
+                                                style: blueTextStyle.copyWith(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 12,
+                                          ),
+                                          Wrap(
+                                            children: [
+                                              Text(
+                                                "${edukasiIndex.implementation}",
+                                                style: greyTextStyle.copyWith(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 26,
+                                          ),
+                                          Flexible(
+                                              child: Container(
+                                                  child: Column(
+                                            crossAxisAlignment:
+                                                currentIndex + 1 !=
+                                                        state
+                                                            .edukasiDetail!
+                                                            .data
+                                                            .children!
+                                                            .length
+                                                    ? CrossAxisAlignment.end
+                                                    : CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    right: 10, left: 5),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      currentIndex + 1 !=
+                                                              state
+                                                                  .edukasiDetail!
+                                                                  .data
+                                                                  .children!
+                                                                  .length
+                                                          ? MainAxisAlignment
+                                                              .end
+                                                          : MainAxisAlignment
+                                                              .start,
+                                                  children: [
+                                                    IconButton(
+                                                        onPressed: () {
+                                                          if (currentIndex +
+                                                                  1 ==
+                                                              state
+                                                                  .edukasiDetail!
+                                                                  .data
+                                                                  .children!
+                                                                  .length) {
+                                                            setState(() {
+                                                              carouselController
+                                                                  .previousPage();
+                                                            });
+                                                          } else {
+                                                            setState(() {
+                                                              carouselController
+                                                                  .nextPage();
+                                                            });
+                                                          }
+                                                        },
+                                                        icon: Icon(
+                                                          currentIndex + 1 !=
+                                                                  state
+                                                                      .edukasiDetail!
+                                                                      .data
+                                                                      .children!
+                                                                      .length
+                                                              ? Icons
+                                                                  .arrow_forward_ios
+                                                              : Icons
+                                                                  .arrow_back_ios,
+                                                          color: greenColor,
+                                                        ))
+                                                  ],
+                                                ),
+                                              ),
+                                              Text(
+                                                currentIndex + 1 !=
+                                                        state
+                                                            .edukasiDetail!
+                                                            .data
+                                                            .children!
+                                                            .length
+                                                    ? "Selanjutnya"
+                                                    : "Kembali",
+                                                style: blueTextStyle.copyWith(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              )
+                                            ],
+                                          )))
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ))
+                            ],
+                          ));
+                        },
+                        options: CarouselOptions(
+                            height: double.infinity,
+                            viewportFraction: 1,
+                            enableInfiniteScroll: false,
+                            onPageChanged: ((index, reason) {
+                              setState(() {
+                                currentIndex = index;
+                                
+                              });
+                            }))));
               }
               return Container();
             },
@@ -266,6 +327,3 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
     );
   }
 }
-
-
-

@@ -7,6 +7,8 @@ import 'package:salv/models/detail_transaksi_buyer_model.dart';
 import 'package:salv/models/detail_transaksi_seller_model.dart';
 import 'package:salv/models/transaksi_buyer_model.dart';
 
+import '../models/jual_limbah_form_model.dart';
+import '../models/jual_limbah_model.dart';
 import '../models/transaksi_seller_model.dart';
 import '../models/user_model.dart';
 import '../shared/shared_values.dart';
@@ -79,6 +81,7 @@ class TransaksiService {
     }
   }
 
+
   Future<AksiTransaksiBuyer> getAksiTransaksiBuyer(
       dynamic transactionId, dynamic status) async {
     try {
@@ -108,6 +111,22 @@ class TransaksiService {
       );
       print("PRINT: ${response.body}");
       return AksiTransaksiSeller.fromJson(json.decode(response.body));
+
+  Future<dynamic> createTransaksi(JualLimbahForm jualLimbahForm) async {
+    try {
+      final response = await http.post(
+        Uri.parse("${baseUrlSalv}seller-transaction"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': await AuthService().getToken(),
+          
+        },
+        body: jsonEncode(jualLimbahForm.toJson())
+        
+      );
+
+      return JualLimbah.fromJson(json.decode(response.body));
+
     } catch (e) {
       rethrow;
     }

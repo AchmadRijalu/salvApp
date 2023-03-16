@@ -9,6 +9,9 @@ import 'package:salv/models/transaksi_seller_model.dart';
 import 'package:salv/models/user_model.dart';
 import 'package:salv/services/transaksi_services.dart';
 
+import '../../models/jual_limbah_form_model.dart';
+import '../../models/jual_limbah_model.dart';
+
 // import 'package:salv/models/transaksi_model.dart';
 
 part 'transaksi_event.dart';
@@ -64,6 +67,7 @@ class TransaksiBloc extends Bloc<TransaksiEvent, TransaksiState> {
           emit(TransaksiFailed(e.toString()));
         }
       }
+
       if (event is AksiTransaksiGetBuyer) {
         try {
           emit(AksiTransaksiLoading());
@@ -81,6 +85,15 @@ class TransaksiBloc extends Bloc<TransaksiEvent, TransaksiState> {
           final aksiTransaksi = await TransaksiService()
               .putAksiTransaksiSeller(event.transactionId);
           emit(AksiTransaksiSellerPutSuccess(aksiTransaksi));
+
+      if (event is CreateTransaksiSeller) {
+        try {
+          emit(TransaksiLoading());
+          final createTransaksi = await TransaksiService().createTransaksi(event.jualLimbahForm);
+          
+          print(createTransaksi.message);
+          emit(createTransaksiSuccess(createTransaksi));
+
         } catch (e) {
           print(e.toString());
           emit(TransaksiFailed(e.toString()));

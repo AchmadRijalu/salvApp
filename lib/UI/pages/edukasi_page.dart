@@ -79,12 +79,13 @@ class _EdukasiPageState extends State<EdukasiPage> {
                                   var edukasi = state.edukasi!.data[index];
                                   return ListEdukasi(
                                     onTap: () {
-                                      print(edukasi.id);
+                                      
                                       Navigator.push(context, MaterialPageRoute(builder:(context) {
                                         return DetailEdukasiPage(edukasiId: edukasi.id,);
                                       },));
                                     },
                                     gambarLimbah:
+                                    
                                         "assets/image/image_sampah.png",
                                     namaTutorial: edukasi.title,
                                     durasiVideo: 15,
