@@ -37,6 +37,7 @@ class IklanBuyerDetailData {
         required this.additionalInformation,
         required this.category,
         required this.id,
+        required this.status,
         required this.location,
         required this.maximumWeight,
         required this.minimumWeight,
@@ -52,11 +53,13 @@ class IklanBuyerDetailData {
     int maximumWeight;
     int minimumWeight;
     int price;
+    String status;
     int retrievalSystem;
     String title;
 
     factory IklanBuyerDetailData.fromJson(Map<String, dynamic> json) => IklanBuyerDetailData(
         additionalInformation: json["additional_information"],
+        status: json["status"],
         category: json["category"],
         id: json["id"],
         location: json["location"],
@@ -72,6 +75,7 @@ class IklanBuyerDetailData {
         "category": category,
         "id": id,
         "location": location,
+        "status": status,
         "maximum_weight": maximumWeight,
         "minimum_weight": minimumWeight,
         "price": price,

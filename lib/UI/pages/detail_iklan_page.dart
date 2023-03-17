@@ -403,56 +403,73 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                     const SizedBox(
                                                       height: 12,
                                                     ),
-                                                    // if(state.iklanBuyerDetail!.data.)
-                                                    BlocProvider(
-                                                      create: (context) =>
-                                                          IklanBloc(),
-                                                      child: BlocConsumer<
-                                                          IklanBloc,
-                                                          IklanState>(
-                                                        listener:
-                                                            (context, state) {
-                                                          // TODO: implement listener
-                                                          if (state
-                                                              is IklanFailed) {
-                                                            showCustomSnacKbar(
-                                                                context,
-                                                                state.e);
-                                                          }
-                                                          if (state
-                                                              is IklanCancelBuyerSuccess) {
-                                                            Navigator
-                                                                .pushNamedAndRemoveUntil(
-                                                                    context,
-                                                                    HolderPage
-                                                                        .routeName,
-                                                                    (route) =>
-                                                                        false);
-                                                          }
-                                                        },
-                                                        builder:
-                                                            (context, state) {
-                                                          return ElevatedButton(
-                                                              style: ElevatedButton
-                                                                  .styleFrom(
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .red
-                                                                              .shade900),
-                                                              onPressed: () {
-                                                                context
-                                                                    .read<
-                                                                        IklanBloc>()
-                                                                    .add(IklanCancelBuyer(
-                                                                        widget
-                                                                            .advertisementId));
-                                                              },
-                                                              child: Text(
-                                                                "Batalkan Iklan",
-                                                              ));
-                                                        },
+                                                    if (state.iklanBuyerDetail!
+                                                            .data.status ==
+                                                        "ongoing") ...[
+                                                      BlocProvider(
+                                                        create: (context) =>
+                                                            IklanBloc(),
+                                                        child: BlocConsumer<
+                                                            IklanBloc,
+                                                            IklanState>(
+                                                          listener:
+                                                              (context, state) {
+                                                            // TODO: implement listener
+                                                            if (state
+                                                                is IklanFailed) {
+                                                              showCustomSnacKbar(
+                                                                  context,
+                                                                  state.e);
+                                                            }
+                                                            if (state
+                                                                is IklanCancelBuyerSuccess) {
+                                                              Navigator.pushNamedAndRemoveUntil(
+                                                                  context,
+                                                                  HolderPage
+                                                                      .routeName,
+                                                                  (route) =>
+                                                                      false);
+                                                            }
+                                                          },
+                                                          builder:
+                                                              (context, state) {
+                                                            return ElevatedButton(
+                                                                style: ElevatedButton.styleFrom(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .red
+                                                                            .shade900),
+                                                                onPressed: () {
+                                                                  context
+                                                                      .read<
+                                                                          IklanBloc>()
+                                                                      .add(IklanCancelBuyer(
+                                                                          widget
+                                                                              .advertisementId));
+                                                                },
+                                                                child: Text(
+                                                                  "Batalkan Iklan",
+                                                                ));
+                                                          },
+                                                        ),
                                                       ),
-                                                    ),
+                                                    ] else ...[
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(12),
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8)),
+                                                        child: Text(
+                                                          "Iklan diNon-Aktifkan.",
+                                                          style: redTextStyle.copyWith(fontWeight: semiBold, fontSize: 12),
+                                                        ),
+                                                      )
+                                                    ],
                                                     Expanded(
                                                         child: Container(
                                                       child: Row(
