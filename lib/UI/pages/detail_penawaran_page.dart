@@ -14,8 +14,10 @@ import 'package:salv/models/user_model.dart';
 
 class DetailPenawaranPage extends StatefulWidget {
   final String? transactionId;
+  final int? statusPenawaran;
   static const routeName = '/detailpenawaran';
-  const DetailPenawaranPage({super.key, this.transactionId});
+  const DetailPenawaranPage(
+      {super.key, this.transactionId, this.statusPenawaran});
 
   @override
   State<DetailPenawaranPage> createState() => _DetailPenawaranPageState();
@@ -35,6 +37,7 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
       userType = authState.user!.type;
       userId = authState.user!.id;
     }
+    print("ID STATUS: ${widget.statusPenawaran}");
   }
 
   @override
@@ -316,7 +319,86 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                               return Container();
                             },
                           ),
-                        )
+                        ),
+
+                        //CHECKING STATUS CODE OF BUYER
+                        // HEREEEE
+                        if (widget.statusPenawaran == 1) ...[
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Column(children: [
+                              Image.asset(
+                                "assets/image/check.png",
+                                width: 100,
+                                height: 100,
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                "Penawaran Telah Diterima",
+                                style: greenTextStyle.copyWith(
+                                    fontSize: 16, fontWeight: semiBold),
+                              )
+                            ]),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          )
+                        ],
+                        if (widget.statusPenawaran == 3) ...[
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    "assets/image/cross.png",
+                                    width: 60,
+                                    height: 60,
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  Text(
+                                    "Penawaran Dibatalkan",
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 16, fontWeight: semiBold),
+                                  )
+                                ]),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          )
+                        ],
+                        if (widget.statusPenawaran == 4) ...[
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    "assets/image/cross.png",
+                                    width: 60,
+                                    height: 60,
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  Text(
+                                    "Penawaran Ditolak",
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 16, fontWeight: semiBold),
+                                  )
+                                ]),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          )
+                        ],
                       ] else if (userType == "seller") ...[
                         BlocProvider(
                           create: (context) => TransaksiBloc()
@@ -383,103 +465,111 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                     ]),
                   )),
                   if (userType == "buyer") ...[
-                    BlocProvider(
-                      create: (context) => TransaksiBloc()
-                        ..add(TransaksiGetDetailBuyer(widget.transactionId)),
-                      child: BlocConsumer<TransaksiBloc, TransaksiState>(
-                        listener: (context, state) {
-                          if (state is AksiTransaksiBuyerGetSuccess) {
-                            Navigator.pop(context);
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is DetailTransaksiBuyerGetSuccess) {
-                            var detailTransaksi =
-                                state.detailTransaksiBuyer!.data;
-                            return Flexible(
-                                child: Container(
-                              child: Row(children: [
-                                Expanded(
-                                    child: Container(
-                                        child: GestureDetector(
-                                  onTap: () {},
-                                  child: SizedBox(
-                                    width: 144,
-                                    height: 50,
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                          backgroundColor: Colors.red,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8))),
-                                      onPressed: () {
-                                        //TODO: Tolak
-                                        status = 4;
-                                        print("TOLAK: Status ${status}");
-                                        context.read<TransaksiBloc>().add(
-                                            AksiTransaksiGetBuyer(
-                                                widget.transactionId, status));
-                                      },
-                                      child: Text(
-                                        "Tolak",
-                                        style: whiteTextStyle.copyWith(
-                                            fontSize: 16, fontWeight: semiBold),
-                                      ),
-                                    ),
-                                  ),
-                                ))),
-                                SizedBox(
-                                  width: 12,
-                                ),
-                                Flexible(
-                                    child: Container(
+                    if (widget.statusPenawaran == 0) ...[
+                      BlocProvider(
+                        create: (context) => TransaksiBloc()
+                          ..add(TransaksiGetDetailBuyer(widget.transactionId)),
+                        child: BlocConsumer<TransaksiBloc, TransaksiState>(
+                          listener: (context, state) {
+                            if (state is AksiTransaksiBuyerGetSuccess) {
+                              Navigator.pushNamedAndRemoveUntil(context,
+                                  HolderPage.routeName, (route) => false);
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is DetailTransaksiBuyerGetSuccess) {
+                              // var detailTransaksi =
+                              //     state.detailTransaksiBuyer!.data;
+                              return Flexible(
                                   child: Container(
-                                      child: GestureDetector(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                  Flexible(
+                                      child: Container(
+                                          child: GestureDetector(
                                     onTap: () {},
                                     child: SizedBox(
                                       width: 144,
                                       height: 50,
                                       child: TextButton(
                                         style: TextButton.styleFrom(
-                                            backgroundColor: Colors.green,
+                                            backgroundColor: Colors.red,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(8))),
                                         onPressed: () {
-                                          //TODO: Terima
-                                          status = 1;
-                                          print("TERIMA: Status ${status}");
+                                          //TODO: Tolak
+                                          status = 4;
+                                          print("TOLAK: Status ${status}");
                                           context.read<TransaksiBloc>().add(
                                               AksiTransaksiGetBuyer(
                                                   widget.transactionId,
                                                   status));
                                         },
                                         child: Text(
-                                          "Terima",
+                                          "Tolak",
                                           style: whiteTextStyle.copyWith(
                                               fontSize: 16,
                                               fontWeight: semiBold),
                                         ),
                                       ),
                                     ),
-                                  )),
-                                ))
-                              ]),
-                            ));
-                          }
-                          if (state is DetailTransaksiBuyerFailed) {
-                            return Center(
-                              child: Text(
-                                "Terjadi Kesalahan :(",
-                                style: blackTextStyle.copyWith(
-                                    fontSize: 16, fontWeight: semiBold),
-                              ),
-                            );
-                          }
-                          return Container();
-                        },
-                      ),
-                    )
+                                  ))),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Flexible(
+                                    child: Container(
+                                        child: GestureDetector(
+                                      onTap: () {},
+                                      child: SizedBox(
+                                        width: 144,
+                                        height: 50,
+                                        child: TextButton(
+                                          style: TextButton.styleFrom(
+                                              backgroundColor: Colors.green,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8))),
+                                          onPressed: () {
+                                            //TODO: Terima
+                                            status = 1;
+                                            print("TERIMA: Status ${status}");
+                                            context.read<TransaksiBloc>().add(
+                                                AksiTransaksiGetBuyer(
+                                                    widget.transactionId,
+                                                    status));
+                                          },
+                                          child: Text(
+                                            "Terima",
+                                            style: whiteTextStyle.copyWith(
+                                                fontSize: 16,
+                                                fontWeight: semiBold),
+                                          ),
+                                        ),
+                                      ),
+                                    )),
+                                  )
+                                ]),
+                              ));
+                            }
+                            if (state is DetailTransaksiBuyerFailed) {
+                              return Center(
+                                child: Text(
+                                  "Terjadi Kesalahan :(",
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 16, fontWeight: semiBold),
+                                ),
+                              );
+                            }
+                            return Container();
+                          },
+                        ),
+                      )
+                    ],
+                    if (widget.statusPenawaran == 2) ...[Text("Konfirmasi")],
                   ],
                   const SizedBox(
                     height: 12,
@@ -491,7 +581,8 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                       child: BlocConsumer<TransaksiBloc, TransaksiState>(
                         listener: (context, state) {
                           if (state is AksiTransaksiBuyerGetSuccess) {
-                            Navigator.pop(context);
+                            Navigator.pushNamedAndRemoveUntil(context,
+                                HolderPage.routeName, (route) => false);
                           }
                         },
                         builder: (context, state) {
@@ -1215,23 +1306,20 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                   ],
                   if (userType == "seller") ...[
                     const SizedBox(height: 30),
-                    BlocProvider(
-                      create: (context) => TransaksiBloc()
-                        ..add(AksiTransaksiGetSeller(widget.transactionId)),
-                      child: BlocConsumer<TransaksiBloc, TransaksiState>(
-                        listener: (context, state) {
-                          // TODO: implement listener
-                          if (state is AksiTransaksiGetSeller) {
-                            Navigator.pushNamedAndRemoveUntil(context,
-                                HolderPage.routeName, (route) => false);
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is AksiTransaksiLoading) {
-                            print("Loading");
-                          }
-                          if (state is AksiTransaksiSellerGetSuccess) {
-                            print("Hello");
+                    if (widget.statusPenawaran == 0) ...[
+                      BlocProvider(
+                        create: (context) => TransaksiBloc(),
+                        child: BlocConsumer<TransaksiBloc, TransaksiState>(
+                          listener: (context, state) {
+                            // TODO: implement listener
+                            if (state is AksiTransaksiSellerGetSuccess) {
+                              Navigator.pushNamedAndRemoveUntil(context,
+                                  HolderPage.routeName, (route) => false);
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is AksiTransaksiLoading) {}
+
                             return GestureDetector(
                               onTap: () {},
                               child: SizedBox(
@@ -1256,14 +1344,102 @@ class _DetailPenawaranPageState extends State<DetailPenawaranPage> {
                                 ),
                               ),
                             );
-                          }
-                          if (state is AksiTransaksiSellerFailed) {
-                            print("Failed");
-                          }
-                          return Container();
-                        },
-                      ),
-                    )
+
+                            if (state is AksiTransaksiSellerFailed) {}
+                            return Container();
+                          },
+                        ),
+                      )
+                    ],
+                    if (widget.statusPenawaran == 1) ...[
+                      Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(12)),
+                            width: double.infinity,
+                            height: 100,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Penawaran Telah Diterima Oleh Pembeli",
+                                    style: whiteTextStyle.copyWith(
+                                        fontSize: 20, fontWeight: semiBold),
+                                    textAlign: TextAlign.center,
+                                  )
+                                ]),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          )
+                        ],
+                      )
+                    ] else if (widget.statusPenawaran == 3) ...[
+                      Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                color: redColor,
+                                borderRadius: BorderRadius.circular(12)),
+                            width: double.infinity,
+                            height: 70,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Penawaran Telah Dibatalkan",
+                                    style: whiteTextStyle.copyWith(
+                                        fontSize: 20, fontWeight: semiBold),
+                                    textAlign: TextAlign.center,
+                                  )
+                                ]),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          )
+                        ],
+                      )
+                    ] else if (widget.statusPenawaran == 2) ...[
+                      Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                color: Colors.yellow.shade800,
+                                borderRadius: BorderRadius.circular(12)),
+                            width: double.infinity,
+                            height: 100,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  RichText(
+                                    textAlign: TextAlign.center,
+                                    text: TextSpan(
+                                      text: 'Yuk',
+                                      style: TextStyle(
+                                          fontSize: 20, fontWeight: semiBold),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text:
+                                                " Segera Antar Penawaran Limbahmu!",
+                                            style: whiteTextStyle.copyWith(
+                                                fontSize: 20,
+                                                fontWeight: semiBold)),
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          )
+                        ],
+                      )
+                    ]
                   ]
                 ]),
               )

@@ -112,9 +112,11 @@ class _PenawaranPageState extends State<PenawaranPage> {
                                   tanggal: transaksi.createdAt.substring(4, 16),
                                   username: transaksi.mahasiswa,
                                   onTap: () {
+                                    print(transaksi.status);
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
                                       return DetailPenawaranPage(
+                                        statusPenawaran: transaksi.status,
                                         transactionId: transaksi.id,
                                       );
                                     })).then((value){
@@ -164,14 +166,16 @@ class _PenawaranPageState extends State<PenawaranPage> {
                               itemBuilder: (content, index) {
                                 var transaksi =
                                     state.transaksiSeller!.data[index];
+                                //kirim data ke detail untuk statusnya
+                                var statusType = transaksi.status;
                                 return ListPenawaran(
                                   gambar: "assets/image/image_profilepng.png",
                                   namaLimbah: transaksi.title,
                                   beratLimbah: "+ Rp.${transaksi.totalPrice}",
                                   statusPenawaran: transaksi.status == 0
-                                      ? "Menunggu Pembeli"
+                                      ? "Menunggu Konfirmasi"
                                       : transaksi.status == 1
-                                          ? "Berhasil"
+                                          ? "Diterima"
                                           : transaksi.status == 2
                                               ? "Sedang Berlangsung"
                                               : transaksi.status == 3
@@ -184,6 +188,7 @@ class _PenawaranPageState extends State<PenawaranPage> {
                                         MaterialPageRoute(builder: (context) {
                                       return DetailPenawaranPage(
                                         transactionId: transaksi.id,
+                                        statusPenawaran: statusType,
                                       );
                                     })).then((value){
                                       setState(() {

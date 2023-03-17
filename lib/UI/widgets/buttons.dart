@@ -24,7 +24,9 @@ class CustomFilledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap:() {
+        
+      },
       child: SizedBox(
         width: width,
         height: height,
@@ -43,6 +45,7 @@ class CustomFilledButton extends StatelessWidget {
     );
   }
 }
+
 
 class CustomTextButton extends StatelessWidget {
   final String? title;

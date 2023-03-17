@@ -31,7 +31,11 @@ class ListPenawaran extends StatelessWidget {
         height: 82,
         margin: const EdgeInsets.only(bottom: 14),
         decoration: BoxDecoration(
-            color: greenColor, borderRadius: BorderRadius.circular(8)),
+            color: statusPenawaran == 'Respon' ||
+                    statusPenawaran == "Menunggu Konfirmasi"
+                ? greenColor
+                : whiteColor,
+            borderRadius: BorderRadius.circular(8)),
         child: Row(children: [
           Expanded(
               child: Container(
@@ -57,12 +61,14 @@ class ListPenawaran extends StatelessWidget {
                       children: [
                         Expanded(
                             flex: 3,
-                            child: Text(
-                              namaLimbah!,
-                              overflow: TextOverflow.clip,
-                              style: whiteTextStyle.copyWith(
-                                  fontWeight: FontWeight.w700),
-                            )),
+                            child: Text(namaLimbah!,
+                                overflow: TextOverflow.clip,
+                                style: statusPenawaran == 'Respon' ||
+                                        statusPenawaran == "Menunggu Konfirmasi"
+                                    ? whiteTextStyle.copyWith(
+                                        fontWeight: FontWeight.w700)
+                                    : greenTextStyle.copyWith(
+                                        fontWeight: FontWeight.w700))),
                         Flexible(
                             child: Container(
                           width: double.infinity,
@@ -72,7 +78,11 @@ class ListPenawaran extends StatelessWidget {
                               children: [
                                 Text(
                                   username!,
-                                  style: whiteTextStyle.copyWith(fontSize: 10),
+                                  style: statusPenawaran == 'Respon' ||
+                                          statusPenawaran ==
+                                              "Menunggu Konfirmasi"
+                                      ? whiteTextStyle.copyWith(fontSize: 10)
+                                      : greenTextStyle.copyWith(fontSize: 10),
                                 )
                               ]),
                         ))
@@ -94,8 +104,13 @@ class ListPenawaran extends StatelessWidget {
                                     children: [
                                       Text(
                                         tanggal!,
-                                        style: whiteTextStyle.copyWith(
-                                            fontSize: 7),
+                                        style: statusPenawaran == 'Respon' ||
+                                                statusPenawaran ==
+                                                    "Menunggu Konfirmasi"
+                                            ? whiteTextStyle.copyWith(
+                                                fontSize: 7)
+                                            : greenTextStyle.copyWith(
+                                                fontSize: 7),
                                       )
                                     ],
                                   ),
@@ -107,8 +122,11 @@ class ListPenawaran extends StatelessWidget {
                                 children: [
                                   Text(
                                     beratLimbah!.toString(),
-                                    style:
-                                        whiteTextStyle.copyWith(fontSize: 10),
+                                    style: statusPenawaran == 'Respon' ||
+                                            statusPenawaran ==
+                                                "Menunggu Konfirmasi"
+                                        ? whiteTextStyle.copyWith(fontSize: 10)
+                                        : greenTextStyle.copyWith(fontSize: 10),
                                   )
                                 ],
                               ))
@@ -125,13 +143,14 @@ class ListPenawaran extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    statusPenawaran!,
-                                    textAlign: TextAlign.center,
-                                    style:
-                                        greenTextStyle.copyWith(fontSize: 12),
-                                  )
-                                ],
+                                  Text(statusPenawaran!,
+                                      textAlign: TextAlign.center,
+                                      style: statusPenawaran == 'Respon' ||
+                                              statusPenawaran ==
+                                                  "Menunggu Konfirmasi"
+                                          ? greenTextStyle.copyWith(
+                                              fontSize: 12)
+                                          : statusPenawaran == "Diterima" ? greenTextStyle.copyWith(fontSize: 12) : statusPenawaran == "Dibatalkan" || statusPenawaran == "Ditolak" ? redTextStyle.copyWith(fontSize: 12) : whiteTextStyle.copyWith(fontSize: 12)         )                       ],
                               )))
                     ],
                   ))

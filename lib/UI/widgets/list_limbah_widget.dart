@@ -126,29 +126,7 @@ class LimbahBerandaPage extends StatelessWidget {
                             ],
                           ),
                         )),
-                        Expanded(
-                            child: Container(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                    height: 34,
-                                    width: 111,
-                                    decoration: BoxDecoration(
-                                        color: whiteColor,
-                                        borderRadius: BorderRadius.circular(8)),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Selengkapnya",
-                                          style: greenTextStyle.copyWith(),
-                                        ),
-                                      ],
-                                    ))
-                              ]),
-                        ))
+                        
                       ],
                     ),
                   ))
