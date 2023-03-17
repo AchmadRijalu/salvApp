@@ -21,8 +21,6 @@ class DetailEdukasiPage extends StatefulWidget {
 }
 
 class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
-
-
   int currentIndex = 0;
   CarouselController carouselController = CarouselController();
 
@@ -30,7 +28,6 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   Widget build(BuildContext context) {
@@ -84,7 +81,7 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
                                 controller: _videoController,
                                 liveUIColor: greenColor,
                               ),
-                              Expanded(
+                              Flexible(
                                   child: CustomScrollView(
                                 slivers: [
                                   SliverFillRemaining(
@@ -100,14 +97,6 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: [
-                                              // Text(
-                                              //   edukasiIndex.implementation,
-                                              //   style: greenTextStyle.copyWith(
-                                              //       fontSize: 10,
-                                              //       fontWeight: FontWeight.w600,
-                                              //       overflow:
-                                              //           TextOverflow.fade),
-                                              // ),
                                               Text(
                                                 "${edukasiIndex.duration.toString()} menit",
                                                 style: greyTextStyle.copyWith(
@@ -221,9 +210,8 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
                                           const SizedBox(
                                             height: 26,
                                           ),
-                                          Flexible(
-                                              child: Container(
-                                                  child: Column(
+                                          Container(
+                                              child: Column(
                                             crossAxisAlignment:
                                                 currentIndex + 1 !=
                                                         state
@@ -301,7 +289,7 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
                                                         FontWeight.w600),
                                               )
                                             ],
-                                          )))
+                                          ))
                                         ],
                                       ),
                                     ),

@@ -466,7 +466,11 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                                         8)),
                                                         child: Text(
                                                           "Iklan diNon-Aktifkan.",
-                                                          style: redTextStyle.copyWith(fontWeight: semiBold, fontSize: 12),
+                                                          style:
+                                                              redTextStyle.copyWith(
+                                                                  fontWeight:
+                                                                      semiBold,
+                                                                  fontSize: 12),
                                                         ),
                                                       )
                                                     ],
@@ -699,19 +703,29 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                         "Ketersediaan Sistem",
                                                         style: whiteTextStyle,
                                                       ),
-                                                      Text(
-                                                        state.iklanSellerDetail!.data
-                                                                    .retrievalSystem
-                                                                    .toString() ==
-                                                                0
-                                                            ? "Diantar pemilik Limbah"
-                                                            : "Diambil di pemilik limbah",
-                                                        style: whiteTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      )
+                                                      Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                                        children: [
+                                                          Text(
+                                                            state.iklanSellerDetail!.data
+                                                                        .retrievalSystem
+                                                                        .toString() ==
+                                                                    0
+                                                                ? "Diantar pemilik Limbah"
+                                                                : "Diambil di pemilik limbah",
+                                                            style: whiteTextStyle
+                                                                .copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                                            textAlign: TextAlign.end,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .visible,
+                                                          ),
+                                                        ],
+                                                      ))
                                                     ],
                                                   ),
                                                   const SizedBox(
