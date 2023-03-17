@@ -5,6 +5,7 @@ import 'package:salv/models/pembeli_iklan_model.dart';
 import 'package:salv/models/user_model.dart';
 import 'package:salv/services/iklan_services.dart';
 
+import '../../models/batal_iklan_buyer.dart';
 import '../../models/iklan_add_model.dart';
 import '../../models/iklan_buyer_detail_model.dart';
 import '../../models/iklan_seller_detail_model.dart';
@@ -73,6 +74,18 @@ class IklanBloc extends Bloc<IklanEvent, IklanState> {
           emit(IklanSellerGetDetailSuccess(getIklan));
         } catch (e) {
           rethrow;
+        }
+      }
+
+      if (event is IklanCancelBuyer) {
+        try {
+          emit(IklanLoading());
+
+          final cancelIklan = await IklanService().batalIklanBuyer(event.adsId);
+          print(cancelIklan.message);
+          emit(IklanCancelBuyerSuccess(cancelIklan));
+        } catch (e) {
+          emit(IklanFailed(e.toString()));
         }
       }
     });

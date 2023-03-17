@@ -32,6 +32,7 @@ class ListPenawaran extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 14),
         decoration: BoxDecoration(
             color: statusPenawaran == 'Respon' ||
+                    statusPenawaran == "Sedang Berlangsung" ||
                     statusPenawaran == "Menunggu Konfirmasi"
                 ? greenColor
                 : whiteColor,
@@ -64,6 +65,8 @@ class ListPenawaran extends StatelessWidget {
                             child: Text(namaLimbah!,
                                 overflow: TextOverflow.clip,
                                 style: statusPenawaran == 'Respon' ||
+                                        statusPenawaran ==
+                                            "Sedang Berlangsung" ||
                                         statusPenawaran == "Menunggu Konfirmasi"
                                     ? whiteTextStyle.copyWith(
                                         fontWeight: FontWeight.w700)
@@ -79,6 +82,8 @@ class ListPenawaran extends StatelessWidget {
                                 Text(
                                   username!,
                                   style: statusPenawaran == 'Respon' ||
+                                          statusPenawaran ==
+                                              "Sedang Berlangsung" ||
                                           statusPenawaran ==
                                               "Menunggu Konfirmasi"
                                       ? whiteTextStyle.copyWith(fontSize: 10)
@@ -106,6 +111,8 @@ class ListPenawaran extends StatelessWidget {
                                         tanggal!,
                                         style: statusPenawaran == 'Respon' ||
                                                 statusPenawaran ==
+                                                    "Sedang Berlangsung" ||
+                                                statusPenawaran ==
                                                     "Menunggu Konfirmasi"
                                             ? whiteTextStyle.copyWith(
                                                 fontSize: 7)
@@ -124,6 +131,8 @@ class ListPenawaran extends StatelessWidget {
                                     beratLimbah!.toString(),
                                     style: statusPenawaran == 'Respon' ||
                                             statusPenawaran ==
+                                                "Sedang Berlangsung" ||
+                                            statusPenawaran ==
                                                 "Menunggu Konfirmasi"
                                         ? whiteTextStyle.copyWith(fontSize: 10)
                                         : greenTextStyle.copyWith(fontSize: 10),
@@ -137,7 +146,7 @@ class ListPenawaran extends StatelessWidget {
                               width: double.infinity,
                               height: 23,
                               decoration: BoxDecoration(
-                                  color: whiteColor,
+                                  color: statusPenawaran == "Konfirmasi"? greenColor: whiteColor,
                                   borderRadius: BorderRadius.circular(8)),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -150,7 +159,22 @@ class ListPenawaran extends StatelessWidget {
                                                   "Menunggu Konfirmasi"
                                           ? greenTextStyle.copyWith(
                                               fontSize: 12)
-                                          : statusPenawaran == "Diterima" ? greenTextStyle.copyWith(fontSize: 12) : statusPenawaran == "Dibatalkan" || statusPenawaran == "Ditolak" ? redTextStyle.copyWith(fontSize: 12) : whiteTextStyle.copyWith(fontSize: 12)         )                       ],
+                                          : statusPenawaran == "Diterima"
+                                              ? greenTextStyle.copyWith(
+                                                  fontSize: 12)
+                                              : statusPenawaran ==
+                                                          "Dibatalkan" ||
+                                                      statusPenawaran ==
+                                                          "Ditolak"
+                                                  ? redTextStyle.copyWith(
+                                                      fontSize: 12)
+                                                  : statusPenawaran ==
+                                                          "Sedang Berlangsung"
+                                                      ? greenTextStyle.copyWith(
+                                                          fontSize: 12)
+                                                      : whiteTextStyle.copyWith(
+                                                          fontSize: 12))
+                                ],
                               )))
                     ],
                   ))

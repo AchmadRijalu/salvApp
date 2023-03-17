@@ -41,3 +41,10 @@ class IklanAddAds extends IklanEvent {
   // TODO: implement props
   List<Object> get props => [data!];
 }
+
+class IklanCancelBuyer extends IklanEvent{
+  late String? adsId;
+
+  IklanCancelBuyer(this.adsId);
+  List<Object> get props => [adsId!];
+}

@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:salv/UI/pages/pencairan_poin_page.dart';
 import 'package:salv/UI/pages/sign_in_page.dart';
+import 'package:salv/UI/pages/topup_point_page.dart';
 import 'package:salv/UI/pages/ubah_data_alamat_page.dart';
 import 'package:salv/UI/pages/ubah_data_profil_page.dart';
 
@@ -118,6 +119,26 @@ class ProfilPage extends StatelessWidget {
                             Navigator.pushNamed(
                                 context, UbahDataProfilPage.routeName);
                           },
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, TopupPointPage.routeName);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 30),
+                            child: Row(children: [
+                              Icon(Icons.wallet),
+                              const SizedBox(
+                                width: 18,
+                              ),
+                              Text(
+                                "Topup",
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 14, fontWeight: medium),
+                              )
+                            ]),
+                          ),
                         ),
                         ProfileMenu(
                           iconUrl: "assets/image/icon_location.svg",

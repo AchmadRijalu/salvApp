@@ -13,12 +13,14 @@ import '../../blocs/auth/auth_bloc.dart';
 import '../../models/jual_limbah_form_model.dart';
 import '../../models/user_model.dart';
 import '../../shared/shared_methods.dart';
+import 'holder_page.dart';
 
 class DetailIklanPage extends StatefulWidget {
   final String? advertisementId;
   final dynamic? iklanProgress;
   final dynamic maxProgress;
-  DetailIklanPage({super.key, this.advertisementId, this.iklanProgress, this.maxProgress});
+  DetailIklanPage(
+      {super.key, this.advertisementId, this.iklanProgress, this.maxProgress});
   static const routeName = '/detailiklan';
 
   @override
@@ -33,7 +35,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
 
   void initState() {
     // TODO: implement initState
- 
+
     super.initState();
     final authState = context.read<AuthBloc>().state;
 
@@ -43,7 +45,6 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
       print(" ADS ID:${widget.advertisementId}");
     }
   }
-
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +74,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                   //Only for Mahasiswa
 
                                   // if pabrik
-                                  Expanded(
+                                  Flexible(
                                       flex: userType == "buyer" ? 2 : 4,
                                       child: Container(
                                         child: Column(
@@ -337,129 +338,144 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                   ),
                                                 ]),
                                               ),
+                                              const SizedBox(
+                                                height: 50,
+                                              ),
+                                              if (widget.advertisementId !=
+                                                  "") ...[
+                                                Container(
+                                                  width: double.infinity,
+                                                  height: 160,
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 12),
+                                                  decoration: BoxDecoration(
+                                                      color: greenColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8)),
+                                                  child: Column(children: [
+                                                    const SizedBox(
+                                                      height: 15,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          "Tidak ada Batas Kadaluarsa",
+                                                          style: whiteTextStyle
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      semiBold,
+                                                                  fontSize: 12),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 12,
+                                                    ),
+                                                    Flexible(
+                                                        child: Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              left: 9),
+                                                      child:
+                                                          LinearPercentIndicator(
+                                                        trailing: Text(
+                                                          "${state.iklanBuyerDetail!.data.maximumWeight.toString()} Kg",
+                                                          style: whiteTextStyle
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      semiBold,
+                                                                  fontSize: 15),
+                                                        ),
+                                                        lineHeight: 11,
+                                                        percent: widget
+                                                            .iklanProgress,
+                                                        animation: true,
+                                                        progressColor:
+                                                            blueColor,
+                                                        backgroundColor:
+                                                            greyColor,
+                                                        barRadius:
+                                                            Radius.circular(8),
+                                                      ),
+                                                    )),
+                                                    const SizedBox(
+                                                      height: 12,
+                                                    ),
+                                                    // if(state.iklanBuyerDetail!.data.)
+                                                    BlocProvider(
+                                                      create: (context) =>
+                                                          IklanBloc(),
+                                                      child: BlocConsumer<
+                                                          IklanBloc,
+                                                          IklanState>(
+                                                        listener:
+                                                            (context, state) {
+                                                          // TODO: implement listener
+                                                          if (state
+                                                              is IklanFailed) {
+                                                            showCustomSnacKbar(
+                                                                context,
+                                                                state.e);
+                                                          }
+                                                          if (state
+                                                              is IklanCancelBuyerSuccess) {
+                                                            Navigator
+                                                                .pushNamedAndRemoveUntil(
+                                                                    context,
+                                                                    HolderPage
+                                                                        .routeName,
+                                                                    (route) =>
+                                                                        false);
+                                                          }
+                                                        },
+                                                        builder:
+                                                            (context, state) {
+                                                          return ElevatedButton(
+                                                              style: ElevatedButton
+                                                                  .styleFrom(
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .red
+                                                                              .shade900),
+                                                              onPressed: () {
+                                                                context
+                                                                    .read<
+                                                                        IklanBloc>()
+                                                                    .add(IklanCancelBuyer(
+                                                                        widget
+                                                                            .advertisementId));
+                                                              },
+                                                              child: Text(
+                                                                "Batalkan Iklan",
+                                                              ));
+                                                        },
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                        child: Container(
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            Text(
+                                                              "Dibuat: 11 Februari 2021",
+                                                              style: whiteTextStyle
+                                                                  .copyWith(
+                                                                      fontWeight:
+                                                                          medium,
+                                                                      fontSize:
+                                                                          9),
+                                                            )
+                                                          ]),
+                                                    ))
+                                                  ]),
+                                                )
+                                              ]
                                             ]),
                                       )),
-
-                                  const SizedBox(
-                                    height: 23,
-                                  ),
-
-                                  Expanded(
-                                      child: Container(
-                                    child: Column(children: [
-                                      Flexible(
-                                          child: Container(
-                                              child: Column(
-                                        children: [
-                                          SvgPicture.asset(
-                                              "assets/image/image_details_iklan_pabrik.svg"),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text("Berlangsung"),
-                                              Text("Selesai"),
-                                              Text("Dibatalkan")
-                                            ],
-                                          )
-                                        ],
-                                      ))),
-                                      Expanded(
-                                          flex: 2,
-                                          child: Column(
-                                            children: [
-                                              Expanded(
-                                                  child: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 12),
-                                                decoration: BoxDecoration(
-                                                    color: greenColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
-                                                child: Column(children: [
-                                                  const SizedBox(
-                                                    height: 15,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        "Tidak ada Batas Kadaluarsa",
-                                                        style: whiteTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    semiBold,
-                                                                fontSize: 12),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  Flexible(
-                                                      child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 9),
-                                                    child:
-                                                        LinearPercentIndicator(
-                                                      trailing: Text(
-                                                        "${state.iklanBuyerDetail!.data.maximumWeight.toString()} Kg",
-                                                        style: whiteTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    semiBold,
-                                                                fontSize: 15),
-                                                      ),
-                                                      lineHeight: 11,
-                                                      percent:
-                                                          widget.iklanProgress,
-                                                      animation: true,
-                                                      progressColor: blueColor,
-                                                      backgroundColor:
-                                                          greyColor,
-                                                      barRadius:
-                                                          Radius.circular(8),
-                                                    ),
-                                                  )),
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-                                                  ElevatedButton(
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                              backgroundColor:
-                                                                  Colors.red
-                                                                      .shade900),
-                                                      onPressed: () {},
-                                                      child: Text(
-                                                        "Batalkan Iklan",
-                                                      )),
-                                                  Expanded(
-                                                      child: Container(
-                                                    child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Text(
-                                                            "Dibuat: 11 Februari 2021",
-                                                            style: whiteTextStyle
-                                                                .copyWith(
-                                                                    fontWeight:
-                                                                        medium,
-                                                                    fontSize:
-                                                                        9),
-                                                          )
-                                                        ]),
-                                                  ))
-                                                ]),
-                                              ))
-                                            ],
-                                          )),
-                                    ]),
-                                  )),
                                 ]),
                               )
                             ],
@@ -854,9 +870,16 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                               CustomFilledButton(
                                                 title: "Buat Penawaran",
                                                 onPressed: () {
-                                                  Navigator.push(context, MaterialPageRoute(builder:(context) {
-                                                    return FormJualLimbahPage(adsId: widget.advertisementId, userId: userId,);
-                                                  },));
+                                                  Navigator.push(context,
+                                                      MaterialPageRoute(
+                                                    builder: (context) {
+                                                      return FormJualLimbahPage(
+                                                        adsId: widget
+                                                            .advertisementId,
+                                                        userId: userId,
+                                                      );
+                                                    },
+                                                  ));
                                                 },
                                               )
                                             ]),

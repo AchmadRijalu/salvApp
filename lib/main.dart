@@ -20,6 +20,7 @@ import 'package:salv/UI/pages/sign_up_success_page.dart';
 import 'package:salv/UI/pages/sign_up_wilayah_page.dart';
 import 'package:salv/UI/pages/splash_page.dart';
 import 'package:salv/UI/pages/tambah_iklan_limbah1_page.dart';
+import 'package:salv/UI/pages/topup_point_page.dart';
 import 'package:salv/UI/pages/ubah_data_alamat_page.dart';
 import 'package:salv/UI/pages/ubah_data_profil_page.dart';
 import 'package:salv/blocs/edukasi/edukasi_bloc.dart';
@@ -87,6 +88,7 @@ class MyApp extends StatelessWidget {
           TambahIklanLimbah1Page.routeName: (context) => TambahIklanLimbah1Page(
                 step: ModalRoute.of(context)!.settings.arguments as int,
               ),
+            TopupPointPage.routeName:(context) => TopupPointPage(),
           DetailIklanPabrikPage.routeName: (context) => DetailIklanPabrikPage()
         },
       ),

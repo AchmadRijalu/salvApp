@@ -21,19 +21,7 @@ class DetailEdukasiPage extends StatefulWidget {
 }
 
 class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
-  static String? videoId =
-      "https://www.youtube.com/watch?v=eOerQ0ZM0rU&ab_channel=NarasiNewsroom";
 
-  static String? getVideoID(String? url) {
-    try {
-      var video = YoutubePlayer.convertUrlToId(url!);
-      return video!;
-    } on Exception catch (exception) {
-      print(exception);
-    } catch (e) {
-      rethrow;
-    }
-  }
 
   int currentIndex = 0;
   CarouselController carouselController = CarouselController();
@@ -42,13 +30,9 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // print("Video ID : ${getVideoID(videoId)}");
+
   }
 
-  final YoutubePlayerController _videoController = YoutubePlayerController(
-      initialVideoId: getVideoID(videoId)!,
-      flags: const YoutubePlayerFlags(autoPlay: false, mute: false));
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -74,6 +58,25 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
                         itemBuilder: (context, index, realIndex) {
                           var edukasiIndex =
                               state.edukasiDetail!.data.children![index];
+
+                          var videoId = edukasiIndex.video;
+                          String? getVideoID(String? url) {
+                            try {
+                              var video = YoutubePlayer.convertUrlToId(url!);
+                              return video!;
+                            } on Exception catch (exception) {
+                              print(exception);
+                            } catch (e) {
+                              rethrow;
+                            }
+                          }
+
+                          final YoutubePlayerController _videoController =
+                              YoutubePlayerController(
+                                  initialVideoId: getVideoID(videoId)!,
+                                  flags: const YoutubePlayerFlags(
+                                      autoPlay: false, mute: false));
+
                           return Container(
                               child: Column(
                             children: [
@@ -315,7 +318,6 @@ class _DetailEdukasiPageState extends State<DetailEdukasiPage> {
                             onPageChanged: ((index, reason) {
                               setState(() {
                                 currentIndex = index;
-                                
                               });
                             }))));
               }
