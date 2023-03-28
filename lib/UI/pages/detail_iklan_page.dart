@@ -393,7 +393,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                             .iklanProgress,
                                                         animation: true,
                                                         progressColor:
-                                                            blueColor,
+                                                            Colors.yellow,
                                                         backgroundColor:
                                                             greyColor,
                                                         barRadius:
@@ -580,7 +580,7 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                             lineHeight: 27,
                                             percent: widget.iklanProgress,
                                             animation: true,
-                                            progressColor: blueColor,
+                                            progressColor: Colors.yellow,
                                             backgroundColor: greyColor,
                                             barRadius: Radius.circular(8),
                                           ),
@@ -705,7 +705,9 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                       ),
                                                       Expanded(
                                                           child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
                                                         children: [
                                                           Text(
                                                             state.iklanSellerDetail!.data
@@ -719,7 +721,8 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w600),
-                                                                            textAlign: TextAlign.end,
+                                                            textAlign:
+                                                                TextAlign.end,
                                                             overflow:
                                                                 TextOverflow
                                                                     .visible,

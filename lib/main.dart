@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salv/UI/pages/beranda_detail.dart';
 import 'package:salv/UI/pages/beranda_page.dart';
+import 'package:salv/UI/pages/camera_page.dart';
 import 'package:salv/UI/pages/detail_edukasi_page.dart';
 import 'package:salv/UI/pages/detail_iklan_pabrik_page.dart';
 import 'package:salv/UI/pages/detail_iklan_page.dart';
@@ -89,7 +90,8 @@ class MyApp extends StatelessWidget {
                 step: ModalRoute.of(context)!.settings.arguments as int,
               ),
             TopupPointPage.routeName:(context) => TopupPointPage(),
-          DetailIklanPabrikPage.routeName: (context) => DetailIklanPabrikPage()
+          DetailIklanPabrikPage.routeName: (context) => DetailIklanPabrikPage(),
+         
         },
       ),
     );

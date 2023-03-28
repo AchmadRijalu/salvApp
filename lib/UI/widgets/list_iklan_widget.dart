@@ -139,7 +139,7 @@ class ListIklan extends StatelessWidget {
                       lineHeight: 27,
                       percent: onGoingWeight/requestedWeight,
                       animation: true,
-                      progressColor: blueColor,
+                      progressColor: Colors.yellow,
                       backgroundColor: greyColor,
                       barRadius: Radius.circular(8),
                     ),

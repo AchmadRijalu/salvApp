@@ -23,6 +23,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
           emit(AuthSuccess(user));
         } catch (e) {
+          
           emit(AuthFailed(e.toString()));
         }
       }

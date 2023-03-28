@@ -30,14 +30,15 @@ environment:
 dependencies:
   another_flushbar: ^1.12.29
   bloc: ^8.1.1
+  camera: ^0.10.3+2
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
   email_validator: ^2.1.17
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  flutter_launcher_icons: ^0.12.0
   flutter_bloc: ^8.1.2
+  flutter_launcher_icons: ^0.12.0
   flutter_secure_storage: ^8.0.0
   flutter_svg: ^2.0.2
   google_fonts: ^4.0.3

@@ -1,7 +1,9 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:salv/UI/pages/camera_page.dart';
 import 'package:salv/UI/pages/detail_iklan_pabrik_page.dart';
 import 'package:salv/UI/pages/detail_iklan_page.dart';
 import 'package:salv/UI/pages/tambah_iklan_limbah1_page.dart';
@@ -32,6 +34,8 @@ class _IklanPageState extends State<IklanPage> {
   dynamic userId;
 
   dynamic getAdvertisementId;
+  
+
   @override
   void initState() {
     // TODO: implement initState
@@ -50,6 +54,19 @@ class _IklanPageState extends State<IklanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: blueColor,
+        onPressed: () async {
+          await availableCameras().then((value) => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => CameraPage(
+                  cameras: value,
+                ),
+              )));
+        },
+        child: Icon(Icons.camera_alt),
+      ),
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 37),
           child: Container(
@@ -107,19 +124,20 @@ class _IklanPageState extends State<IklanPage> {
                                     var iklan = state.iklanSeller!.data[index];
                                     getAdvertisementId = iklan.id;
                                     return ListIklan(
-
-                                      progressBarIndicator: iklan.ongoingWeight / iklan.requestedWeight,
+                                      progressBarIndicator:
+                                          iklan.ongoingWeight /
+                                              iklan.requestedWeight,
                                       title: iklan.title,
                                       price: iklan.price,
                                       onGoingWeight: iklan.ongoingWeight,
                                       requestedWeight: iklan.requestedWeight,
                                       onTap: () {
-                                        
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                           builder: (context) {
                                             return DetailIklanPage(
-                                              maxProgress: iklan.requestedWeight,
+                                              maxProgress:
+                                                  iklan.requestedWeight,
                                               advertisementId: iklan.id,
                                               iklanProgress:
                                                   (iklan.ongoingWeight /
@@ -182,7 +200,6 @@ class _IklanPageState extends State<IklanPage> {
                                       requested_weight: iklan.requestedWeight,
                                       endDate: iklan.endDate
                                           .substring(0, iklanDateConv),
-                                      
                                       onTap: () {
                                         Navigator.push(context,
                                             MaterialPageRoute(

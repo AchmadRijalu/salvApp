@@ -138,6 +138,10 @@ class _SignupSetProfilPageState extends State<SignupSetProfilPage> {
                               CustomFilledButton(
                                 title: "Daftar",
                                 onPressed: () {
+                                  print('data:image/png;base64,' +
+                                                  base64Encode(File(
+                                                          selectedImage!.path)
+                                                      .readAsBytesSync()));
                                   context.read<AuthBloc>().add(AuthRegister(
                                       widget.data!.copyWith(
                                           image: selectedImage == null
