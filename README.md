@@ -34,5 +34,6 @@ After running all the command above, the Flutter Application is ready.
 
 
 ## License
+Link APK : https://drive.google.com/drive/folders/1wyxCJI8HQZvqY0ArpMYG0sz2CtnA_otf?usp=share_link
 
 Copyright © Rise x Salv, 2023
