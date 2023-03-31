@@ -152,9 +152,12 @@ class _CameraPageState extends State<CameraPage> {
                                 )
                               : IconButton(
                                   onPressed: () async {
-                                    await takePicture();
                                     setState(() {
                                       isLoading = true;
+                                    });
+                                    await takePicture();
+                                    setState(() {
+                                      isLoading = false;
                                     });
                                   },
                                   iconSize: 50,
