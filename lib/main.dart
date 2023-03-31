@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:salv/UI/pages/beranda_detail.dart';
 import 'package:salv/UI/pages/beranda_page.dart';
 import 'package:salv/UI/pages/camera_page.dart';
@@ -35,8 +36,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'blocs/auth/auth_bloc.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 void main() {
   runApp(const MyApp());
+}
+
+void initializeFirebase() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -45,11 +55,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
             create: (context) => AuthBloc()..add(AuthGetCurrentUser())),
-        BlocProvider(create: (context) =>  EdukasiBloc()..add(EdukasiGetAll())),
+        BlocProvider(create: (context) => EdukasiBloc()..add(EdukasiGetAll())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -89,9 +103,8 @@ class MyApp extends StatelessWidget {
           TambahIklanLimbah1Page.routeName: (context) => TambahIklanLimbah1Page(
                 step: ModalRoute.of(context)!.settings.arguments as int,
               ),
-            TopupPointPage.routeName:(context) => TopupPointPage(),
+          TopupPointPage.routeName: (context) => TopupPointPage(),
           DetailIklanPabrikPage.routeName: (context) => DetailIklanPabrikPage(),
-         
         },
       ),
     );

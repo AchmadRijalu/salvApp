@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +8,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:salv/UI/pages/camera_preview_page.dart';
 import 'package:salv/common/common.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:salv/main.dart';
+import 'package:http/http.dart' as http;
 
 class CameraPage extends StatefulWidget {
   static const routeName = '/camera';
@@ -18,6 +24,7 @@ class CameraPage extends StatefulWidget {
 class _CameraPageState extends State<CameraPage> {
   late CameraController _cameraController;
   bool _isRearCameraSelected = true;
+  bool isLoading = false;
 
   Future initCamera(CameraDescription cameraDescription) async {
     _cameraController =
@@ -29,7 +36,7 @@ class _CameraPageState extends State<CameraPage> {
         setState(() {});
       });
     } on CameraException catch (e) {
-      debugPrint("Camera Error ${e}");
+      debugPrint("Camera Error $e");
     }
   }
 
@@ -41,15 +48,41 @@ class _CameraPageState extends State<CameraPage> {
       return null;
     }
     try {
-      print("shotted");
+      initializeFirebase();
       await _cameraController.setFlashMode(FlashMode.off);
       XFile picture = await _cameraController.takePicture();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CameraPreviewPage(
-                    picture: picture,
-                  )));
+      final storageRef = FirebaseStorage.instance.ref();
+      final pictureRef = storageRef.child(picture.path);
+      String dataUrl = 'data:image/png;base64,' +
+          base64Encode(File(picture.path).readAsBytesSync());
+
+      try {
+        await pictureRef.putString(dataUrl, format: PutStringFormat.dataUrl);
+        String downloadURL = await pictureRef.getDownloadURL();
+        final response = await http.post(
+            Uri.parse("https://salv.cloud/image/upload"),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({"image": downloadURL}));
+
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CameraPreviewPage(
+                        picture: data['image'],
+                      )));
+        }
+      } on FirebaseException catch (e) {
+        print(e);
+      }
+
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => CameraPreviewPage(
+      //               picture: picture,
+      //             )));
     } on CameraException catch (e) {
       debugPrint('Error occured while taking picture: $e');
       return null;
@@ -97,17 +130,39 @@ class _CameraPageState extends State<CameraPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
-                          child: IconButton(
-                        onPressed: () async {
-                          print("shooted");
-                          await takePicture();
-                        },
-                        iconSize: 50,
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        icon: const Icon(Icons.camera_alt_rounded,
-                            color: Colors.white),
-                      )),
+                          child: isLoading
+                              ? Center(
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CircularProgressIndicator(
+                                          color: greenColor,
+                                        ),
+                                        const SizedBox(
+                                          height: 16,
+                                        ),
+                                        Text(
+                                          "Memuat Hasil Gambar..",
+                                          style: whiteTextStyle.copyWith(
+                                              fontSize: 12,
+                                              fontWeight: semiBold),
+                                        )
+                                      ]),
+                                )
+                              : IconButton(
+                                  onPressed: () async {
+                                    await takePicture();
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                  },
+                                  iconSize: 50,
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(),
+                                  icon: const Icon(Icons.camera_alt_rounded,
+                                      color: Colors.white),
+                                )),
                     ]),
               )),
         ],
