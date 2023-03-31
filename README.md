@@ -21,7 +21,6 @@ Check _Flutter Doctor_ Command on terminal first.
 
 ```sh
 flutter doctor
-Flutter pub get
 ```
 
 Then
