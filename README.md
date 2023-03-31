@@ -16,13 +16,20 @@ minSdkVersion : 21
 
 ## Installation
 Make sure you are already installed dart minimum SDK 2.19.3 in your environment, and Flutter 3.7.6
+
 Check _Flutter Doctor_ Command on terminal first.
 
 ```sh
-flutter Doctor
-
+flutter doctor
 Flutter pub get
 ```
+
+Then
+```sh
+Flutter pub get
+```
+to gets all the dependencies listed in the pubspec.yaml file
+
 
 After running all the command above, the Flutter Application is ready.
 
