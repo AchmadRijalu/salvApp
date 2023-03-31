@@ -160,19 +160,35 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                         "Ketersediaan Sistem",
                                                         style: whiteTextStyle,
                                                       ),
-                                                      Text(
-                                                        state.iklanBuyerDetail!.data
-                                                                    .retrievalSystem
-                                                                    .toString() ==
-                                                                0
-                                                            ? "Diantar pemilik Limbah"
-                                                            : "Diambil di pemilik limbah",
-                                                        style: whiteTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      )
+                                                      Flexible(
+                                                          child: Container(
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            Text(
+                                                              state.iklanBuyerDetail!.data
+                                                                          .retrievalSystem
+                                                                          .toString() ==
+                                                                      0
+                                                                  ? "Diantar pemilik Limbah"
+                                                                  : "Diambil di pemilik limbah",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                              style: whiteTextStyle
+                                                                  .copyWith(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ))
                                                     ],
                                                   ),
                                                   const SizedBox(
@@ -703,11 +719,8 @@ class _DetailIklanPageState extends State<DetailIklanPage> {
                                                         "Ketersediaan Sistem",
                                                         style: whiteTextStyle,
                                                       ),
-                                                      Expanded(
+                                                      Flexible(
                                                           child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .end,
                                                         children: [
                                                           Text(
                                                             state.iklanSellerDetail!.data

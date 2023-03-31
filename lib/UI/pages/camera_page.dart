@@ -24,6 +24,7 @@ class CameraPage extends StatefulWidget {
 class _CameraPageState extends State<CameraPage> {
   late CameraController _cameraController;
   bool _isRearCameraSelected = true;
+  bool isLoading = false;
 
   Future initCamera(CameraDescription cameraDescription) async {
     _cameraController =
@@ -129,16 +130,39 @@ class _CameraPageState extends State<CameraPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
-                          child: IconButton(
-                        onPressed: () async {
-                          await takePicture();
-                        },
-                        iconSize: 50,
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        icon: const Icon(Icons.camera_alt_rounded,
-                            color: Colors.white),
-                      )),
+                          child: isLoading
+                              ? Center(
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CircularProgressIndicator(
+                                          color: greenColor,
+                                        ),
+                                        const SizedBox(
+                                          height: 16,
+                                        ),
+                                        Text(
+                                          "Memuat Hasil Gambar..",
+                                          style: whiteTextStyle.copyWith(
+                                              fontSize: 12,
+                                              fontWeight: semiBold),
+                                        )
+                                      ]),
+                                )
+                              : IconButton(
+                                  onPressed: () async {
+                                    await takePicture();
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                  },
+                                  iconSize: 50,
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(),
+                                  icon: const Icon(Icons.camera_alt_rounded,
+                                      color: Colors.white),
+                                )),
                     ]),
               )),
         ],
