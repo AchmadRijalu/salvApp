@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "799045719295",
+    "firebase_url": "https://salv-4c518-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "salv-4c518",
+    "storage_bucket": "salv-4c518.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799045719295:android:fb575d38c9d19d020de8ca",
+        "android_client_info": {
+          "package_name": "com.example.salv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799045719295-fenr5jroe3rp5bm6mfu3dt06nvot9bku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqaIy7aqAhyEWSjlO3PiKaOMwZUiMv8Ds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799045719295-fenr5jroe3rp5bm6mfu3dt06nvot9bku.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "799045719295-d2laqcjvjhl13hu9kbf6pjtendh6dgfk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.salv"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
