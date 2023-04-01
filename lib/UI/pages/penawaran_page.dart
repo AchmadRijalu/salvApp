@@ -38,16 +38,16 @@ class _PenawaranPageState extends State<PenawaranPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 37),
         child: Container(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             const SizedBox(
-              height: 40,
+              height: 44,
             ),
             Row(children: [Image.asset('assets/image/logo-png.png')]),
             const SizedBox(
-              height: 14,
+              height: 17,
             ),
             Expanded(
                 child: Container(
@@ -119,10 +119,8 @@ class _PenawaranPageState extends State<PenawaranPage> {
                                         statusPenawaran: transaksi.status,
                                         transactionId: transaksi.id,
                                       );
-                                    })).then((value){
-                                      setState(() {
-                                        
-                                      });
+                                    })).then((value) {
+                                      setState(() {});
                                     });
                                   },
                                 );
@@ -190,10 +188,8 @@ class _PenawaranPageState extends State<PenawaranPage> {
                                         transactionId: transaksi.id,
                                         statusPenawaran: statusType,
                                       );
-                                    })).then((value){
-                                      setState(() {
-                                        
-                                      });
+                                    })).then((value) {
+                                      setState(() {});
                                     });
                                   },
                                 );
