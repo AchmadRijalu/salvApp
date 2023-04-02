@@ -180,7 +180,10 @@ class _FormJualLimbahPageState extends State<FormJualLimbahPage> {
                         ImagePicker imagePicker = ImagePicker();
                         file = await imagePicker.pickImage(
                             source: ImageSource.camera);
-                        print('${file?.path}');
+                        setState(() {
+                          file = file;
+                        });
+                        // print('${file?.path}');
                       },
                     ),
                     const SizedBox(height: 22),
