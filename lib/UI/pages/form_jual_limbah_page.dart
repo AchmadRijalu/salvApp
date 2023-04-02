@@ -1,11 +1,17 @@
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:salv/UI/pages/jual_limbah_success_page.dart';
 import 'package:salv/UI/widgets/buttons.dart';
 import 'package:salv/UI/widgets/forms.dart';
 import 'package:salv/blocs/transaksi/transaksi_bloc.dart';
+import 'package:salv/firebase_options.dart';
 
 import '../../common/common.dart';
 import '../../models/jual_limbah_form_model.dart';
@@ -39,6 +45,8 @@ class _FormJualLimbahPageState extends State<FormJualLimbahPage> {
 
   final TextEditingController lokasiController =
       TextEditingController(text: '');
+
+  var file;
 
   @override
   void initState() {
@@ -81,8 +89,8 @@ class _FormJualLimbahPageState extends State<FormJualLimbahPage> {
             }
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 37),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: ListView(
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
                       children: [
@@ -128,7 +136,10 @@ class _FormJualLimbahPageState extends State<FormJualLimbahPage> {
                     const SizedBox(
                       height: 22,
                     ),
-                    CustomFormField(title: "Masukkan Lokasimu", controller: lokasiController,),
+                    CustomFormField(
+                      title: "Masukkan Lokasimu",
+                      controller: lokasiController,
+                    ),
                     const SizedBox(
                       height: 22,
                     ),
@@ -148,17 +159,70 @@ class _FormJualLimbahPageState extends State<FormJualLimbahPage> {
                         )
                       ],
                     ),
-                    Spacer(),
+                    const SizedBox(
+                      height: 22,
+                    ),
+                    if (file != null) ...[
+                      Center(
+                        child: Image.file(
+                          File(file!.path),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 22,
+                      ),
+                    ],
+                    CustomFilledButton(
+                      title: "Ambil Foto",
+                      onPressed: () async {
+                        //Function with imagePicker to open and save photo.
+                        ImagePicker imagePicker = ImagePicker();
+                        file = await imagePicker.pickImage(
+                            source: ImageSource.camera);
+                        print('${file?.path}');
+                      },
+                    ),
+                    const SizedBox(height: 22),
                     CustomFilledButton(
                       title: "Kirim Penawaran",
-                      onPressed: () {
+                      onPressed: () async {
+                        await Firebase.initializeApp(
+                            options: DefaultFirebaseOptions.currentPlatform);
+                        //Take the sending DateTime
+                        String photoName =
+                            DateTime.now().millisecondsSinceEpoch.toString();
+
+                        //Getting reference to storage root
+                        Reference reference = FirebaseStorage.instance.ref();
+                        Reference referenceDirectoryImages =
+                            reference.child('images');
+
+                        //Refer the image to be uploaded
+                        Reference referenceImage =
+                            referenceDirectoryImages.child('${file?.name}');
+
+                        //Store the file
+                        if (file != null) {
+                          try {
+                            referenceImage.putFile(File(file!.path));
+
+                            //If Success:
+                            // referenceImage.getDownloadURL();
+                          } catch (e) {
+                            //Nothing yet
+                          }
+                        }
+
                         JualLimbahForm jualLimbahForm = JualLimbahForm(
                             userId: widget.userId!,
                             advertisementId: widget.adsId!,
                             weight: int.parse(penghasilanValue),
                             location: lokasiController.text);
-                            
-                        context.read<TransaksiBloc>().add(CreateTransaksiSeller(jualLimbahForm));
+
+                        context
+                            .read<TransaksiBloc>()
+                            .add(CreateTransaksiSeller(jualLimbahForm));
                       },
                     ),
                     const SizedBox(
