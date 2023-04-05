@@ -32,7 +32,7 @@ to gets all the dependencies listed in the pubspec.yaml file
 
 After running all the command above, the Flutter Application is ready.
 
-Account 
+Account Login to Test
 - Seller :
 Username : kjinhiro
 Password : password
