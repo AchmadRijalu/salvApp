@@ -32,6 +32,15 @@ to gets all the dependencies listed in the pubspec.yaml file
 
 After running all the command above, the Flutter Application is ready.
 
+Account 
+- Seller :
+Username : kjinhiro
+Password : password
+
+- Buyer : 
+Username : achjaluwae
+Password : password
+
 
 ## License
 Link APK : https://drive.google.com/drive/folders/1wyxCJI8HQZvqY0ArpMYG0sz2CtnA_otf?usp=share_link
